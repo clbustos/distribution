@@ -1,0 +1,8 @@
+.autotest
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/distribution
+lib/distribution.rb
+test/test_distribution.rb
