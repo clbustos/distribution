@@ -4,12 +4,30 @@
 
 == DESCRIPTION:
 
-Statistical Distributions library. Use C (statistics2/GSL) and Java extensions where available
+Statistical Distributions library. Use C (statistics2/GSL) and Java extensions where available.
+
+Includes code from statistics2
 
 == FEATURES/PROBLEMS:
 
 * Base API
 * Shorthand for easy use
+
+== API structure
+
+  Distribution::<name>.(cdf|pdf|p_value|rng)
+
+module Distribution::Shorthand provides (you guess?) shortands method to call all methods
+
+  <first 4 letters of name>_(cdf|pdf|pv|r)
+
+For example
+
+  Distribution::T.rng
+
+could be called after including Distribution::Shorthand
+
+  t_r
 
 == SYNOPSIS:
 

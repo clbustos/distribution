@@ -1,7 +1,8 @@
 # -*- ruby -*-
-
+$:.unshift(File.expand_path(File.dirname(__FILE__)+"/lib/"))
 require 'rubygems'
 require 'hoe'
+require 'distribution'
 
 # Hoe.plugin :compiler
 # Hoe.plugin :gem_prelude_sucks
@@ -11,8 +12,8 @@ require 'hoe'
 # Hoe.plugin :rubyforge
 
 Hoe.spec 'distribution' do
-  developer('Claudio Bustos', 'clbustos_at_gmail.com')
-
+  self.developer('Claudio Bustos', 'clbustos_at_gmail.com')
+  self.version=Distribution::VERSION
   # self.rubyforge_name = 'distributionx' # if different than 'distribution'
 end
 

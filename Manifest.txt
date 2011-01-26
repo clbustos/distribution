@@ -5,4 +5,12 @@ README.txt
 Rakefile
 bin/distribution
 lib/distribution.rb
-test/test_distribution.rb
+lib/distribution/chisquare.rb
+lib/distribution/f.rb
+lib/distribution/normal.rb
+lib/distribution/normalbivariate.rb
+lib/distribution/normalmultivariate.rb
+lib/distribution/t.rb
+spec/distribution_spec.rb
+spec/spec.opts
+spec/spec_helper.rb
