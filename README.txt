@@ -4,7 +4,8 @@
 
 == DESCRIPTION:
 
-Statistical Distributions library. Use C (statistics2/GSL) and Java extensions where available.
+Statistical Distributions multi library wrapper.
+Uses Ruby by default and C (statistics2/GSL) or Java extensions where available.
 
 Includes code from statistics2
 
@@ -38,10 +39,13 @@ could be called after including Distribution::Shorthand
   t_r
 
 == SYNOPSIS:
-
+  # Returns Gaussian PDF for x
+  pdf=Distribution::Normal.pdf(x)
+  # Returns Gaussian CDF for x
   cdf=Distribution::Normal.cdf(x)
+  # Returns inverse CDF (or p-value) for x
+  pv =Distribution::Normal.p_value(x)
   
-
 == REQUIREMENTS:
 
 I try to provide a Ruby version for each method. But to increase (notably!) the speed, please install
