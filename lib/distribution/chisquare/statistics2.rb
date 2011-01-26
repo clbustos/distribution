@@ -1,8 +1,4 @@
 module Distribution
-  # Calculate cdf and inverse cdf for Chi Square Distribution.
-  # 
-  # Based on Statistics2 module
-  # 
   module ChiSquare
     module Statistics2_
       class << self

@@ -1,6 +1,7 @@
 # Useful additions to Math
 module Distribution
   module MathExtension
+    # Factorial for n
     def factorial(n)
       sum=1
       2.upto(n) do |i|
@@ -9,14 +10,13 @@ module Distribution
       sum
     end
     
-    # Beta function
+    # Beta function.
     # Source:
     # * http://mathworld.wolfram.com/BetaFunction.html
     def beta(x,y)
       (gamma(x)*gamma(y)).quo(gamma(x+y))
     end
     
-    # Gamma function
     LOG_2PI = Math.log(2 * Math::PI)# log(2PI)
     N = 8
     B0  = 1.0
@@ -48,6 +48,7 @@ module Distribution
       ret = ret / x + 0.5 * LOG_2PI - Math.log(v) - x + (x - 0.5) * Math.log(x)
       ret
     end
+    # Gamma function.
     # From statistics2    
     def gamma(x)
       if (x < 0.0)
@@ -64,7 +65,7 @@ module Math
 end
 
 # Necessary on Ruby 1.9
-module CMath
+module CMath # :nodoc:
   include Distribution::MathExtension
   module_function :factorial, :beta, :gamma  
 end

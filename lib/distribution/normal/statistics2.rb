@@ -1,7 +1,7 @@
 module Distribution
   module Normal
     module Statistics2_
-      class <<self
+      class << self
         def cdf(x)
           Statistics2.normaldist(x)
         end

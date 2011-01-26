@@ -16,15 +16,20 @@ module Distribution
     
     ##
     # :singleton-method: pdf(x)
-    
-    ##
-    # :singleton-method: cdf(x)
+    # Returns PDF of Normal distribution 
 
     ##
     # :singleton-method: p_value(qn)
+    # Return the P-value of the corresponding integral +qn+
+    
+    ##
+    # :singleton-method: cdf(x)
+    # Returns the integral of Normal distribution over [0, +x+]
     
     ##
     # :singleton-method: rng
+    # Returns a lambda which returns a random number from
+    # X ~ N(0,1)
 
     
   end

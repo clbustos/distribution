@@ -1,6 +1,4 @@
 module Distribution
-  # Calculate cdf and inverse cdf for Fisher Distribution.
-  # Uses Statistics2 module
   module F
   module GSL_
     class << self

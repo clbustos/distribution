@@ -11,6 +11,9 @@ module Distribution
     
     ##
     # :singleton-method: pdf(x)
+    # Returns PDF of of Chi-squared distribution 
+    # with +k+ degrees of freedom
+    
     
     ##
     # :singleton-method: cdf(x,k)
@@ -22,7 +25,5 @@ module Distribution
     # Return the P-value of the corresponding integral +qn+ with 
     # +k+ degrees of freedom
     
-    ##
-    # :singleton-method: rng
   end
 end

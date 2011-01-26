@@ -3,21 +3,25 @@ require 'distribution/t/gsl'
 require 'distribution/t/statistics2'
 module Distribution
 
-    # Calculate cdf and inverse cdf for T Distribution.
-    # Uses Statistics2 Module.
+    # Calculate statisticals for T Distribution.
     module T
       SHORTHAND='f'  
       extend Distributable
       create_distribution_methods
       
-      ##
-      # :singleton-method: cdf(x,k)
-      # Returns the integral of Chi-squared distribution 
-      # with +k+ degrees of freedom over [0, +x+]    
-      
-      ##
-      # :singleton-method: p_value(qn, k)
-      # Return the P-value of the corresponding integral +qn+ with 
-      # +k+ degrees of freedom    
+    ##
+    # :singleton-method: pdf(x,k)
+    # Returns the integral of T distribution 
+    # with +k+ degrees of freedom over [0, +x+]    
+
+    ##
+    # :singleton-method: p_value(qn, k)
+    # Return the P-value of the corresponding integral +qn+ with 
+    # +k+ degrees of freedom    
+    
+    ##
+    # :singleton-method: cdf(x,k)
+    # Returns the integral of T distribution 
+    # with +k+ degrees of freedom over [0, +x+]    
     end
 end

@@ -10,13 +10,19 @@ module Distribution
     create_distribution_methods
     
     ##
-    # :singleton-method: cdf(x,k)
-    # Returns the integral of Chi-squared distribution 
-    # with +k+ degrees of freedom over [0, +x+]    
+    # :singleton-method: pdf(x,k1,k2)
+    # Returns the PDF of F distribution 
+    # with +k1+ and +k2+ degrees of freedom over [0, +x+]    
 
     ##
-    # :singleton-method: p_value(qn, k)
+    # :singleton-method: p_value(qn, k1, k2)
     # Return the P-value of the corresponding integral +qn+ with 
-    # +k+ degrees of freedom    
+    # +k1+ and +k2+ degrees of freedom    
+    
+    ##
+    # :singleton-method: cdf(x,k1,k2)
+    # Returns the integral of F distribution 
+    # with +k1+ and +k2+ degrees of freedom over [0, +x+]    
+
   end
 end

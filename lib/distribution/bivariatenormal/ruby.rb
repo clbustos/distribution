@@ -1,13 +1,9 @@
 module Distribution
-  # Calculate pdf and cdf for bivariate normal distribution.
-  #
-  # Pdf if easy to calculate, but CDF is not trivial. Several papers
-  # describe methods to calculate the integral.
   # 
-  # Three methods are implemented on this module:
+  # Ruby version implements three methods on this module:
   # * Genz:: Used by default, with improvement to calculate p on rho > 0.95
   # * Hull:: Port from a C++ code
-  # * Jantaravareerat:: Iterative (and slow)
+  # * Jantaravareerat:: Iterative (slow and buggy)
   # 
   
   module BivariateNormal
