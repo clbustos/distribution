@@ -48,6 +48,8 @@ require 'distribution/math_extension'
 #    Distribution::Normal.p_value(0.95)
 #    => 1.64485364660836
 module Distribution
+  VERSION="0.0.1"
+  
   module Shorthand
     EQUIVALENCES={:p_value=>:p, :cdf=>:cdf, :pdf=>:pdf, :rng=>:r}
     def self.add_shortcut(sh,m,&block)
@@ -63,7 +65,7 @@ module Distribution
   
   
   SQ2PI = Math.sqrt(2 * Math::PI)
-  VERSION="0.0.1"
+
   # Create a method 'has_<library>' on Module
   # which require a library and return true or false
   # according to success of failure 
