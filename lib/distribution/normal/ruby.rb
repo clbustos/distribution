@@ -2,34 +2,36 @@ module Distribution
   module Normal
     module Ruby_
       class <<self
-        # random number within a gaussian distribution X -> N(0,1)
+        
+        # random number within a gaussian distribution X ~ N(0,1)
         def rngu
           rng(0,1,nil)
         end
         # Return a proc which return a random number within a 
-        # gaussian distribution X -> N(+mean+,+sigma+)
+        # gaussian distribution X ~ N(+mean+,+sigma+^2)
         # +seed+ feed the  
         # == Reference:
         # * http://www.taygeta.com/random/gaussian.html
         def rng(mean=0,sigma=1,seed=nil)
-        returned,y1,y2=0,0,0
-        lambda {
-          if returned==0
-            begin
-              x1 = 2.0 * rand - 1.0
-              x2 = 2.0 * rand - 1.0
-              w = x1 * x1 + x2 * x2
-            end while ( w >= 1.0 )
-            w = Math::sqrt( (-2.0 * Math::log( w ) ) / w )
-            y1 = x1 * w
-            y2 = x2 * w
-            returned=1
-            y1*sigma + mean
-          else
-            returned=0
-            y2 * sigma + mean
-          end
-        }
+          returned,y1,y2=0,0,0
+          lambda {
+            if returned==0
+              begin
+                x1 = 2.0 * rand - 1.0
+                x2 = 2.0 * rand - 1.0
+                w = x1 * x1 + x2 * x2
+              end while ( w >= 1.0 )
+              w = Math::sqrt( (-2.0 * Math::log( w ) ) / w )
+              y1 = x1 * w
+              y2 = x2 * w
+              returned=1
+              y1*sigma + mean
+            else
+              returned=0
+              y2 * sigma + mean
+            end
+          }
+        
         end
         # Return the inverse CDF or P-value of the corresponding integral
         def p_value(qn)

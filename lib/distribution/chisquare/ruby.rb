@@ -61,6 +61,7 @@ module Distribution
         # Pr([x, \infty)) = y -> x
         def pchi2(n, y)
           if n == 1
+          
           w = Distribution::Normal.p_value(1 - y/2) # = p1.0-Distribution::Normal.cdf(y/2)
           w * w
           elsif n == 2

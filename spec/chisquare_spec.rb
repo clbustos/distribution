@@ -1,8 +1,10 @@
 require File.expand_path(File.dirname(__FILE__)+"/spec_helper.rb")
-  
+  include ExampleWithGSL
 describe Distribution::ChiSquare do
+
 shared_examples_for "all chi-square engines" do
-    it "should return correct pdf" do
+  
+    it_only_with_gsl "should return correct pdf" do
       if @engine.respond_to? :pdf
         1.upto(10) do |k|
           v=1+rand(5)
@@ -13,7 +15,7 @@ shared_examples_for "all chi-square engines" do
         pending("No #{@engine}.pdf")
       end
     end
-    it "should return correct cdf" do
+    it_only_with_gsl "should return correct cdf" do
       if @engine.respond_to? :cdf
         1.upto(10) do |k|
           v=1+rand(5)

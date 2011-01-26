@@ -25,8 +25,17 @@
 # 
 # Specific notices will be placed where there are appropiate
 # 
-
-
+if !respond_to? :define_singleton_method
+class Module
+  public :define_method
+end
+class Object
+  def define_singleton_method(name,&block)
+    sc=class <<self;self;end
+    sc.define_method(name,&block)
+  end
+end
+end
 
 
 # Several distributions modules to calculate pdf, cdf, inverse cdf and generate
@@ -38,7 +47,20 @@
 #    Distribution::Normal.p_value(0.95)
 #    => 1.64485364660836
 module Distribution
-
+  module Shorthand
+    EQUIVALENCES={:p_value=>:p, :cdf=>:cdf, :pdf=>:pdf, :rng=>:r}
+    def self.add_shortcut(sh,m,&block)
+      if EQUIVALENCES.include? m.to_sym 
+        sh_name=sh+"_#{m}"
+        define_method(sh_name,&block)
+        sh_name=sh+"_#{EQUIVALENCES[m]}"
+        define_method(sh_name,&block)
+        
+      end
+    end
+  end
+  
+  
   SQ2PI = Math.sqrt(2 * Math::PI)
   VERSION="0.0.1"
   # Create a method 'has_<library>' on Module
@@ -50,9 +72,9 @@ module Distribution
       if !class_variable_defined? cv
         begin 
           require library.to_s
-          class_variable_set(cv,true)
+          class_variable_set(cv, true)
         rescue LoadError
-          class_variable_set(cv,false)
+          class_variable_set(cv, false)
         end
       end
       class_variable_get(cv)
@@ -73,25 +95,40 @@ module Distribution
   
   # Magic module
   module Distributable #:nodoc:
-    # Create methods for each module
+    # Create methods for each module and add methods to 
+    # Distribution::Shorthand. 
+    # 
     # Traverse Distribution.libraries_order adding
-    # methods availables for each library on
+    # methods availables for each engine module on
     # the current library
+    #
+    # Kids: Metaprogramming trickery! Don't do at work.
+    # This section was created between a very long reunion
+    # and a travel of 456 Km.
     def create_distribution_methods()  
     Distribution.libraries_order.each do |l_name|
-      
       if const_defined? l_name
         l =const_get(l_name)
+        # Add methods from engine to base base, if not yet included
         l.singleton_methods.each do |m|
           if !singleton_methods.include? m
             define_method(m) do |*args|
               l.send(m,*args)
             end
+            # Add method to Distribution::Shorthand
+            sh=const_get(:SHORTHAND)
+            
+            Distribution::Shorthand.add_shortcut(sh,m) do |*args|
+              l.send(m,*args)
+            end
+            
             module_function m
           end
-        end
-      end        
+        end 
+      end
+            
     end
+    # create alias for common methods
     alias_method :inverse_cdf,:p_value if singleton_methods.include? :p_value
     end
 
@@ -101,7 +138,7 @@ module Distribution
   autoload(:ChiSquare, 'distribution/chisquare')
   autoload(:T, 'distribution/t')
   autoload(:F, 'distribution/f')
-  autoload(:NormalBivariate, 'distribution/normalbivariate')
+  autoload(:BivariateNormal, 'distribution/bivariatenormal')
 end
 
 

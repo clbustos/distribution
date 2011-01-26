@@ -1,10 +1,13 @@
-require 'distribution/normalbivariate/ruby'
+require 'distribution/bivariatenormal/ruby'
+require 'distribution/bivariatenormal/gsl'
 module Distribution
   # Calculate pdf and cdf for bivariate normal distribution.
   #
   # Pdf if easy to calculate, but CDF is not trivial. Several papers
   # describe methods to calculate the integral.
-  module NormalBivariate
+  module BivariateNormal
+    SHORTHAND='bnor'
+
     extend Distributable
     create_distribution_methods
     

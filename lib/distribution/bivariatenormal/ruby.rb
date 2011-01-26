@@ -10,7 +10,7 @@ module Distribution
   # * Jantaravareerat:: Iterative (and slow)
   # 
   
-  module NormalBivariate
+  module BivariateNormal
     module Ruby_
     class << self
       SIDE=0.1 # :nodoc:

@@ -9,7 +9,9 @@ module Distribution
   #   that tend to cluster around a single mean value. 
   #   The graph of the associated probability density function is  “bell”-shaped
   module Normal
+    SHORTHAND='norm'
     extend Distributable
+    
     create_distribution_methods
     
     ##

@@ -8,5 +8,16 @@ begin
 rescue LoadError
 end
 require 'rspec'
-#require 'spec/autorun'
 require 'distribution'
+
+module ExampleWithGSL
+  def it_only_with_gsl(name,&block)
+    it(name) do
+      if Distribution.has_gsl?
+        instance_eval(&block)
+      else
+        pending("Requires GSL")  
+      end
+    end
+  end
+end

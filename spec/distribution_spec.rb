@@ -5,7 +5,7 @@ describe Distribution do
     if Distribution.has_gsl?
       defined?(GSL).should be_true
     else
-      defined?(GSL).should be_true
+      defined?(GSL).should be_false
     end 
   end
   it "should respond to has_statistics2?" do
@@ -16,5 +16,4 @@ describe Distribution do
       defined?(Statistics2).should be_true
     end 
   end
-  
 end

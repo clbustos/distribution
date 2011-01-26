@@ -19,7 +19,15 @@ Includes code from statistics2
 
 module Distribution::Shorthand provides (you guess?) shortands method to call all methods
 
-  <first 4 letters of name>_(cdf|pdf|pv|r)
+  <Distribution shortname>_(cdf|pdf|p|r)
+
+Shortnames are:
+
+* Normal: norm
+* Bivariate Normal: bnor
+* T: t
+* F: f
+* Chi Square: chisq
 
 For example
 
@@ -36,9 +44,9 @@ could be called after including Distribution::Shorthand
 
 == REQUIREMENTS:
 
-To speed methods
+I try to provide a Ruby version for each method. But to increase (notably!) the speed, please install
 
-* Ruby 1.8-1.9: gsl or statistics
+* Ruby 1.8-1.9: gsl or statistics2
 * Java: Apache Math
 
 == INSTALL:

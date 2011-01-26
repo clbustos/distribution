@@ -1,6 +1,28 @@
 require File.expand_path(File.dirname(__FILE__)+"/spec_helper.rb")
   
 describe Distribution::Normal do
+  shared_examples_for "all gaussian engines capables of random number generation" do
+  it "should return correct rng" do
+      samples=100
+      sum=0
+      ss=0
+      exp_mean=rand(10)-5
+      exp_sd=1
+      rng=@engine.rng(exp_mean,exp_sd)
+      
+      samples.times do 
+        v=rng.call
+        sum+=v
+        ss+=(v-exp_mean)**2
+      end
+      
+      
+      mean=sum.to_f/samples
+      sd=Math::sqrt(ss.to_f/samples)
+      mean.should be_within(0.5).of(exp_mean)
+      sd.should be_within(0.3).of(exp_sd)
+  end
+end
 shared_examples_for "all gaussian engines" do
     it "should return correct pdf" do
       if @engine.respond_to? :pdf
@@ -43,6 +65,7 @@ shared_examples_for "all gaussian engines" do
       @engine=Distribution::Normal::Ruby_
     end
     it_should_behave_like "all gaussian engines"
+    it_should_behave_like "all gaussian engines capables of random number generation"    
   end
   if Distribution.has_gsl?
     describe Distribution::Normal::GSL_ do
@@ -50,6 +73,7 @@ shared_examples_for "all gaussian engines" do
         @engine=Distribution::Normal::GSL_
       end
       it_should_behave_like "all gaussian engines"
+      it_should_behave_like "all gaussian engines capables of random number generation"
     end
   end  
   if Distribution.has_statistics2?

@@ -6,6 +6,7 @@ module Distribution
   # 
   module ChiSquare
     extend Distributable
+    SHORTHAND='chisq'
     create_distribution_methods
     
     ##
