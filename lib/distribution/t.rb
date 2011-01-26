@@ -6,7 +6,7 @@ module Distribution
     # Calculate cdf and inverse cdf for T Distribution.
     # Uses Statistics2 Module.
     module T
-      SHORTHAND='f'  
+      SHORTHAND='t'  
       extend Distributable
       create_distribution_methods
       
