@@ -6,8 +6,8 @@ module Distribution
       def c_pdf(f,df)
         Distribution::ChiSquare.pdf(f,df)
       end
-      def pdf(f,df1,df2)
-        (df1**(df1*0.5)*df2**(df2*0.5)*(GSL::Ran.beta(0.5*df1,0.5*df2))**-1*f**(0.5*df1-1))*(df2+df1*f)**(-0.5*(df1+df2))
+      def pdf(x,d1,d2)
+        Math.sqrt(((d1*x)**d1*(d2**d2)).quo((d1*x+d2)**(d1+d2))).quo( x*Math.beta(d1/2.0, d2/2.0))
       end
       # F-distribution ([1])
       # Integral over [x, \infty) 

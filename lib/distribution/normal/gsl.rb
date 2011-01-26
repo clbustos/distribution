@@ -1,9 +1,9 @@
 module Distribution
   module Normal
     module GSL_
-      class <<self
+      class << self
         def rng(mean=0,sigma=1,seed=nil)
-          seed||=(Time.now.to_f*5).round
+          seed||=rand(10e8)
           rng=GSL::Rng.alloc(GSL::Rng::MT19937,seed)
           lambda { mean+rng.gaussian(sigma)}
         end

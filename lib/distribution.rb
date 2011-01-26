@@ -29,6 +29,7 @@ if !respond_to? :define_singleton_method
 class Module
   public :define_method
 end
+
 class Object
   def define_singleton_method(name,&block)
     sc=class <<self;self;end
@@ -36,7 +37,7 @@ class Object
   end
 end
 end
-
+require 'distribution/math_extension'
 
 # Several distributions modules to calculate pdf, cdf, inverse cdf and generate
 # pseudo-random numbers for several statistical distributions

@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__)+"/spec_helper.rb")
 include ExampleWithGSL
 describe Distribution::BivariateNormal do
-  shared_examples_for "all normal bivariates engines" do
+  shared_examples_for "all pdf normal capables engines" do
     it_only_with_gsl "should return correct pdf" do
       if @engine.respond_to? :pdf
         [0.2,0.4,0.6,0.8,0.9, 0.99,0.999,0.999999].each {|rho|
@@ -11,31 +11,38 @@ describe Distribution::BivariateNormal do
         pending("No #{@engine}.pdf")
       end
     end
+  end
+  
+  shared_examples_for "all cdf normal capables engines" do
     it "should return correct cdf" do
-    if @engine.respond_to? :cdf
-      @engine.cdf(2,0.5,0.5).should be_within(1e-3).of(0.686)
-      @engine.cdf(2,0.0,0.5).should be_within(1e-3).of(0.498)
-      @engine.cdf(1.5,0.5,0.5).should be_within(1e-3).of(0.671)
-      v=rand
-      @engine.cdf(10,0,v).should be_within(1e-3).of(Distribution::Normal.cdf(0))
-    else
-        pending("No #{@engine}.cdf")
-      
+      if @engine.respond_to? :cdf
+        @engine.cdf(2,0.5,0.5).should be_within(1e-3).of(0.686)
+        @engine.cdf(2,0.0,0.5).should be_within(1e-3).of(0.498)
+        @engine.cdf(1.5,0.5,0.5).should be_within(1e-3).of(0.671)
+        v=rand
+        @engine.cdf(10,0,v).should be_within(1e-3).of(Distribution::Normal.cdf(0))
+      else
+          pending("No #{@engine}.cdf")
+        
+      end
     end
-    end
+    
   end
   describe "singleton" do
     before do
       @engine=Distribution::BivariateNormal
     end
-    it_should_behave_like "all normal bivariates engines"    
+    it_should_behave_like "all pdf normal capables engines"    
+    it_should_behave_like "all cdf normal capables engines"    
+    
   end
   
   describe Distribution::Normal::Ruby_ do
     before do
       @engine=Distribution::BivariateNormal::Ruby_
     end
-    it_should_behave_like "all normal bivariates engines"
+    it_should_behave_like "all pdf normal capables engines"    
+    it_should_behave_like "all cdf normal capables engines"    
     it "Ganz method should return similar method to Hull one" do
       [-3,-2,-1,0,1,1.5].each {|x|      
         @engine.cdf_hull(x,x,0.5).should be_within(0.001).of(@engine.cdf_genz(x,x,0.5))
@@ -48,7 +55,8 @@ describe Distribution::BivariateNormal do
     before do
       @engine=Distribution::BivariateNormal::GSL_
     end
-    it_should_behave_like "all normal bivariates engines"
+    it_should_behave_like "all pdf normal capables engines"    
+
   end
   
   

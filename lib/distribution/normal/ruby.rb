@@ -1,7 +1,7 @@
 module Distribution  
   module Normal
     module Ruby_
-      class <<self
+      class << self
         
         # random number within a gaussian distribution X ~ N(0,1)
         def rngu
