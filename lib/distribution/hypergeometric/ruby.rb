@@ -7,18 +7,13 @@
 class Fixnum
   # +k+-combination of a set of size +self+
   def choose(k)
-    self.factorial / (k.factorial * (self - k).factorial)
+    Math.factorial(self) / (Math.factorial(k) * Math.factorial(self - k))
   end
 
   # Fast combination calculation using Gosper's approximation of factorials.
   def fast_choose(k)
-    Math.stirling(self) / (Math.stirling(self - k) * Math.stirling(k))
+    Math.fast_factorial(self).quo(Math.fast_factorial(self - k) * Math.fast_factorial(k))
   end
-
-  def factorial
-    (2..self).inject(1) { |f,n| f * n }
-  end
-
 end
 
 module Distribution
@@ -28,8 +23,8 @@ module Distribution
         # Calculates PDF quickly. Not guaranteed to produce any accuracy, since it uses Stirling's approximation.
         # This can be improved, most likely, by writing specific cases of when to use fast_choose and when to use
         # choose.
-        def pdf_with_stirling(k, m, n, total)
-          m.fast_choose(k) * (total-m).fast_choose(n-k) / total.fast_choose(n).to_f
+        def pdf_aprox(k, m, n, total)
+          m.fast_choose(k) * (total-m).fast_choose(n-k).quo( total.fast_choose(n))
         end
 
         # Hypergeometric probability density function

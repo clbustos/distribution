@@ -26,10 +26,10 @@ Shortnames are:
 
 * Normal: norm
 * Bivariate Normal: bnor
-* T: t
-* F: f
+* T: tdist
+* F: fdist
 * Chi Square: chisq
-
+* Hypergeometric: hypg
 For example
 
   Distribution::T.rng

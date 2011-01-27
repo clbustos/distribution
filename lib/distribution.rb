@@ -120,7 +120,6 @@ module Distribution
             end
             # Add method to Distribution::Shorthand
             sh=const_get(:SHORTHAND)
-            
             Distribution::Shorthand.add_shortcut(sh,m) do |*args|
               l.send(m,*args)
             end
