@@ -1,3 +1,11 @@
+=== 0.2.0 / 2011-01-27
+* Shorthands for F and T are 'fdist' and 'tdist' now, to avoid confussions 
+* Added Hypergeometric distribution with pdf, cdf, p_value. The Ruby version uses a very slow factorial process, but also has pdf_with_stirling if you don't care about accuracy at all. This latter method needs to be improved, actually, in terms of which choose function it calls for the numerator and denominator. Once that's done, it can replace the slower pdf function. [John Woods]
+* Spec for cdf and p_value of Hypergeometric 
+* New cdf and p_value on Hypergeometric[clbustos]
+* Hypergeometric#pdf returns 0 on max(0,n+m-t)<=k<=min(m,n)
+* Improved factorial calculation, using Luschny algorithms
+
 === 0.1.0 / 2011-01-26
 
 * Basic set (pdf, cdf, p_value) for Normal, Chi Square, F and T distributions 

@@ -3,8 +3,10 @@ History.txt
 Manifest.txt
 README.txt
 Rakefile
+benchmark/factorial_method.rb
 bin/distribution
 lib/distribution.rb
+lib/distribution/binomial.rb
 lib/distribution/bivariatenormal.rb
 lib/distribution/bivariatenormal/gsl.rb
 lib/distribution/bivariatenormal/ruby.rb
@@ -17,6 +19,9 @@ lib/distribution/f.rb
 lib/distribution/f/gsl.rb
 lib/distribution/f/ruby.rb
 lib/distribution/f/statistics2.rb
+lib/distribution/hypergeometric.rb
+lib/distribution/hypergeometric/gsl.rb
+lib/distribution/hypergeometric/ruby.rb
 lib/distribution/math_extension.rb
 lib/distribution/normal.rb
 lib/distribution/normal/gsl.rb
@@ -31,8 +36,9 @@ spec/bivariatenormal_spec.rb
 spec/chisquare_spec.rb
 spec/distribution_spec.rb
 spec/f_spec.rb
+spec/hypergeometric_spec.rb
+spec/math_extension_spec.rb
 spec/normal_spec.rb
-spec/shorthand_function.rb
 spec/shorthand_spec.rb
 spec/spec.opts
 spec/spec_helper.rb
