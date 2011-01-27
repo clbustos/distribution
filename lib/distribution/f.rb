@@ -5,7 +5,7 @@ module Distribution
   # Calculate cdf and inverse cdf for Chi Square Distribution.
   # 
   module F
-    SHORTHAND='f'  
+    SHORTHAND='fdist'  
     extend Distributable
     create_distribution_methods
     

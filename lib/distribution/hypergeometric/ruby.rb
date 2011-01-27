@@ -36,18 +36,32 @@ module Distribution
         # * http://www.gnu.org/software/gsl/manual/html_node/The-Hypergeometric-Distribution.html
         # * http://en.wikipedia.org/wiki/Hypergeometric_distribution
         def pdf(k, m, n, total)
+          min_m_n=m<n ? m : n
+          max_t=[0,m+n-total].max
+          return 0 if k>min_m_n or k<max_t
           m.choose(k) * (total-m).choose(n-k) / total.choose(n).to_f
         end
 
-        # Right-tailed p-value: probability of seeing +k+ or greater intersection (see pdf).
-        def p_value(k, m, n, total)
-          max_k = m < n ? m : n
-          (k..max_k).collect{ |ki| pdf(ki,m,n,total) }.inject { |sum,p| sum+p}
+        # p-value: 
+       
+        def p_value(pr, m, n, total)
+          ac=0
+          (0..total).each do |i|
+            ac+=pdf(i,m,n,total)
+            return i if ac>=pr
+          end
         end
 
-        # Cumulative distribution function. Does not work.
-        def cdf k, m, n, total
-          (0..k).collect { |ki| pdf(ki,m,n,total) }.inject { |sum,p| sum+p}
+        # Cumulative distribution function.
+        # The probability of obtain, from a sample of
+        # size +n+, +k+ or less elements
+        # in a population size +total+ with +m+ interesting elements.
+        # 
+        # Slow, but secure
+        def cdf(k, m, n, total)
+          raise "k>m" if k>m
+          raise "k>n" if k>n
+          (0..k).collect { |ki| pdf(ki,m,n,total) }.inject { |sum,v| sum+v}
         end
       end
     end
