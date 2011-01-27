@@ -9,6 +9,23 @@ module Distribution
       end
       sum
     end
+
+    # Quick, accurate approximation of factorial for very small n. Special case, generally you want to use
+    # stirling instead.
+    # ==Reference
+    # * http://mathworld.wolfram.com/StirlingsApproximation.html
+    def gosper n
+      Math.sqrt( (2*n + 1/3.0) * Math::PI ) * (n/Math::E)**n
+    end
+
+    # Stirling's approximation
+    #
+    # Gives an approximate value for the factorial function, n!, or the gamma function Gamma(n) for n >> 1.
+    # ==Reference
+    # * http://mathworld.wolfram.com/StirlingsApproximation.html
+    def stirling n
+      Math::E ** (n * Math.log(n) - n)
+    end
     
     # Beta function.
     # Source:
@@ -61,12 +78,12 @@ end
 
 module Math
   include Distribution::MathExtension
-  module_function :factorial, :beta, :gamma
+  module_function :factorial, :beta, :gamma, :gosper, :stirling, :loggamma
 end
 
 # Necessary on Ruby 1.9
 module CMath # :nodoc:
   include Distribution::MathExtension
-  module_function :factorial, :beta, :gamma  
+  module_function :factorial, :beta, :gamma, :gosper, :stirling, :loggamma
 end
 

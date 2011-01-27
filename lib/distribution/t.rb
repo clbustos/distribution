@@ -5,7 +5,7 @@ module Distribution
 
     # Calculate statisticals for T Distribution.
     module T
-      SHORTHAND='f'  
+      SHORTHAND='t'  
       extend Distributable
       create_distribution_methods
       
