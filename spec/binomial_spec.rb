@@ -51,6 +51,13 @@ end
       pending("No exact_p_value")
       @engine.should respond_to(:exact_p_value) 
     }
+    it "exact_cdf should return same values as cdf for n=50" do
+      pr=rand()*0.8+0.1
+      n=rand(10)+10
+      [1,n/2,n-1].each do |k|
+        @engine.exact_cdf(k,n,pr).should be_within(1e-10).of(@engine.cdf(k,n,pr))
+      end
+    end
     
     it "exact_pdf should not return a Float if not float is used as parameter" do
       @engine.exact_pdf(1,1,1).should_not be_a(Float)

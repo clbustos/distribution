@@ -16,7 +16,7 @@ describe Distribution::Shorthand do
     [:Hypergeometric, :Binomial].each do |d|
       klass=Distribution.const_get(d)
       shortname=klass::SHORTHAND
-      methods=[:epdf].map {|m| "#{shortname}_#{m}".to_sym}
+      methods=[:epdf, :ecdf].map {|m| "#{shortname}_#{m}".to_sym}
       methods.each do |m| 
         Distribution::Shorthand.instance_methods.map {|v| v.to_sym}.should include(m)
       end
