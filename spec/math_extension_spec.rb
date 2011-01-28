@@ -25,6 +25,17 @@ describe Distribution::MathExtension do
     Math.rising_factorial(x,4).should eq x**4+6*x**3+11*x**2+6*x
 
   end
+  
+  it "permutations should return correct values" do
+    n=rand(50)+50
+    10.times { |k|
+      Math.permutations(n,k).should eq(Math.factorial(n) / Math.factorial(n-k))
+    }
+    
+    
+    Math.permutations(n,n).should eq(Math.factorial(n) / Math.factorial(n-n))
+  end
+  
   it "incomplete beta function should return similar results to R" do
     pending("Not working yet")
     Math.incomplete_beta(0.5,5,6).should be_within(1e-6).of(Math.beta(5,6)*0.6230469)

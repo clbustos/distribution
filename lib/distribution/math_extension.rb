@@ -168,7 +168,7 @@ module Distribution
     # I_x(a,b): Regularized incomplete beta function
     #   
     # Source:
-    #
+    # * http://dlmf.nist.gov/8.17
     def regularized_beta_function(x,a,b)
       return 1 if x==1
       #incomplete_beta(x,a,b).quo(beta(a,b))
@@ -183,14 +183,9 @@ module Distribution
     # Should be replaced by
     # http://lib.stat.cmu.edu/apstat/63
     def incomplete_beta(x,a,b)
-      raise "Not work"
-      return beta(a,b) if x==1
-      
-      ((x**a * (1-x)**b).quo(a)) * hyper_f(a+b,1,a+1,x)
+      raise "Doesn't work"
     end
-    def permutations(x,n)
-      factorial(x).quo(factorial(x-n))
-    end
+    
     
     def rising_factorial(x,n)
       factorial(x+n-1).quo(factorial(x-1))
@@ -236,10 +231,19 @@ module Distribution
       end
       Math.exp(loggamma(x))
     end
+    # Sequences without repetition. n^k'
+    def permutations(n,k)
+      return 1 if k==0
+      return n if k==1
+      return factorial(n) if k==n
+      (((n-k+1)..n).inject(1) {|ac,v| ac * v})
+      #factorial(x).quo(factorial(x-n))
+    end
     # Binomial coeffients, or:
     # ( n )
     # ( k )
-    # Gives the number of different k size subsets of a set size n
+    #
+    # Gives the number of *different* k size subsets of a set size n
     # 
     # Replaces (n,k) for (n, n-k) if k>n-k
     #
@@ -250,8 +254,9 @@ module Distribution
     def binomial_coefficient(n,k)
       return 1 if (k==0 or k==n)
       k=[k, n-k].min
-      (((n-k+1)..n).inject(1) {|ac,v| ac * v}).quo(factorial(k))
-      # Other way to calcule binomial is this: 
+      permutations(n,k).quo(factorial(k))
+      #(((n-k+1)..n).inject(1) {|ac,v| ac * v}).quo(factorial(k))      
+      # The multiplicative way is
       # (1..k).inject(1) {|ac, i| (ac*(n-k+i).quo(i))}
     end
     # Approximate binomial coefficient, using gamma function.
