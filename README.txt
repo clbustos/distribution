@@ -19,10 +19,18 @@ Includes code from statistics2
 
   Distribution::<name>.(cdf|pdf|p_value|rng)
 
+On discrete distributions, exact Ruby implementations of pdf, cdf and p_value could be provided, using
+
+  Distribution::<name>.exact_(cdf|pdf|p_value)
+
 module Distribution::Shorthand provides (you guess?) shortands method to call all methods
 
   <Distribution shortname>_(cdf|pdf|p|r)
 
+On discrete distributions, exact cdf, pdf and p_value are
+
+  <Distribution shortname>_(ecdf|epdf|ep)
+  
 Shortnames are:
 
 * Normal: norm
@@ -32,13 +40,15 @@ Shortnames are:
 * Chi Square: chisq
 * Binomial: bino
 * Hypergeometric: hypg
+
 For example
 
-  Distribution::T.rng
+  Distribution::T.cdf
 
 could be called after including Distribution::Shorthand
-
-  tdist_r
+  
+  tdist_cdf
+  
 
 == SYNOPSIS:
   # Returns Gaussian PDF for x
@@ -50,15 +60,20 @@ could be called after including Distribution::Shorthand
   
 == REQUIREMENTS:
 
-I try to provide a Ruby version for each method. But to increase (notably!) the speed, please install
+I try to provide a Ruby version for each method. To increase (notably!) the speed, please install
 
 * Ruby 1.8-1.9: gsl or statistics2
-* Java: Apache Math
+* Java: Apache Math (not yet implemented)
 
 == INSTALL:
 
   gem install distribution
 
+To speep up
+  
+  gem install gsl
+  gem install statistics
+  
 == DEVELOPERS:
 
 After checking out the source, run:

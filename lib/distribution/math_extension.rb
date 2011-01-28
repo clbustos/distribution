@@ -279,12 +279,12 @@ module Math
   include Distribution::MathExtension
   alias :lgamma :loggamma 
 
-  module_function :factorial, :beta, :gamma, :gosper, :loggamma, :lgamma, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial
+  module_function :factorial, :beta, :gamma, :gosper, :loggamma, :lgamma, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial
 end
 
 # Necessary on Ruby 1.9
 module CMath # :nodoc:
   include Distribution::MathExtension
-  module_function :factorial, :beta, :gosper, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial
+  module_function :factorial, :beta, :gosper, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial, :fast_factorial
 end
 

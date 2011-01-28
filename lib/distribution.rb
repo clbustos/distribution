@@ -52,12 +52,12 @@ module Distribution
   VERSION="0.2.0"
   
   module Shorthand
-    EQUIVALENCES={:p_value=>:p, :cdf=>:cdf, :pdf=>:pdf, :rng=>:r}
-    def self.add_shortcut(sh,m,&block)
+    EQUIVALENCES={:p_value=>:p, :cdf=>:cdf, :pdf=>:pdf, :rng=>:r, :exact_pdf=>:epdf, :exact_cdf=>:ecdf, :exact_p_value=>:ep}
+    def self.add_shortcut(sh,m, &block)
       if EQUIVALENCES.include? m.to_sym 
         sh_name=sh+"_#{m}"
         define_method(sh_name,&block)
-        sh_name=sh+"_#{EQUIVALENCES[m]}"
+        sh_name=sh+"_#{EQUIVALENCES[m.to_sym]}"
         define_method(sh_name,&block)
         
       end
@@ -108,9 +108,10 @@ module Distribution
     #
     # Kids: Metaprogramming trickery! Don't do at work.
     # This section was created between a very long reunion
-    # and a travel of 456 Km.
-    def create_distribution_methods()  
-    Distribution.libraries_order.each do |l_name|
+    # and a 456 Km. travel
+    def create_distribution_methods()
+      
+      Distribution.libraries_order.each do |l_name|
       if const_defined? l_name
         l =const_get(l_name)
         # Add methods from engine to base base, if not yet included

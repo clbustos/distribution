@@ -8,20 +8,41 @@ include ExampleWithGSL
 # * that cdf in Ruby_ returns the same value as cdf in GSL_
 
 describe Distribution::Hypergeometric do
+  describe Distribution::Hypergeometric::GSL_ do
+     before do
+      @ruby=Distribution::Hypergeometric::Ruby_
+      @engine=Distribution::Hypergeometric::GSL_
+    end
+    it_only_with_gsl "cdf should return values near to exact Ruby calculations" do
+     #RubyProf.start
+      
+      if @engine.respond_to? :cdf
+        #[2].each do |k|
+         [0,1,2,4,8,16].each do |k|
+          @engine.cdf(k, 80, 100, 10000).should be_within(1e-10).of(@ruby.cdf(k, 80, 100, 10000))
+      end
+      #result = RubyProf.stop
+      
+      # Print a flat profile to text
+      #printer = RubyProf::FlatPrinter.new(result)
+      #printer.print(STDOUT)
+        
+      else
+        pending("No #{@engine}.pdf")
+      end
+    end
+    
+  end
   describe Distribution::Hypergeometric::Ruby_ do
     
     before do
       @engine=Distribution::Hypergeometric::Ruby_
     end
     it_only_with_gsl "pdf_fast should return same as pdf" do
-      
       pending("Aprox. factorial doesn't work right")
       if @engine.respond_to? :pdf
         [0,1,2,4,8,16].each do |k|
-          
           @engine.pdf_aprox(k, 80, 100, 1000).should be_within(1e-8).of(GSL::Ran::hypergeometric_pdf(k, 80, 920, 100))
-          
-          
         end
       else
         pending("No #{@engine}.pdf")
@@ -29,7 +50,6 @@ describe Distribution::Hypergeometric do
     end
   
     it_only_with_gsl "should return correct pdf" do
-      
       #RubyProf.start
       
       if @engine.respond_to? :pdf
@@ -49,30 +69,10 @@ describe Distribution::Hypergeometric do
       end
     end
     
-    it_only_with_gsl "cdf should return values near to GSL" do
-      pending("According to John Woods, GSL Hypergeometric is broken. I believe him")
-      #RubyProf.start
-      
-      if @engine.respond_to? :cdf
-        #[2].each do |k|
-        [1,2].each do |k|
-          @engine.cdf(k, 80, 100, 10000).should be_within(1e-8).of(GSL::Cdf::hypergeometric_P(k, 80, 9920, 100))
-      end
-      #result = RubyProf.stop
-      
-      # Print a flat profile to text
-      #printer = RubyProf::FlatPrinter.new(result)
-      #printer.print(STDOUT)
-        
-      else
-        pending("No #{@engine}.pdf")
-      end
-    end
+    
     
     
     it "should return correct cdf" do
-      
-      
       total=rand(5)+3000
       n=rand(10)+15
       m=rand(10)+5
@@ -84,7 +84,6 @@ describe Distribution::Hypergeometric do
     end
     
     it "should return correct p_value" do
-      
       #0.upto(10) do |i|
       #  puts "#{i}:#{@engine.pdf(i,5,7,10)}"
       #end
@@ -96,9 +95,19 @@ describe Distribution::Hypergeometric do
         ac+=@engine.pdf(k,m,n,total)
         @engine.p_value(ac, m, n, total).should eq(k)
       end
-    end
-    
-    
+    end    
   end
+  describe Distribution::Hypergeometric do
+    before do
+      @engine=Distribution::Hypergeometric
+    end
+    it {@engine.should respond_to(:exact_pdf) }
+    it {@engine.should respond_to(:exact_cdf) }
+    it {@engine.should respond_to(:exact_p_value) }
+    it "exact pdf should return a Rational" do
+      @engine.exact_pdf(1,1,1,1).should_not be_a(Float)
+      @engine.exact_pdf(16, 80, 100, 10000).should_not be_a(Float)
+    end
 
+  end
 end

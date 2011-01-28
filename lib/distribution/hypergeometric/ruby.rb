@@ -23,6 +23,8 @@ module Distribution
           (bc(m,k) * bc(total-m,n-k)).quo(bc(total,n))
         end
         
+        
+        
         def pdf_with_den(k,m,n,total,den)
           (bc(m,k) * bc(total-m,n-k)).quo(den)
         end
@@ -51,6 +53,13 @@ module Distribution
           den=bc(total,n)
           (0..k).collect { |ki| pdf_with_den(ki,m,n,total,den) }.inject { |sum,v| sum+v}
         end
+        
+        
+        alias :exact_pdf :pdf 
+        alias :exact_p_value :p_value
+        alias :exact_cdf :cdf 
+
+        
       end
     end
   end

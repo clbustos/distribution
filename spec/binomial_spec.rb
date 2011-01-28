@@ -6,7 +6,7 @@ shared_examples_for "binomial engine" do
   it "should return correct pdf" do
     if @engine.respond_to? :pdf
       [10,100,1000].each do |n|
-        [0.25,0.5,0.75].each do |pr|
+        [1.quo(4),1.quo(2),3.quo(4)].each do |pr|
           [0, 1,n/2,n-1].each do |x| 
             exp=Math.binomial_coefficient(n,x)*pr**x*(1-pr)**(n-x)
             obs=@engine.pdf(x,n,pr)
@@ -44,6 +44,22 @@ end
       @engine=Distribution::Binomial
     end
     it_should_behave_like "binomial engine"
+    
+    
+    it {@engine.should respond_to(:exact_pdf) }
+    it {
+      pending("No exact_p_value")
+      @engine.should respond_to(:exact_p_value) 
+    }
+    
+    it "exact_pdf should not return a Float if not float is used as parameter" do
+      @engine.exact_pdf(1,1,1).should_not be_a(Float)
+      @engine.exact_pdf(16, 80, 1.quo(2)).should_not be_a(Float)
+    end
+
+    
+    
+    
   end
   
   describe Distribution::Binomial::Ruby_ do

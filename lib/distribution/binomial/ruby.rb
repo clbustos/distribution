@@ -16,6 +16,10 @@ module Distribution
             return i if ac>=prob
           end
         end
+        
+        alias :exact_pdf :pdf 
+
+        
       end
     end
   end

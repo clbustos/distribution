@@ -40,7 +40,7 @@ end
 
 shared_examples_for "gaussian engine" do
   it "should return correct cdf" do
-    if @engine.respond_to? :pdf
+    if @engine.respond_to? :cdf
       @engine.cdf(1.96).should be_within(1e-10).of(0.97500210485178)
       @engine.cdf(0).should be_within(1e-10).of(0.5)
     else

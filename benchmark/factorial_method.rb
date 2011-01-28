@@ -8,7 +8,9 @@ name 'aprox vs exact factorization method'
 author 'Claudio Bustos'
 date '2011-01-27'
 summary "
-Factorization requires a lot of processing, so approximation method are required. But for greats value, bigdecimal are required and our 
+Factorization requires a lot of processing, so approximation method could be  required. But for greats value, bigdecimal are required and things start to get harder.
+* Approximation (fast_factorial): Luschny f.3
+* Exact (factorial): Luschny Swing Prime 
 "
 
 reps 10 #number of repetitions
@@ -20,6 +22,7 @@ measure "Math.factorial(#{x})" do
 end
 
 measure "Math.fast_factorial(#{x})" do
+  
   Math.fast_factorial(x)
 end
 
