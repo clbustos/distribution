@@ -1,15 +1,10 @@
 require File.expand_path(File.dirname(__FILE__)+"/spec_helper.rb")
 describe Distribution::MathExtension do
-  it "fast_factorial should return 11 valid digits" do
-    pending("Doesn't worth the effort")
-    valid=11
-    (2..10).each {|i|
-      n=2**i
-      aprox=Math.fast_factorial(n).round.to_s[0,valid]
-      exact=Math.factorial(n).to_s[0,valid]
-      aprox.should eq exact
-      
-    }
+  it "binomial coefficient should be correctly calculated" do
+    n=50
+    n.times do |k|
+      Math.binomial_coefficient(n,k).should eq(Math.factorial(n).quo(Math.factorial(k)*Math.factorial(n-k)))
+    end
   end
   describe Distribution::MathExtension::SwingFactorial do
     it "Math.factorial should return correct values x<20" do

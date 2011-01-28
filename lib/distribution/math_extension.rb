@@ -192,17 +192,38 @@ module Distribution
       end
       Math.exp(loggamma(x))
     end
+    # Binomial coeffients, or:
+    # ( n )
+    # ( k )
+    # Number of differents k size subsets of a set size n
+    # 
+    # I don't known if this way is known, but if easy to deduce:
+    #   set a1=max(k,n-k) | a2=min(k,n-k)
+    #   Coefficients will be:
+    #   (n)..(a1+1)
+    #   ------------
+    #       a2!
+    def binomial_coefficient(n,k)
+      return 1 if k==0
+      return 1 if k==n
+      den_max=[k, n-k].max
+      den_min=[k, n-k].min
+      (((den_max+1)..n).inject(1) {|ac,v| ac * v}).quo(factorial(den_min))
+      # Other way to calcule binomial is this: 
+      # (1..k).inject(1) {|ac, i| (ac*(n-k+i).quo(i))}
+    end
+    
   end
 end
 
 module Math
   include Distribution::MathExtension
-  module_function :factorial, :beta, :gamma, :gosper, :loggamma, :fast_factorial
+  module_function :factorial, :beta, :gamma, :gosper, :loggamma, :binomial_coefficient
 end
 
 # Necessary on Ruby 1.9
 module CMath # :nodoc:
   include Distribution::MathExtension
-  module_function :factorial, :beta, :gamma, :gosper, :loggamma, :fast_factorial
+  module_function :factorial, :beta, :gamma, :gosper, :loggamma,  :binomial_coefficient
 end
 

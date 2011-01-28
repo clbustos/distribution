@@ -6,27 +6,22 @@
 # * http://mathworld.wolfram.com/StirlingsApproximation.html
 class Fixnum
   # +k+-combination of a set of size +self+
+  
   def choose(k)
-    Math.factorial(self) / (Math.factorial(k) * Math.factorial(self - k))
+    (1..k).inject(1) {|ac, i| (ac*(self-k+i).quo(i))}
+    # Factorial method is slower!
+    #Math.factorial(self) / (Math.factorial(k) * Math.factorial(self - k))
   end
 
-  # Fast combination calculation using Gosper's approximation of factorials.
-  def fast_choose(k)
-    Math.fast_factorial(self).quo(Math.fast_factorial(self - k) * Math.fast_factorial(k))
-  end
 end
 
 module Distribution
   module Hypergeometric
     module Ruby_
       class << self
-        # Calculates PDF quickly. Not guaranteed to produce any accuracy, since it uses Stirling's approximation.
-        # This can be improved, most likely, by writing specific cases of when to use fast_choose and when to use
-        # choose.
-        def pdf_aprox(k, m, n, total)
-          m.fast_choose(k) * (total-m).fast_choose(n-k).quo( total.fast_choose(n))
+        def bc(n,k)
+          Math.binomial_coefficient(n,k)
         end
-
         # Hypergeometric probability density function
         #
         # Probability p(+k+, +m+, +n+, +total+) of drawing sets of size +m+ and +n+ with an intersection of size +k+
@@ -39,19 +34,24 @@ module Distribution
           min_m_n=m<n ? m : n
           max_t=[0,m+n-total].max
           return 0 if k>min_m_n or k<max_t
-          m.choose(k) * (total-m).choose(n-k) / total.choose(n).to_f
+          (bc(m,k) * bc(total-m,n-k)).quo(bc(total,n))
+        end
+        
+        def pdf_with_den(k,m,n,total,den)
+          (bc(m,k) * bc(total-m,n-k)).quo(den)
         end
 
         # p-value: 
        
         def p_value(pr, m, n, total)
           ac=0
+          den=bc(total,n)
+          
           (0..total).each do |i|
-            ac+=pdf(i,m,n,total)
+            ac+=pdf_with_den(i,m,n,total,den)
             return i if ac>=pr
           end
         end
-
         # Cumulative distribution function.
         # The probability of obtain, from a sample of
         # size +n+, +k+ or less elements
@@ -61,7 +61,9 @@ module Distribution
         def cdf(k, m, n, total)
           raise "k>m" if k>m
           raise "k>n" if k>n
-          (0..k).collect { |ki| pdf(ki,m,n,total) }.inject { |sum,v| sum+v}
+          # Store the den
+          den=bc(total,n)
+          (0..k).collect { |ki| pdf_with_den(ki,m,n,total,den) }.inject { |sum,v| sum+v}
         end
       end
     end
