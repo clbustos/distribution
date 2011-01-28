@@ -1,3 +1,12 @@
+=== 0.3.0 / 2011-01-28
+
+* Included support for binomial distribution. p_value is not accurate
+* Included alias for ruby exact methods on discrete distributions, when they are available
+* Works on Jruby and Ruby 1.8.7 
+* Binomial coefficient optimized. Falling factorial method with Swing Prime on factorial provides a 10x improvement over naive version.
+* Working on binomial coefficient using gamma. The same problem as using Sterling: faster than exact version, but when it requires BigDecimal, is 2-3x slower
+* Deleted Fixnum extension on Hypergeometric
+
 === 0.2.0 / 2011-01-27
 * Shorthands for F and T are 'fdist' and 'tdist' now, to avoid confussions 
 * Added Hypergeometric distribution with pdf, cdf, p_value. The Ruby version uses a very slow factorial process, but also has pdf_with_stirling if you don't care about accuracy at all. This latter method needs to be improved, actually, in terms of which choose function it calls for the numerator and denominator. Once that's done, it can replace the slower pdf function. [John Woods]
