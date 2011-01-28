@@ -39,6 +39,7 @@ end
 end
 require 'distribution/math_extension'
 
+
 # Several distributions modules to calculate pdf, cdf, inverse cdf and generate
 # pseudo-random numbers for several statistical distributions
 # 

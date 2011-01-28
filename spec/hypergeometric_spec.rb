@@ -9,10 +9,13 @@ require 'ruby-prof'
 
 describe Distribution::Hypergeometric do
   describe Distribution::Hypergeometric::Ruby_ do
+    
     before do
       @engine=Distribution::Hypergeometric::Ruby_
     end
     it_only_with_gsl "pdf_fast should return same as pdf" do
+      pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
+      
       pending("Aprox. factorial doesn't work right")
       if @engine.respond_to? :pdf
         [0,1,2,4,8,16].each do |k|
@@ -25,11 +28,10 @@ describe Distribution::Hypergeometric do
         pending("No #{@engine}.pdf")
       end
     end
-    
-    
-    
-    
+  
     it_only_with_gsl "should return correct pdf" do
+      pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
+      
       #RubyProf.start
       
       if @engine.respond_to? :pdf
@@ -71,6 +73,8 @@ describe Distribution::Hypergeometric do
     
     
     it "should return correct cdf" do
+      pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
+      
       total=rand(5)+3000
       n=rand(10)+15
       m=rand(10)+5

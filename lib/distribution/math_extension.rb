@@ -1,4 +1,16 @@
-require 'prime'
+if RUBY_VERSION<"1.9"
+  require 'mathn'
+  def Prime.each(upper,&block) 
+    @primes=Prime.new
+    @primes.each do |prime|
+      break if prime > upper.to_i
+      block.call(prime)
+    end
+  end
+else
+  require 'prime'
+end
+
 require 'bigdecimal'
 require 'bigdecimal/math'
 
@@ -38,13 +50,14 @@ module Distribution
         return SmallOddSwing[n] if (n<33)
         sqrtN = Math.sqrt(n).floor
         count=0
+        
         Prime.each(n/3) do |prime|
           next if prime<3
           if (prime<=sqrtN)
             q=n
             _p=1
             while((q/=prime)>0) do
-              if ((q&1)==1)
+              if ((q%2)==1)
                 _p*=prime
               end
             end
@@ -55,7 +68,7 @@ module Distribution
             end
             
           else
-            if ((n/prime)&1==1)
+            if ((n/prime)%2==1)
               @prime_list[count]=prime
               count+=1
             end
@@ -165,11 +178,12 @@ module Distribution
         sum+(binomial_coefficient(n,j)* x**j * (1-x)**(n-j))
       }
 
-      
     end
     # B_x(a,b) : Incomplete beta function
-    # http://dlmf.nist.gov/8.17
+    # Should be replaced by
+    # http://lib.stat.cmu.edu/apstat/63
     def incomplete_beta(x,a,b)
+      raise "Not work"
       return beta(a,b) if x==1
       
       ((x**a * (1-x)**b).quo(a)) * hyper_f(a+b,1,a+1,x)
@@ -181,23 +195,7 @@ module Distribution
     def rising_factorial(x,n)
       factorial(x+n-1).quo(factorial(x-1))
     end
-    # http://dlmf.nist.gov/15.2#i
-    def hyper_f(a,b,c,z)
-      epsilon=1e-9
-      ac=0
-      v=epsilon+1
-      s=0
-      #raise "z>1" if z>1
-      raise "c<=0" if c<=0
-      while(v>epsilon or s<2 ) do
-        #puts "a:#{a},b:#{b},c:#{c},z:#{z},s:#{s}"
-        v=((permutations(a,s)*permutations(b,s)).quo(gamma(c+s)*factorial(s)))*(z**s)
-        ac+=v
-        #puts "v:#{v.to_f} -> ac:#{ac.to_f}"
-        s+=1
-      end
-      ac
-    end
+   
     
     LOG_2PI = Math.log(2 * Math::PI)# log(2PI)
     N = 8
@@ -281,12 +279,12 @@ module Math
   include Distribution::MathExtension
   alias :lgamma :loggamma 
 
-  module_function :factorial, :beta, :gamma, :gosper, :loggamma, :lgamma, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :hyper_f, :permutations, :rising_factorial
+  module_function :factorial, :beta, :gamma, :gosper, :loggamma, :lgamma, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial
 end
 
 # Necessary on Ruby 1.9
 module CMath # :nodoc:
   include Distribution::MathExtension
-  module_function :factorial, :beta, :gosper, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :hyper_f, :permutations, :rising_factorial
+  module_function :factorial, :beta, :gosper, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial
 end
 

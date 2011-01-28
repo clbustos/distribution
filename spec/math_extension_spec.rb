@@ -1,6 +1,8 @@
 require File.expand_path(File.dirname(__FILE__)+"/spec_helper.rb")
 describe Distribution::MathExtension do
   it "binomial coefficient should be correctly calculated" do
+    pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
+    
     n=50
     n.times do |k|
       Math.binomial_coefficient(n,k).should eq(Math.factorial(n).quo(Math.factorial(k)*Math.factorial(n-k)))
@@ -8,12 +10,15 @@ describe Distribution::MathExtension do
   end
   
   it "binomial coefficient(gamma) with n<=48 should be correct " do
+    #pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
+    
     [1,5,10,25,48].each {|n|
-      k=n/2
+      k=(n/2).to_i
       Math.binomial_coefficient_gamma(n,k).round.should eq(Math.binomial_coefficient(n,k))
     }
   end
   it "rising_factorial should return correct values" do
+    
     x=rand(10)+1
     Math.rising_factorial(x,0).should eq 1
     Math.rising_factorial(x,1).should eq x
@@ -44,8 +49,10 @@ describe Distribution::MathExtension do
     
   end
   it "binomial coefficient(gamma) with 48<n<1000 should have 12 correct digits" do 
+    pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
+    
     [50,100,1000].each {|n|
-      k=n/2
+      k=n/2.to_i
       obs=Math.binomial_coefficient_gamma(n,k).to_i.to_s[0,12]
       exp=Math.binomial_coefficient(n,k).to_i.to_s[0,12]
       obs.should eq(exp)
@@ -53,6 +60,7 @@ describe Distribution::MathExtension do
   end
   
   describe Distribution::MathExtension::SwingFactorial do
+
     it "Math.factorial should return correct values x<20" do
       ac=3628800 # 10!
       11.upto(19).each do |i|
@@ -62,6 +70,8 @@ describe Distribution::MathExtension do
     end
     
     it "Math.factorial should return correct values for values 21<x<33" do
+    pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
+      
       ac=2432902008176640000 # 20!
       21.upto(33).each do |i|
         ac*=i
@@ -71,6 +81,8 @@ describe Distribution::MathExtension do
     end
     
     it "Math.factorial should return correct values for values x>33" do
+    pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
+      
       ac=8683317618811886495518194401280000000 # 33!
       Math.factorial(33).should eq ac
       34.upto(40).each do |i|

@@ -4,6 +4,7 @@ describe Distribution::Binomial do
   
 shared_examples_for "binomial engine" do
   it "should return correct pdf" do
+     pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
     [10,100,1000].each do |n|
       [0.25,0.5,0.75].each do |pr|
         [0, 1,n/2,n-1].each do |x| 
@@ -16,6 +17,7 @@ shared_examples_for "binomial engine" do
     end
   end
   it "should return correct cdf for n<=100" do
+     pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
     [10,100].each do |n|
       [0.25,0.5,0.75].each do |pr|
         [1,n/2,n-1].each do |x| 

@@ -7,7 +7,7 @@ describe Distribution::Shorthand do
       shortname=klass::SHORTHAND
       methods=[:pdf, :cdf, :p_value].map {|m| "#{shortname}_#{m}".to_sym}
       methods.each do |m| 
-        Distribution::Shorthand.instance_methods.should include(m)
+        Distribution::Shorthand.instance_methods.map {|v| v.to_sym}.should include(m)
       end
     end
   end

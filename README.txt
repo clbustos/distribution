@@ -11,8 +11,8 @@ Includes code from statistics2
 
 == FEATURES/PROBLEMS:
 
-* Base API
-* Shorthand for easy use
+* Very fast on 1.9.1, with improved method to calculate factorials and others common methods
+* Discrete distributions (Binomial, Hypergeometric) needs more work on Ruby 1.8, because prime number generator on standard library is a pity. 
 
 == API structure
 
@@ -29,6 +29,7 @@ Shortnames are:
 * T: tdist
 * F: fdist
 * Chi Square: chisq
+* Binomial: bino
 * Hypergeometric: hypg
 For example
 
@@ -36,7 +37,7 @@ For example
 
 could be called after including Distribution::Shorthand
 
-  t_r
+  tdist_r
 
 == SYNOPSIS:
   # Returns Gaussian PDF for x
