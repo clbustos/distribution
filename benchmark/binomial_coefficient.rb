@@ -16,14 +16,14 @@ k near n is the worst for multiplicative
 
 The factorial method uses the fastest Swing Prime Algorithm."
 
-reps 100 #number of repetitions
+reps 10 #number of repetitions
 
 x=100
 
 n=100
 k=50
 
-samples=[10,100,1000]
+samples=[10,100,1000,5000]
 
 
 
@@ -57,7 +57,7 @@ end
 measure "Gamma" do
   samples.each do |n|
     [5,n/2,n-1].each do |k|
-      Math.gamma(n+1) / (Math.gamma(k+1)*Math.gamma(n-k+1))
+      Math.binomial_coefficient_gamma(n,k)
     end
   end
 end

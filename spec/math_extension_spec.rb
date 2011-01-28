@@ -13,15 +13,13 @@ describe Distribution::MathExtension do
       Math.binomial_coefficient_gamma(n,k).round.should eq(Math.binomial_coefficient(n,k))
     }
   end
-  it "binomial coefficient(gamma) with n>48 should have 14 correct digits" do 
-    pending("Crash on n>=1000")
+  it "binomial coefficient(gamma) with 48<n<1000 should have 12 correct digits" do 
     [50,100,1000].each {|n|
       k=n/2
-      obs=Math.binomial_coefficient_gamma(n,k).to_s[0,13]
-      exp=Math.binomial_coefficient(n,k).to_s[0,13]
+      obs=Math.binomial_coefficient_gamma(n,k).to_i.to_s[0,12]
+      exp=Math.binomial_coefficient(n,k).to_i.to_s[0,12]
       obs.should eq(exp)
     }
-    
   end
   
   describe Distribution::MathExtension::SwingFactorial do

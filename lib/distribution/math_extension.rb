@@ -213,11 +213,20 @@ module Distribution
       # (1..k).inject(1) {|ac, i| (ac*(n-k+i).quo(i))}
     end
     # Approximate binomial coefficient, using gamma function.
-    # Is fast as hell!
+    # The fastest method, until we fall on BigDecimal!
     def binomial_coefficient_gamma(n,k)
       return 1 if k==0
       return 1 if k==n      
       val=gamma(n+1) / (gamma(k+1)*gamma(n-k+1))
+      if (val.nan?)
+        lg=lgamma(n+1) - (lgamma(k+1)+lgamma(n-k+1))
+        val=Math.exp(lg)
+        # Crash again! We require BigDecimals
+        if val.infinite?
+          val=BigMath.exp(BigDecimal(lg.to_s),16)
+        end
+      end
+      
       val
     end
   end
@@ -225,12 +234,14 @@ end
 
 module Math
   include Distribution::MathExtension
-  module_function :factorial, :beta, :gamma, :gosper, :loggamma, :binomial_coefficient, :binomial_coefficient_gamma
+  alias :lgamma :loggamma 
+
+  module_function :factorial, :beta, :gamma, :gosper, :loggamma, :lgamma, :binomial_coefficient, :binomial_coefficient_gamma
 end
 
 # Necessary on Ruby 1.9
 module CMath # :nodoc:
   include Distribution::MathExtension
-  module_function :factorial, :beta, :gamma, :gosper, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma
+  module_function :factorial, :beta, :gosper, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma
 end
 
