@@ -52,3 +52,12 @@ measure "Optimized Factorial" do
     end
   end
 end
+
+
+measure "Gamma" do
+  samples.each do |n|
+    [5,n/2,n-1].each do |k|
+      Math.gamma(n+1) / (Math.gamma(k+1)*Math.gamma(n-k+1))
+    end
+  end
+end

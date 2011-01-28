@@ -212,18 +212,25 @@ module Distribution
       # Other way to calcule binomial is this: 
       # (1..k).inject(1) {|ac, i| (ac*(n-k+i).quo(i))}
     end
-    
+    # Approximate binomial coefficient, using gamma function.
+    # Is fast as hell!
+    def binomial_coefficient_gamma(n,k)
+      return 1 if k==0
+      return 1 if k==n      
+      val=gamma(n+1) / (gamma(k+1)*gamma(n-k+1))
+      val
+    end
   end
 end
 
 module Math
   include Distribution::MathExtension
-  module_function :factorial, :beta, :gamma, :gosper, :loggamma, :binomial_coefficient
+  module_function :factorial, :beta, :gamma, :gosper, :loggamma, :binomial_coefficient, :binomial_coefficient_gamma
 end
 
 # Necessary on Ruby 1.9
 module CMath # :nodoc:
   include Distribution::MathExtension
-  module_function :factorial, :beta, :gamma, :gosper, :loggamma,  :binomial_coefficient
+  module_function :factorial, :beta, :gamma, :gosper, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma
 end
 

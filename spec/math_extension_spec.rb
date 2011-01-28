@@ -6,6 +6,24 @@ describe Distribution::MathExtension do
       Math.binomial_coefficient(n,k).should eq(Math.factorial(n).quo(Math.factorial(k)*Math.factorial(n-k)))
     end
   end
+  
+  it "binomial coefficient(gamma) with n<=48 should be correct " do
+    [1,5,10,25,48].each {|n|
+      k=n/2
+      Math.binomial_coefficient_gamma(n,k).round.should eq(Math.binomial_coefficient(n,k))
+    }
+  end
+  it "binomial coefficient(gamma) with n>48 should have 14 correct digits" do 
+    pending("Crash on n>=1000")
+    [50,100,1000].each {|n|
+      k=n/2
+      obs=Math.binomial_coefficient_gamma(n,k).to_s[0,13]
+      exp=Math.binomial_coefficient(n,k).to_s[0,13]
+      obs.should eq(exp)
+    }
+    
+  end
+  
   describe Distribution::MathExtension::SwingFactorial do
     it "Math.factorial should return correct values x<20" do
       ac=3628800 # 10!
