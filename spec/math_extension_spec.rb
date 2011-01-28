@@ -13,6 +13,36 @@ describe Distribution::MathExtension do
       Math.binomial_coefficient_gamma(n,k).round.should eq(Math.binomial_coefficient(n,k))
     }
   end
+  it "rising_factorial should return correct values" do
+    x=rand(10)+1
+    Math.rising_factorial(x,0).should eq 1
+    Math.rising_factorial(x,1).should eq x
+    Math.rising_factorial(x,2).should eq x**2+x
+    Math.rising_factorial(x,3).should eq x**3+3*x**2+2*x
+    Math.rising_factorial(x,4).should eq x**4+6*x**3+11*x**2+6*x
+
+  end
+  it "incomplete beta function should return similar results to R" do
+    pending("Not working yet")
+    Math.incomplete_beta(0.5,5,6).should be_within(1e-6).of(Math.beta(5,6)*0.6230469)
+    Math.incomplete_beta(0.6,5,6).should be_within(1e-6).of(Math.beta(5,6)*0.0006617154)
+  end
+  it "regularized incomplete beta should behave properly" do
+
+    Math.regularized_beta_function(0.5,5,5).should eq 0.5
+    Math.regularized_beta_function(0.5,5,6).should be_within(1e-6).of(0.6230469)
+    Math.regularized_beta_function(0.5,5,7).should  be_within(1e-6).of(0.725586)
+    
+    a=5
+    b=5
+    Math.regularized_beta_function(0,a,b).should eq 0
+    Math.regularized_beta_function(1,a,b).should eq 1
+    x=rand()
+    
+    Math.regularized_beta_function(x,a,b).should be_within(1e-6). of(1-Math.regularized_beta_function(1-x,b,a))
+    
+    
+  end
   it "binomial coefficient(gamma) with 48<n<1000 should have 12 correct digits" do 
     [50,100,1000].each {|n|
       k=n/2

@@ -152,6 +152,52 @@ module Distribution
     def beta(x,y)
       (gamma(x)*gamma(y)).quo(gamma(x+y))
     end
+    # I_x(a,b): Regularized incomplete beta function
+    #   
+    # Source:
+    #
+    def regularized_beta_function(x,a,b)
+      return 1 if x==1
+      #incomplete_beta(x,a,b).quo(beta(a,b))
+      m=a
+      n=b+a-1
+      (m..n).inject(0) {|sum,j|
+        sum+(binomial_coefficient(n,j)* x**j * (1-x)**(n-j))
+      }
+
+      
+    end
+    # B_x(a,b) : Incomplete beta function
+    # http://dlmf.nist.gov/8.17
+    def incomplete_beta(x,a,b)
+      return beta(a,b) if x==1
+      
+      ((x**a * (1-x)**b).quo(a)) * hyper_f(a+b,1,a+1,x)
+    end
+    def permutations(x,n)
+      factorial(x).quo(factorial(x-n))
+    end
+    
+    def rising_factorial(x,n)
+      factorial(x+n-1).quo(factorial(x-1))
+    end
+    # http://dlmf.nist.gov/15.2#i
+    def hyper_f(a,b,c,z)
+      epsilon=1e-9
+      ac=0
+      v=epsilon+1
+      s=0
+      #raise "z>1" if z>1
+      raise "c<=0" if c<=0
+      while(v>epsilon or s<2 ) do
+        #puts "a:#{a},b:#{b},c:#{c},z:#{z},s:#{s}"
+        v=((permutations(a,s)*permutations(b,s)).quo(gamma(c+s)*factorial(s)))*(z**s)
+        ac+=v
+        #puts "v:#{v.to_f} -> ac:#{ac.to_f}"
+        s+=1
+      end
+      ac
+    end
     
     LOG_2PI = Math.log(2 * Math::PI)# log(2PI)
     N = 8
@@ -204,19 +250,18 @@ module Distribution
     #  (k)    k!          k!
     #
     def binomial_coefficient(n,k)
-      return 1 if k==0
-      return 1 if k==n
-      den_max=[k, n-k].max
-      den_min=[k, n-k].min
-      (((den_max+1)..n).inject(1) {|ac,v| ac * v}).quo(factorial(den_min))
+      return 1 if (k==0 or k==n)
+      k=[k, n-k].min
+      (((n-k+1)..n).inject(1) {|ac,v| ac * v}).quo(factorial(k))
       # Other way to calcule binomial is this: 
       # (1..k).inject(1) {|ac, i| (ac*(n-k+i).quo(i))}
     end
     # Approximate binomial coefficient, using gamma function.
     # The fastest method, until we fall on BigDecimal!
     def binomial_coefficient_gamma(n,k)
-      return 1 if k==0
-      return 1 if k==n      
+      return 1 if (k==0 or k==n)
+      k=[k, n-k].min
+      
       val=gamma(n+1) / (gamma(k+1)*gamma(n-k+1))
       if (val.nan?)
         lg=lgamma(n+1) - (lgamma(k+1)+lgamma(n-k+1))
@@ -236,12 +281,12 @@ module Math
   include Distribution::MathExtension
   alias :lgamma :loggamma 
 
-  module_function :factorial, :beta, :gamma, :gosper, :loggamma, :lgamma, :binomial_coefficient, :binomial_coefficient_gamma
+  module_function :factorial, :beta, :gamma, :gosper, :loggamma, :lgamma, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :hyper_f, :permutations, :rising_factorial
 end
 
 # Necessary on Ruby 1.9
 module CMath # :nodoc:
   include Distribution::MathExtension
-  module_function :factorial, :beta, :gosper, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma
+  module_function :factorial, :beta, :gosper, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :hyper_f, :permutations, :rising_factorial
 end
 

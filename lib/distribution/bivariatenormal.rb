@@ -12,14 +12,15 @@ module Distribution
     create_distribution_methods
     
     ##
-    # :singleton-method: pdf(x,y, rho, s1=1.0, s2=1.0)
-    # Probability density function for a given x, y and rho value.
+    # :singleton-method: pdf(k,n,prob)
+    # Probability density function for exactly +k+ successes in +n+ trials
+    # with success probability +prob+
     # 
     
     ##
-    # :singleton-method: cdf(x,y,rho)
-    # CDF for a given x, y and rho value.
-    #
+    # :singleton-method: cdf(k,n,prob)
+    # Cumulative density function for +k+ or less successes in +n+ trials
+    # with success probability +prob+
     
   end
 end
