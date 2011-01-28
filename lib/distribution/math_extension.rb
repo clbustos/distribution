@@ -195,14 +195,14 @@ module Distribution
     # Binomial coeffients, or:
     # ( n )
     # ( k )
-    # Number of differents k size subsets of a set size n
+    # Gives the number of different k size subsets of a set size n
     # 
-    # I don't known if this way is known, but if easy to deduce:
-    #   set a1=max(k,n-k) | a2=min(k,n-k)
-    #   Coefficients will be:
-    #   (n)..(a1+1)
-    #   ------------
-    #       a2!
+    # Replaces (n,k) for (n, n-k) if k>n-k
+    #
+    #  (n)   n^k'    (n)..(n-k+1)
+    #  ( ) = ---- =  ------------
+    #  (k)    k!          k!
+    #
     def binomial_coefficient(n,k)
       return 1 if k==0
       return 1 if k==n

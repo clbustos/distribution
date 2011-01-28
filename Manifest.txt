@@ -3,6 +3,7 @@ History.txt
 Manifest.txt
 README.txt
 Rakefile
+benchmark/binomial_coefficient.rb
 benchmark/factorial_method.rb
 bin/distribution
 lib/distribution.rb
