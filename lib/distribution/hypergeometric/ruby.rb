@@ -1,19 +1,5 @@
-# Added by John O. Woods, SciRuby project.
-
-# Extensions to Fixnum for Hypergeometric calculations in pure Ruby.
-# ==Reference
-# * http://bluebones.net/2007/09/combinatorics-in-ruby/
-# * http://mathworld.wolfram.com/StirlingsApproximation.html
-class Fixnum
-  # +k+-combination of a set of size +self+
-  
-  def choose(k)
-    (1..k).inject(1) {|ac, i| (ac*(self-k+i).quo(i))}
-    # Factorial method is slower!
-    #Math.factorial(self) / (Math.factorial(k) * Math.factorial(self - k))
-  end
-
-end
+# Added by John O. Woods, SciRuby project. 
+# Optimized by Claudio Bustos
 
 module Distribution
   module Hypergeometric
