@@ -1,5 +1,6 @@
 require 'distribution/bivariatenormal/ruby'
 require 'distribution/bivariatenormal/gsl'
+require 'distribution/bivariatenormal/java'
 module Distribution
   # Calculate pdf and cdf for bivariate normal distribution.
   #

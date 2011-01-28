@@ -38,7 +38,7 @@ shared_examples_for "T engine" do
     end
   
   end
-  it "should return correct p_value" do
+  it_only_with_gsl "should return correct p_value" do
     if @engine.respond_to? :p_value
    [-2,0.1,0.5,1,2].each{|t|
         [2,5,10].each{|n|

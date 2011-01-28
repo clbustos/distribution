@@ -42,7 +42,7 @@ shared_examples_for "F engine" do
     end
   
   end
-  it "should return correct p_value" do
+  it_only_with_gsl "should return correct p_value" do
     if @engine.respond_to? :p_value
   
     [0.1,0.5,1,2,10,20,30].each{|f|

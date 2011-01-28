@@ -1,6 +1,7 @@
 require 'distribution/normal/ruby'
 require 'distribution/normal/gsl'
 require 'distribution/normal/statistics2'
+require 'distribution/normal/java'
 
 module Distribution
   # From Wikipedia: 

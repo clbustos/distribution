@@ -40,8 +40,12 @@ end
 
 shared_examples_for "gaussian engine" do
   it "should return correct cdf" do
-    @engine.cdf(1.96).should be_within(1e-10).of(0.97500210485178)
-    @engine.cdf(0).should be_within(1e-10).of(0.5)
+    if @engine.respond_to? :pdf
+      @engine.cdf(1.96).should be_within(1e-10).of(0.97500210485178)
+      @engine.cdf(0).should be_within(1e-10).of(0.5)
+    else
+      pending("No #{@engine}.cdf")
+    end
   end
   it "should return correct p_value" do
     if @engine.respond_to? :p_value
@@ -98,7 +102,7 @@ end
       before do
         @engine=Distribution::Normal::Java_
       end
-      it_should_behave_like "all gaussian engines"
+    it_should_behave_like "gaussian engine"    
     end  
   end
   

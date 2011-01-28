@@ -11,8 +11,9 @@ Includes code from statistics2
 
 == FEATURES/PROBLEMS:
 
-* Very fast on 1.9.1, with improved method to calculate factorials and others common methods
-* Discrete distributions (Binomial, Hypergeometric) needs more work on Ruby 1.8, because prime number generator on standard library is a pity. 
+* Very fast ruby 1.8.7/1.9.+ implementation, with improved method to calculate factorials and others common functions
+* All methods tested on several ranges. See spec/
+* On Jruby, BivariateNormal returns incorrect pdf
 
 == API structure
 

@@ -13,7 +13,7 @@ describe Distribution do
     if Distribution.has_statistics2?
       defined?(Statistics2).should be_true
     else
-      defined?(Statistics2).should be_true
+      defined?(Statistics2).should be_false
     end 
   end
 end

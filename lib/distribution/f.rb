@@ -1,6 +1,7 @@
 require 'distribution/f/ruby'
 require 'distribution/f/gsl'
 require 'distribution/f/statistics2'
+require 'distribution/f/java'
 module Distribution
   # Calculate cdf and inverse cdf for Chi Square Distribution.
   # 

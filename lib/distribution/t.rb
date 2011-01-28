@@ -1,6 +1,8 @@
 require 'distribution/t/ruby'
 require 'distribution/t/gsl'
 require 'distribution/t/statistics2'
+require 'distribution/t/java'
+
 module Distribution
 
     # Calculate statisticals for T Distribution.

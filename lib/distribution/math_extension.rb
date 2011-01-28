@@ -56,25 +56,25 @@ module Distribution
           if (prime<=sqrtN)
             q=n
             _p=1
-            while((q/=prime)>0) do
-              if ((q%2)==1)
+            
+            while((q=(q/prime).truncate)>0) do
+              if((q%2)==1)
                 _p*=prime
               end
             end
-            
             if _p>1
               @prime_list[count]=_p
               count+=1
             end
             
           else
-            if ((n/prime)%2==1)
+            if ((n/prime).truncate%2==1)
               @prime_list[count]=prime
               count+=1
             end
           end
         end
-        prod=get_primorial(n/2+1,n)
+        prod=get_primorial((n/2).truncate+1,n)
         prod * @prime_list[0,count].inject(1) {|ac,v| ac*v}
       end
       def get_primorial(low,up)

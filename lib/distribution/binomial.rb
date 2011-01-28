@@ -1,5 +1,6 @@
 require 'distribution/binomial/ruby'
 require 'distribution/binomial/gsl'
+require 'distribution/binomial/java'
 module Distribution
 
   # Calculate statisticals for T Distribution.

@@ -1,5 +1,7 @@
 require 'distribution/hypergeometric/ruby'
 require 'distribution/hypergeometric/gsl'
+require 'distribution/hypergeometric/java'
+
 
 module Distribution
   # From Wikipedia:

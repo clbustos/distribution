@@ -4,29 +4,35 @@ describe Distribution::Binomial do
   
 shared_examples_for "binomial engine" do
   it "should return correct pdf" do
-     pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
-    [10,100,1000].each do |n|
-      [0.25,0.5,0.75].each do |pr|
-        [0, 1,n/2,n-1].each do |x| 
-          exp=Math.binomial_coefficient(n,x)*pr**x*(1-pr)**(n-x)
-          obs=@engine.pdf(x,n,pr)
-          obs.should be_within(1e-5).of(exp), "For pdf(#{x},#{n},#{pr}) expected #{exp}, obtained #{obs}"
-          
+    if @engine.respond_to? :pdf
+      [10,100,1000].each do |n|
+        [0.25,0.5,0.75].each do |pr|
+          [0, 1,n/2,n-1].each do |x| 
+            exp=Math.binomial_coefficient(n,x)*pr**x*(1-pr)**(n-x)
+            obs=@engine.pdf(x,n,pr)
+            obs.should be_within(1e-5).of(exp), "For pdf(#{x},#{n},#{pr}) expected #{exp}, obtained #{obs}"
+            
+          end
         end
       end
+    else
+      pending("No #{@engine}.pdf")
     end
   end
-  it "should return correct cdf for n<=100" do
-     pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
-    [10,100].each do |n|
-      [0.25,0.5,0.75].each do |pr|
-        [1,n/2,n-1].each do |x| 
-          exp=GSL::Cdf.binomial_P(x,pr,n)
-          obs=@engine.cdf(x,n,pr)
-          exp.should be_within(1e-5).of(obs), "For cdf(#{x},#{n},#{pr}) expected #{exp}, obtained #{obs}"
+  it_only_with_gsl "should return correct cdf for n<=100" do
+     if @engine.respond_to? :pdf
+        [10,100].each do |n|
+          [0.25,0.5,0.75].each do |pr|
+            [1,n/2,n-1].each do |x| 
+              exp=GSL::Cdf.binomial_P(x,pr,n)
+              obs=@engine.cdf(x,n,pr)
+              exp.should be_within(1e-5).of(obs), "For cdf(#{x},#{n},#{pr}) expected #{exp}, obtained #{obs}"
+            end
+          end
         end
+      else
+        pending("No #{@engine}.cdf")
       end
-    end
   end
 
   
@@ -89,6 +95,7 @@ end
         @engine=Distribution::Binomial::Java_
       end
     it_should_behave_like "binomial engine"
+    
     end  
   end
   

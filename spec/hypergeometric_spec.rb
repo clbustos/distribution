@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__)+"/spec_helper.rb")
 include ExampleWithGSL
-require 'ruby-prof'
+#require 'ruby-prof'
 
 # Need to test:
 # * that Fixnum fast_choose returns same as choose
@@ -14,7 +14,6 @@ describe Distribution::Hypergeometric do
       @engine=Distribution::Hypergeometric::Ruby_
     end
     it_only_with_gsl "pdf_fast should return same as pdf" do
-      pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
       
       pending("Aprox. factorial doesn't work right")
       if @engine.respond_to? :pdf
@@ -30,7 +29,6 @@ describe Distribution::Hypergeometric do
     end
   
     it_only_with_gsl "should return correct pdf" do
-      pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
       
       #RubyProf.start
       
@@ -73,7 +71,7 @@ describe Distribution::Hypergeometric do
     
     
     it "should return correct cdf" do
-      pending("Too slow for Ruby 1.8") if RUBY_VERSION<"1.9"
+      
       
       total=rand(5)+3000
       n=rand(10)+15
