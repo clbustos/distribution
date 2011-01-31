@@ -54,7 +54,8 @@ end
     it "exact_cdf should return same values as cdf for n=50" do
       pr=rand()*0.8+0.1
       n=rand(10)+10
-      [1,n/2,n-1].each do |k|
+      [1,(n/2).to_i,n-1].each do |k|
+       
         @engine.exact_cdf(k,n,pr).should be_within(1e-10).of(@engine.cdf(k,n,pr))
       end
     end

@@ -14,8 +14,52 @@ end
 require 'bigdecimal'
 require 'bigdecimal/math'
 
-# Useful additions to Math
 module Distribution
+  # Extension for Ruby18
+  # Includes gamma and lgamma
+  module MathExtension18
+    LOG_2PI = Math.log(2 * Math::PI)# log(2PI)
+    N = 8
+    B0  = 1.0
+    B1  = -1.0 / 2.0
+    B2  = 1.0 / 6.0
+    B4  = -1.0 / 30.0
+    B6  =  1.0 / 42.0
+    B8  = -1.0 / 30.0
+    B10 =  5.0 / 66.0
+    B12 = -691.0 / 2730.0
+    B14 =  7.0 / 6.0
+    B16 = -3617.0 / 510.0
+    # From statistics2
+    def loggamma(x)
+      v = 1.0
+      while (x < N)
+        v *= x
+        x += 1.0
+      end
+      w = 1.0 / (x * x)
+      ret = B16 / (16 * 15)
+      ret = ret * w + B14 / (14 * 13)
+      ret = ret * w + B12 / (12 * 11)
+      ret = ret * w + B10 / (10 *  9)
+      ret = ret * w + B8  / ( 8 *  7)
+      ret = ret * w + B6  / ( 6 *  5)
+      ret = ret * w + B4  / ( 4 *  3)
+      ret = ret * w + B2  / ( 2 *  1)
+      ret = ret / x + 0.5 * LOG_2PI - Math.log(v) - x + (x - 0.5) * Math.log(x)
+      ret
+    end
+
+    # Gamma function.
+    # From statistics2    
+    def gamma(x)
+      if (x < 0.0)
+        return Math::PI / (Math.sin(Math.PI * x) * Math.exp(loggamma(1 - x))) #/
+      end
+      Math.exp(loggamma(x))
+    end
+  end
+  # Useful additions to Math
   module MathExtension
     # Factorization based on Prime Swing algorithm, by Luschny (the king of factorial numbers analysis :P )
     # == Reference
@@ -91,7 +135,7 @@ module Distribution
         @result=(self.class).naive_factorial(n)
       end
       def self.naive_factorial(n)
-        (2..n).inject(1) { |f,n| f * n }
+        (2..n).inject(1) { |f,nn| f * nn }
       end
     end
     # Module to calculate approximated factorial
@@ -174,8 +218,8 @@ module Distribution
     def regularized_beta_function(x,a,b)
       return 1 if x==1
       #incomplete_beta(x,a,b).quo(beta(a,b))
-      m=a
-      n=b+a-1
+      m=a.to_i
+      n=(b+a-1).to_i
       (m..n).inject(0) {|sum,j|
         sum+(binomial_coefficient(n,j)* x**j * (1-x)**(n-j))
       }
@@ -194,45 +238,12 @@ module Distribution
     end
    
     
-    LOG_2PI = Math.log(2 * Math::PI)# log(2PI)
-    N = 8
-    B0  = 1.0
-    B1  = -1.0 / 2.0
-    B2  = 1.0 / 6.0
-    B4  = -1.0 / 30.0
-    B6  =  1.0 / 42.0
-    B8  = -1.0 / 30.0
-    B10 =  5.0 / 66.0
-    B12 = -691.0 / 2730.0
-    B14 =  7.0 / 6.0
-    B16 = -3617.0 / 510.0
-    # From statistics2
     def loggamma(x)
-      v = 1.0
-      while (x < N)
-        v *= x
-        x += 1.0
-      end
-      w = 1.0 / (x * x)
-      ret = B16 / (16 * 15)
-      ret = ret * w + B14 / (14 * 13)
-      ret = ret * w + B12 / (12 * 11)
-      ret = ret * w + B10 / (10 *  9)
-      ret = ret * w + B8  / ( 8 *  7)
-      ret = ret * w + B6  / ( 6 *  5)
-      ret = ret * w + B4  / ( 4 *  3)
-      ret = ret * w + B2  / ( 2 *  1)
-      ret = ret / x + 0.5 * LOG_2PI - Math.log(v) - x + (x - 0.5) * Math.log(x)
-      ret
+      lg=Math.lgamma(x)
+      lg[0]*lg[1]
     end
-    # Gamma function.
-    # From statistics2    
-    def gamma(x)
-      if (x < 0.0)
-        return Math::PI / (Math.sin(Math.PI * x) * Math.exp(loggamma(1 - x))) #/
-      end
-      Math.exp(loggamma(x))
-    end
+    
+    
     # Sequences without repetition. n^k'
     def permutations(n,k)
       return 1 if k==0
@@ -281,7 +292,7 @@ module Distribution
       # Ups. Outside float point range. We try with logs
       if (val.nan?)
         #puts "nan"
-        lg=lgamma( n + 1 ) - (lgamma(k+1)+ lgamma(n-k+1))
+        lg=loggamma( n + 1 ) - (loggamma(k+1)+ loggamma(n-k+1))
         val=Math.exp(lg)
         # Crash again! We require BigDecimals
         if val.infinite?
@@ -289,23 +300,29 @@ module Distribution
           val=BigMath.exp(BigDecimal(lg.to_s),16)
         end
       end
-      
       val
     end
+    alias :combinations :binomial_coefficient
   end
 end
 
 module Math
   include Distribution::MathExtension
-  alias :lgamma :loggamma 
-  alias :combinations :binomial_coefficient
-  module_function :factorial, :beta, :gamma, :gosper, :loggamma, :lgamma, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations
+  module_function :factorial, :beta, :gosper, :loggamma, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations
 end
 
 # Necessary on Ruby 1.9
 module CMath # :nodoc:
   include Distribution::MathExtension
-  alias :combinations :binomial_coefficient  
   module_function :factorial, :beta, :gosper, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial, :fast_factorial, :combinations
 end
+
+if RUBY_VERSION<"1.9"
+  module Math
+    remove_method :loggamma
+    include Distribution::MathExtension18
+    module_function :gamma, :loggamma
+  end
+end
+
 

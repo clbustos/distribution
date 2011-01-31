@@ -3,8 +3,7 @@ module Distribution
     module Ruby_
       class << self
       
-        include Distribution::MathExtension
-      
+        include Math
         def pdf(x,n)
           if n == 1
             1.0/Math.sqrt(2 * Math::PI * x) * Math::E**(-x/2.0)
