@@ -8,13 +8,7 @@ describe Distribution::MathExtension do
     end
   end
   
-  it "binomial coefficient(gamma) with n<=48 should be correct " do
-    
-    [1,5,10,25,48].each {|n|
-      k=(n/2).to_i
-      Math.binomial_coefficient_gamma(n,k).round.should eq(Math.binomial_coefficient(n,k))
-    }
-  end
+  
   it "rising_factorial should return correct values" do
     
     x=rand(10)+1
@@ -57,12 +51,22 @@ describe Distribution::MathExtension do
     
     
   end
-  it "binomial coefficient(gamma) with 48<n<1000 should have 12 correct digits" do 
+  
+  it "binomial coefficient(gamma) with n<=48 should be correct " do
     
-    [50,100,1000].each {|n|
-      k=n/2.to_i
-      obs=Math.binomial_coefficient_gamma(n,k).to_i.to_s[0,12]
-      exp=Math.binomial_coefficient(n,k).to_i.to_s[0,12]
+    [1,5,10,25,48].each {|n|
+      k=(n/2).to_i
+      Math.binomial_coefficient_gamma(n,k).round.should eq(Math.binomial_coefficient(n,k))
+    }
+  end
+  
+  it "binomial coefficient(gamma) with 48<n<1000 should have 11 correct digits" do 
+    
+    [50,100,200,1000].each {|n|
+      k=(n/2).to_i
+      obs=Math.binomial_coefficient_gamma(n, k).to_i.to_s[0,11]
+      exp=Math.binomial_coefficient(n, k).to_i.to_s[0,11]
+      
       obs.should eq(exp)
     }
   end
