@@ -17,7 +17,7 @@ describe Distribution::Poisson do
     
     it_only_with_gsl "should return correct cdf" do
       if @engine.respond_to? :cdf
-        [0.5,1,1.5].each {|l|
+        [0.5,1,1.5,4,10].each {|l|
           1.upto(5) {|k|
             @engine.cdf(k,l).should be_within(1e-10).of(GSL::Cdf.poisson_P(k,l))
           }
@@ -30,11 +30,12 @@ describe Distribution::Poisson do
   
     
     it "should return correct p_value" do
+      pending("No exact p_value")
       if @engine.respond_to? :p_value
-         [0.5,1,1.5].each {|l|
-          1.upto(5) {|k|
+         [0.1,1,5,10].each {|l|
+          1.upto(20) {|k|
             pr=@engine.cdf(k,l)
-            @engine.p_value(pr,l).should be_within(1e-10).of(k)
+            @engine.p_value(pr,l).should eq(k)
           }
         }
       else

@@ -8,8 +8,13 @@ module Distribution
         def cdf(k,l )
           Math.exp(-l)*(0..k).inject(0) {|ac,i| ac+ (l**i).quo(Math.factorial(i))}
         end
-        #def p_value(pr,l )
-        #end
+        def p_value(prob,l)
+          ac=0
+          (0..100).each do |i|
+            ac+=pdf(i,l)
+            return i if ac>=(prob-1e-10)
+          end
+        end
       end
     end
   end

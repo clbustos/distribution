@@ -16,10 +16,16 @@ module Distribution
     create_distribution_methods
 
     ##
-    # :singleton-method: pdf(x , l)
-
+    # :singleton-method: pdf(k , l)
+    # PDF for Poisson distribution, 
+    # [+k+] is the number of occurrences of an event 
+    # [+l+] is a positive real number, equal to the expected number of occurrences that occur during the given interval.
+    
     ##
-    # :singleton-method: cdf(x , l)
+    # :singleton-method: cdf(k , l)
+    # CDF for Poisson distribution
+    # [+k+] is the number of occurrences of an event 
+    # [+l+] is a positive real number, equal to the expected number of occurrences that occur during the given interval.    
     
     # TODO: Not implemented yet
     # :singleton-method: p_value(pr , l)
