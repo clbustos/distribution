@@ -146,6 +146,7 @@ module Distribution
   autoload(:Binomial, 'distribution/binomial')
   autoload(:Hypergeometric, 'distribution/hypergeometric')
   autoload(:Exponential, 'distribution/exponential')
+  autoload(:Poisson, 'distribution/poisson')
 
 end
 

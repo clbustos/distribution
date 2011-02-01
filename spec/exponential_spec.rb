@@ -37,7 +37,7 @@ describe Distribution::Exponential do
           }
         }
       else
-        pending("No #{@engine}.cdf")
+        pending("No #{@engine}.p_value")
       end
     end
   end
