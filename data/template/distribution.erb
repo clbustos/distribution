@@ -4,8 +4,8 @@ require 'distribution/<%= distribution.downcase %>/gsl'
 
 
 module Distribution
-
-  module <%= distribution %>
+  # TODO: Document this Distribution
+  module <%= distribution.capitalize %>
     SHORTHAND='<%= distribution.downcase[0,4] %>'
     extend Distributable
     create_distribution_methods

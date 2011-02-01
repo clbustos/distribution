@@ -34,16 +34,18 @@ end
 ARGV.each do |distribution|
   if new
     basename=distribution.downcase
-    raise "You should be inside distribution lib directory" unless File.exists? "distribution.rb"
+    raise "You should be inside distribution lib directory" unless File.exists? "../distribution.rb"
     raise "Distribution already created" if File.exists? basename+".rb"
-    main=ERB.new(File.read(gem_base+"/data/template/empty.rb"),)
-    ruby=ERB.new(File.read(gem_base+"/data/template/empty/ruby.rb"))
-    gsl=ERB.new(File.read(gem_base+"/data/template/empty/gsl.rb"))
+    main=ERB.new(File.read(gem_base+"/data/template/distribution.erb"),)
+    ruby=ERB.new(File.read(gem_base+"/data/template/distribution/ruby.erb"))
+    gsl=ERB.new(File.read(gem_base+"/data/template/distribution/gsl.erb"))
+    spec=ERB.new(File.read(gem_base+"/data/template/spec.erb"))
     
     FileUtils.mkdir(basename) unless File.exists? basename
-    File.open(basename+".rb","w") {|fp| fp.write(main.result(binding)}
-    File.open(basename+"/ruby.rb","w") {|fp| fp.write(ruby.result(binding)}
-    File.open(basename+"/gsl.rb","w") {|fp| fp.write(gsl.result(binding)}
+    File.open(basename+".rb","w") {|fp| fp.write(main.result(binding))}
+    File.open(basename+"/ruby.rb","w") {|fp| fp.write(ruby.result(binding))}
+    File.open(basename+"/gsl.rb","w") {|fp| fp.write(gsl.result(binding))}
+    File.open("../../spec/#{basename}_spec.rb","w") {|fp| fp.write(spec.result(binding))}
     
   end
 end

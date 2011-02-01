@@ -1,5 +1,5 @@
 module Distribution
-  module <%= distribution %>
+  module <%= distribution.capitalize %>
     module GSL_
       class << self
         def pdf(x <% parameters %>)

@@ -1,5 +1,5 @@
 module Distribution
-  module <%= distribution %>
+  module <%= distribution.capitalize %>
     module Ruby_
       class << self
         def pdf(x <% parameters %>)
