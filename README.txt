@@ -4,16 +4,17 @@
 
 == DESCRIPTION:
 
-Statistical Distributions multi library wrapper.
+Statistical Distributions library. Includes Normal univariate and bivariate, T, F, Chi Square, Binomial, Hypergeometric, Exponential and Poisson.
+
 Uses Ruby by default and C (statistics2/GSL) or Java extensions where available.
 
-Includes code from statistics2
+Includes code from statistics2 on Normal, T, F and Chi Square ruby code [http://blade.nagaokaut.ac.jp/~sinara/ruby/math/statistics2] 
 
 == FEATURES/PROBLEMS:
 
 * Very fast ruby 1.8.7/1.9.+ implementation, with improved method to calculate factorials and others common functions
 * All methods tested on several ranges. See spec/
-* On Jruby, BivariateNormal returns incorrect pdf
+* On Jruby and Rubinius, BivariateNormal returns incorrect pdf
 
 == API structure
 
@@ -31,7 +32,7 @@ On discrete distributions, exact cdf, pdf and p_value are
 
   <Distribution shortname>_(ecdf|epdf|ep)
   
-Shortnames are:
+Shortnames for distributions:
 
 * Normal: norm
 * Bivariate Normal: bnor
@@ -40,6 +41,8 @@ Shortnames are:
 * Chi Square: chisq
 * Binomial: bino
 * Hypergeometric: hypg
+* Exponential: expo
+* Poisson: pois
 
 For example
 
@@ -82,6 +85,12 @@ After checking out the source, run:
 
 This task will install any missing dependencies, run the tests/specs,
 and generate the RDoc.
+
+If you want to provide a new distribution, /lib/distribution run
+
+  $ distribution --new your_distribution
+  
+This should create the main distribution file, the directory with ruby and gsl engines and the rspec on /spec directory.
 
 == LICENSE:
 

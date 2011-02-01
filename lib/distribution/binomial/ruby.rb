@@ -16,7 +16,7 @@ module Distribution
           ac=0
           (0..n).each do |i|
             ac+=pdf(i,n,pr)
-            return i if ac>=prob
+            return i if prob<=ac
           end
         end
         
