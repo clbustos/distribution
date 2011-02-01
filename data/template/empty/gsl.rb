@@ -1,12 +1,12 @@
 module Distribution
-  module <DISTRIBUTION>
+  module <%= distribution %>
     module GSL_
       class << self
-        def pdf(<PARAMS>)
+        def pdf(x <% parameters %>)
         end
-        def cdf(<PARAMS>)
+        def cdf(x <% parameters %>)
         end
-        def p_value(<PARAMS>)
+        def p_value(pr <% parameters %>)
         end
       end
     end

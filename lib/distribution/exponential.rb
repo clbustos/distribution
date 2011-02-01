@@ -11,8 +11,7 @@ module Distribution
   #   Poisson process, i.e. a process in which events occur continuously 
   #   and independently at a constant average rate.
   #
-  # The parameter +l+ is the 1/m, being m the expected value
-  # for distribution
+  # Parameter +l+ is the rate parameter, the number of occurrences/unit time.
   module Exponential
     SHORTHAND='expo'
     extend Distributable
@@ -21,17 +20,15 @@ module Distribution
     ##
     # :singleton-method: pdf(x,l)
     # PDF of exponential distribution, with parameters +x+ and +l+.
-    # E[X]=1/l
+    # +l+ is rate parameter
 
     ##
     # :singleton-method: cdf(x,l)
     # CDF of exponential distribution, with parameters +x+ and +l+.
-    # E[X]=1/l
-
+    # +l+ is rate parameter
     ##
     # :singleton-method: p_value(pr,l)
     # Inverse CDF of exponential distribution, with parameters +pr+ and +l+.
-    # E[X]=1/l
-
+    # +l+ is rate parameter
   end
 end

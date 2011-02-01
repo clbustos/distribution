@@ -1,23 +1,23 @@
-require 'distribution/<DISTRIBUTION>/ruby'
-require 'distribution/<DISTRIBUTION>/gsl'
-#require 'distribution/<DISTRIBUTION>/java'
+require 'distribution/<%= distribution.downcase %>/ruby'
+require 'distribution/<%= distribution.downcase %>/gsl'
+#require 'distribution/<%= distribution.downcase %>/java'
 
 
 module Distribution
 
-  module <DISTRIBUTION>
-    SHORTHAND='<DISTRIBUTION_SHORT>'
+  module <%= distribution %>
+    SHORTHAND='<%= distribution.downcase[0,4] %>'
     extend Distributable
     create_distribution_methods
 
     ##
-    # :singleton-method: pdf(<PARAMS>)
+    # :singleton-method: pdf(x <%= parameters %>)
 
     ##
-    # :singleton-method: cdf(<PARAMS>)
+    # :singleton-method: cdf(x <%= parameters %>)
     
     ##
-    # :singleton-method: p_value(<PARAMS>)
+    # :singleton-method: p_value(pr <%= parameters %>)
 
   end
 end
