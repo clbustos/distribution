@@ -145,6 +145,8 @@ module Distribution
   autoload(:BivariateNormal, 'distribution/bivariatenormal')
   autoload(:Binomial, 'distribution/binomial')
   autoload(:Hypergeometric, 'distribution/hypergeometric')
+  autoload(:Exponential, 'distribution/exponential')
+
 end
 
 

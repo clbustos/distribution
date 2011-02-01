@@ -186,8 +186,8 @@ module Distribution
        end
      end
      # Exact factorial. 
-     # Use naive algorithm (iterative) on n<20
-     # and Prime Swing algorithm for higher values
+     # Use lookup on a Hash table on n<20
+     # and Prime Swing algorithm for higher values.
     def factorial(n)
       SwingFactorial.new(n).result
     end
@@ -195,14 +195,6 @@ module Distribution
     # Based of Luschy algorithm
     def fast_factorial(n)
       ApproxFactorial.stieltjes_factorial(n)
-    end
-       
-
-    # Quick, accurate approximation of factorial for very small n. Special case, generally you want to use stirling instead.
-    # ==Reference
-    # * http://mathworld.wolfram.com/StirlingsApproximation.html
-    def gosper(n)
-      Math.sqrt( (2*n + 1/3.0) * Math::PI ) * (n/Math::E)**n
     end
     
     # Beta function.
@@ -212,7 +204,7 @@ module Distribution
       (gamma(x)*gamma(y)).quo(gamma(x+y))
     end
     # I_x(a,b): Regularized incomplete beta function
-    #   
+    # TODO: Find a faster version.
     # Source:
     # * http://dlmf.nist.gov/8.17
     def regularized_beta_function(x,a,b)
@@ -232,12 +224,12 @@ module Distribution
       raise "Doesn't work"
     end
     
-    
+    # Rising factorial
     def rising_factorial(x,n)
       factorial(x+n-1).quo(factorial(x-1))
     end
    
-    
+    # Ln of gamma
     def loggamma(x)
       lg=Math.lgamma(x)
       lg[0]*lg[1]
@@ -245,6 +237,7 @@ module Distribution
     
     
     # Sequences without repetition. n^k'
+    # Also called 'failing factorial'
     def permutations(n,k)
       return 1 if k==0
       return n if k==1
@@ -252,13 +245,14 @@ module Distribution
       (((n-k+1)..n).inject(1) {|ac,v| ac * v})
       #factorial(x).quo(factorial(x-n))
     end
+    
     # Binomial coeffients, or:
     # ( n )
     # ( k )
     #
     # Gives the number of *different* k size subsets of a set size n
     # 
-    # Replaces (n,k) for (n, n-k) if k>n-k
+    # Uses:
     #
     #  (n)   n^k'    (n)..(n-k+1)
     #  ( ) = ---- =  ------------
@@ -273,7 +267,9 @@ module Distribution
       # The multiplicative way is
       # (1..k).inject(1) {|ac, i| (ac*(n-k+i).quo(i))}
     end
-    
+    # Binomial coefficient using multiplicative algorithm
+    # On benchmarks, is faster that raising factorial method
+    # when k is little. Use only when you're sure of that.
     def binomial_coefficient_multiplicative(n,k)
       return 1 if (k==0 or k==n)
       k=[k, n-k].min
@@ -282,7 +278,6 @@ module Distribution
     
     # Approximate binomial coefficient, using gamma function.
     # The fastest method, until we fall on BigDecimal!
-   
     def binomial_coefficient_gamma(n,k)
       return 1 if (k==0 or k==n)
       k=[k, n-k].min      
@@ -308,13 +303,13 @@ end
 
 module Math
   include Distribution::MathExtension
-  module_function :factorial, :beta, :gosper, :loggamma, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations
+  module_function :factorial, :beta, :loggamma, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations
 end
 
 # Necessary on Ruby 1.9
 module CMath # :nodoc:
   include Distribution::MathExtension
-  module_function :factorial, :beta, :gosper, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial, :fast_factorial, :combinations
+  module_function :factorial, :beta, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial, :fast_factorial, :combinations
 end
 
 if RUBY_VERSION<"1.9"
