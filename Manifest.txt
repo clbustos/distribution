@@ -49,6 +49,9 @@ lib/distribution/normal/java.rb
 lib/distribution/normal/ruby.rb
 lib/distribution/normal/statistics2.rb
 lib/distribution/normalmultivariate.rb
+lib/distribution/poisson.rb
+lib/distribution/poisson/gsl.rb
+lib/distribution/poisson/ruby.rb
 lib/distribution/t.rb
 lib/distribution/t/gsl.rb
 lib/distribution/t/java.rb
@@ -63,6 +66,7 @@ spec/f_spec.rb
 spec/hypergeometric_spec.rb
 spec/math_extension_spec.rb
 spec/normal_spec.rb
+spec/poisson_spec.rb
 spec/shorthand_spec.rb
 spec/spec.opts
 spec/spec_helper.rb

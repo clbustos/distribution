@@ -1,3 +1,13 @@
+=== 0.4.0 / 2011-02-01
+
+* Poisson and exponential distributions implemented. Implementation of inverse cdf for poisson is not perfect, yet.
+* +distribution+ executable can create template files for new distributions. 
+* MathExtension should work fine with Ruby 1.8. Fixed shadowed variable on MathExtension.naive_factorial
+* Added factorial lookup table for n<20.
+* Added exact cdf for Binomial
+* Binomial coefficient in function of permutations. Deleted incomplete beta until we found a faster way to calculate it
+
+
 === 0.3.0 / 2011-01-28
 
 * Included support for binomial distribution. p_value is not accurate

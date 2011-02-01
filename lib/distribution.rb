@@ -49,7 +49,7 @@ require 'distribution/math_extension'
 #    Distribution::Normal.p_value(0.95)
 #    => 1.64485364660836
 module Distribution
-  VERSION="0.3.0"
+  VERSION="0.4.0"
   
   module Shorthand
     EQUIVALENCES={:p_value=>:p, :cdf=>:cdf, :pdf=>:pdf, :rng=>:r, :exact_pdf=>:epdf, :exact_cdf=>:ecdf, :exact_p_value=>:ep}
