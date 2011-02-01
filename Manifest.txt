@@ -11,13 +11,11 @@ benchmark/factorial_hash.rb
 benchmark/factorial_method.rb
 benchmark/odd.rb
 bin/distribution
-data/template/README.txt
 data/template/distribution.erb
+data/template/distribution/gsl.erb
 data/template/distribution/gsl.rb
+data/template/distribution/ruby.erb
 data/template/distribution/ruby.rb
-data/template/empty.rb
-data/template/empty/gsl.rb
-data/template/empty/ruby.rb
 data/template/spec.erb
 lib/distribution.rb
 lib/distribution/binomial.rb
