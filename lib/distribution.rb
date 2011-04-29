@@ -19,7 +19,7 @@
 #
 # == Other Sources
 # 
-# * Code of Ruby engines came from statistics2.rb, 
+# * Code of several Ruby engines came from statistics2.rb, 
 #   created by Shin-ichiro HARA(sinara@blade.nagaokaut.ac.jp).
 #   Retrieve from http://blade.nagaokaut.ac.jp/~sinara/ruby/math/statistics2/
 # 
@@ -147,7 +147,7 @@ module Distribution
   autoload(:Hypergeometric, 'distribution/hypergeometric')
   autoload(:Exponential, 'distribution/exponential')
   autoload(:Poisson, 'distribution/poisson')
-
+  autoload(:Logistic, 'distribution/logistic')
 end
 
 
