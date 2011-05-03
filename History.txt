@@ -1,3 +1,11 @@
+=== 0.5.0 / 2011-05-03
+
+* Exception raises on calculation of T's cdf with ruby engine. For now, stick to gsl implementation
+* Added logistic distribution. 
+* Raises an error on binomial if k>n. 
+* New rng for exponential distribution, based on F^-1 [clbustos]
+* Added power benchmark
+
 === 0.4.0 / 2011-02-01
 
 * Poisson and exponential distributions implemented. Implementation of inverse cdf for poisson is not perfect, yet.
