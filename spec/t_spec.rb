@@ -77,6 +77,9 @@ end
     it "raise error with fractional df on cdf" do
       lambda {@engine.cdf(1,2.5)}.should raise_error
     end
+      it "return correct values for cdf with fractional df" do
+        pending("we have to implement partial beta");
+      end   
   end
   if Distribution.has_gsl?
     describe Distribution::T::GSL_ do
@@ -85,7 +88,6 @@ end
       end
       it "return correct values for cdf with fractional df" do
         @engine.cdf(1,2.5).should be_within(1e-7).of(0.7979695)
-
       end
     it_should_behave_like "T engine"    
     it_should_behave_like "T engine(with pdf)"    
