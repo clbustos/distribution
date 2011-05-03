@@ -10,6 +10,7 @@ benchmark/binomial_coefficient/experiment.rb
 benchmark/factorial_hash.rb
 benchmark/factorial_method.rb
 benchmark/odd.rb
+benchmark/power.rb
 bin/distribution
 data/template/distribution.erb
 data/template/distribution/gsl.erb
@@ -42,6 +43,8 @@ lib/distribution/hypergeometric.rb
 lib/distribution/hypergeometric/gsl.rb
 lib/distribution/hypergeometric/java.rb
 lib/distribution/hypergeometric/ruby.rb
+lib/distribution/logistic.rb
+lib/distribution/logistic/ruby.rb
 lib/distribution/math_extension.rb
 lib/distribution/normal.rb
 lib/distribution/normal/gsl.rb
@@ -64,6 +67,7 @@ spec/distribution_spec.rb
 spec/exponential_spec.rb
 spec/f_spec.rb
 spec/hypergeometric_spec.rb
+spec/logistic_spec.rb
 spec/math_extension_spec.rb
 spec/normal_spec.rb
 spec/poisson_spec.rb
