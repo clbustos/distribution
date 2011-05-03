@@ -15,6 +15,7 @@ shared_examples_for "T engine(with pdf)" do
       [-2,0.1,0.5,1,2].each{|t|
         [2,5,10].each{|n|
           @engine.pdf(t,n).should be_within(1e-6).of(GSL::Ran.tdist_pdf(t,n))
+          @engine.pdf(t,n.to_f).should be_within(1e-6).of(@engine.pdf(t,n))
 
         }
       }
@@ -31,6 +32,8 @@ shared_examples_for "T engine" do
       [-2,0.1,0.5,1,2].each{|t|
         [2,5,10].each{|n|
           @engine.cdf(t,n).should be_within(1e-4).of(GSL::Cdf.tdist_P(t,n))
+          @engine.cdf(t,n).should be_within(1e-4).of(@engine.cdf(t,n.to_f))
+          
         }
       }
     else

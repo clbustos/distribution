@@ -24,6 +24,7 @@ module Distribution
           s *= (i - 1) * c2 / i
           i += 2
         end
+        
         if df.is_a? Float or df & 1 != 0
           0.5+(p*Math.sqrt(c2)+Math.atan(t/Math.sqrt(df))) / Math::PI
         else
