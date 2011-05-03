@@ -203,6 +203,9 @@ module Distribution
     def beta(x,y)
       (gamma(x)*gamma(y)).quo(gamma(x+y))
     end
+    def logbeta(x,y)
+      (loggamma(x)+loggamma(y))-loggamma(x+y)
+    end
     # I_x(a,b): Regularized incomplete beta function
     # TODO: Find a faster version.
     # Source:
@@ -303,13 +306,13 @@ end
 
 module Math
   include Distribution::MathExtension
-  module_function :factorial, :beta, :loggamma, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations
+  module_function :factorial, :beta, :loggamma, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations, :logbeta
 end
 
 # Necessary on Ruby 1.9
 module CMath # :nodoc:
   include Distribution::MathExtension
-  module_function :factorial, :beta, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial, :fast_factorial, :combinations
+  module_function :factorial, :beta, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial, :fast_factorial, :combinations, :logbeta
 end
 
 if RUBY_VERSION<"1.9"
