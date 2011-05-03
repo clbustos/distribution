@@ -32,9 +32,7 @@ shared_examples_for "T engine" do
       # Testing with R values
       @engine.cdf(1,2).should be_within(1e-7).of(0.7886751)
       @engine.cdf(1,2.0).should be_within(1e-7).of(0.7886751)
-      @engine.cdf(1,2.5).should be_within(1e-7).of(0.7979695)
       @engine.cdf(1,3.0).should be_within(1e-7).of(0.8044989)
-      
       
       [-2,0.1,0.5,1,2].each{|t|
         [2,5,10].each{|n|
@@ -49,7 +47,6 @@ shared_examples_for "T engine" do
   
   end
   it_only_with_gsl "should return correct p_value" do
-    pending "nop"
     if @engine.respond_to? :p_value
    [-2,0.1,0.5,1,2].each{|t|
         [2,5,10].each{|n|
@@ -76,12 +73,19 @@ end
       @engine=Distribution::T::Ruby_
     end
     it_should_behave_like "T engine"    
-    it_should_behave_like "T engine(with pdf)"    
+    it_should_behave_like "T engine(with pdf)"
+    it "raise error with fractional df on cdf" do
+      lambda {@engine.cdf(1,2.5)}.should raise_error
+    end
   end
   if Distribution.has_gsl?
     describe Distribution::T::GSL_ do
       before do
         @engine=Distribution::T::GSL_
+      end
+      it "return correct values for cdf with fractional df" do
+        @engine.cdf(1,2.5).should be_within(1e-7).of(0.7979695)
+
       end
     it_should_behave_like "T engine"    
     it_should_behave_like "T engine(with pdf)"    

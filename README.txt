@@ -15,6 +15,7 @@ Includes code from statistics2 on Normal, T, F and Chi Square ruby code [http://
 * Very fast ruby 1.8.7/1.9.+ implementation, with improved method to calculate factorials and others common functions
 * All methods tested on several ranges. See spec/
 * On Jruby and Rubinius, BivariateNormal returns incorrect pdf
+* Ruby t distribution's cdf can't calculate fractional df. Install gsl, for now.
 
 == API structure
 

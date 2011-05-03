@@ -14,6 +14,10 @@ module Distribution
       # t-distribution ([1])
       # (-\infty, x]
       def p_t(df, t)
+        if df.to_i!=df
+          raise "Can't calculate not integer df"
+        end
+        df=df.to_i
         c2 = df.to_f / (df + t * t);
         s = Math.sqrt(1.0 - c2)
         s = -s if t < 0.0
