@@ -16,6 +16,10 @@ module Distribution
     SHORTHAND='expo'
     extend Distributable
     create_distribution_methods
+    ##
+    # :singleton-method: rng(l)
+    # Returns a lambda, which generates exponential variates
+    # with +l+ as rate parameter
 
     ##
     # :singleton-method: pdf(x,l)

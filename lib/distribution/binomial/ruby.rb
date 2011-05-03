@@ -3,7 +3,8 @@ module Distribution
     module Ruby_
       class << self
         def pdf(k,n,pr)
-          Math.binomial_coefficient(n,k)*(pr**k)*(1-pr)**(n-k)          
+          raise "k>n" if k>n
+	  Math.binomial_coefficient(n,k)*(pr**k)*(1-pr)**(n-k)          
         end
         def cdf(k,n,pr)
           #(0..x.floor).inject(0) {|ac,i| ac+pdf(i,n,pr)}
