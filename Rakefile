@@ -18,4 +18,9 @@ Hoe.spec 'distribution' do
 
 end
 
+desc "Open an irb session preloaded with distribution"
+task :console do
+  sh "irb -rubygems -I lib -r distribution.rb"
+end
+
 # vim: syntax=ruby
