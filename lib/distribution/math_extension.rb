@@ -1,3 +1,5 @@
+require "./lib/distribution/incomplete_gamma"
+
 if RUBY_VERSION<"1.9"
   require 'mathn'
   def Prime.each(upper,&block) 
@@ -240,182 +242,17 @@ module Distribution
       lg[0]*lg[1]
     end
 
-    # Derived from Numerical Recipes: incgammabeta.h
-    module IncompleteGamma
-      ASWITCH = 100 # When to switch quadrature method
-      NGAU = 18
-      Y = [0.0021695375159141994,
-           0.011413521097787704, 0.027972308950302116, 0.051727015600492421,
-           0.082502225484340941, 0.12007019910960293, 0.16415283300752470,
-           0.21442376986779355, 0.27051082840644336, 0.33199876341447887,
-           0.39843234186401943, 0.46931971407375483, 0.54413605556657973,
-           0.62232745288031077, 0.70331500465597174, 0.78649910768313447,
-           0.87126389619061517, 0.95698180152629142]
-      W = [0.0055657196642445571,
-           0.012915947284065419, 0.020181515297735382, 0.027298621498568734,
-           0.034213810770299537, 0.040875750923643261, 0.047235083490265582,
-           0.053244713977759692, 0.058860144245324798, 0.064039797355015485,
-           0.068745323835736408, 0.072941885005653087, 0.076598410645870640,
-           0.079687828912071670, 0.082187266704339706, 0.084078218979661945,
-           0.085346685739338721, 0.085983275670394821]
-      FPMIN = Float::MIN / Float::EPSILON
-      EPS = 1.0e-8 # EPS only for inverse.
+    def incomplete_gamma(a, x = 0, with_error = false)
+      IncompleteGamma.p(a,x, with_error)
+    end
+    alias :gammp :incomplete_gamma
 
-      class << self
-
-        def p a,x
-          raise("Range error: x must be positive, a must be non-negative") if x < 0.0 || a <= 0.0
-          if x == 0.0
-            0.0
-          elsif a >= ASWITCH
-            puts "Q"
-            quadrature(a, x, 1)
-          elsif x < a+1.0
-            puts "S"
-            series(a, x)
-          else
-            puts "F"
-            1.0 - continued_fraction(a, x)
-          end
-        end
-
-        def q a,x
-          raise(ArgumentError, "x must be positive, a must be non-negative") if x < 0.0 || a <= 0.0
-          if x == 0.0
-            1.0
-          elsif a >= ASWITCH
-            quadrature(a, x, 0) # Quadrature
-          elsif x < a+1.0
-            1.0 - series(a, x)
-          else
-            continued_fraction(a, x)
-          end
-        end
-
-      protected
-        # Incomplete gamma function P(a,x) evaluated by its series representation.
-        def series a, x
-          gln = Math.loggamma(a)
-          ap  = a
-          del = sum = 1.0 / a
-          puts [a, x, gln, ap, x/ap.to_f, del, sum].join("\t")
-          while true
-            ap += 1
-            del *= x/ap.to_f
-            sum += del
-            puts [a, x, gln, ap, x/ap.to_f, del, sum, sum * Float::EPSILON].join("\t")
-            return sum*Math.exp(-x + a * Math.log(x) - gln) if del.abs < sum.abs * Float::EPSILON
-          end
-        end
-
-        def quadrature a, x, psig
-          a1 = a - 1.0
-          lna1 = Math.log(a1)
-          sqrta1 = Math.sqrt(a1)
-          gln = Math.loggamma(a)
-          xu = begin
-            if x > a1
-              [a1 + 11.5*sqrta1, x + 6.0*sqrta1].max
-            else
-              [0.0, [a1 - 7.5*sqrta1, x - 5.0*sqrta1].min].max
-            end
-          end
-          sum = 0
-          (0...NGAU).each do |j|
-            t = x + (xu-x) * Y[j]
-            sum += W[j] * Math.exp(-(t-a1) + a1 * (Math.log(t)-lna1))
-          end
-          ans = sum*(xu-x) * Math.exp(a1 * (lna1-1.0)-gln)
-
-          # P(a,x) for psig true, Q(a,x) for psig false
-          if psig
-            x > a1 ? 1.0 - ans : -ans
-          else
-            x > a1 ? ans : 1.0 + ans
-          end
-        end
-
-        def continued_fraction a, x
-          gln = Math.loggamma(a)
-          b = x + 1.0 - a
-          c = 1.0 / FPMIN
-          d = 1.0 / b
-          h = d
-          i = 1
-          del = nil
-          while true # Iterate to convergence
-            an = -i * (i - a)
-            b += 2.0
-            d = an * d + b
-            d = FPMIN if d.abs < FPMIN
-            c = b + an / c
-            c = FPMIN if c.abs < FPMIN
-            d = 1.0 / d
-            del = d * c
-            h *= del
-
-            return (Math.exp(-x + a*Math.log(x) - gln) * h) if (del-1.0).abs <= Float::EPSILON
-
-            i += 1
-          end
-        end
-
-        # Returns x such that P(a,x) = p for an argument p between 0 and 1
-        def inverse p, a
-          raise(ArgumentError, "a must be positive") if a <= 0.0
-          gln = Math.loggamma(a)
-          return [100.0,a + 100.0*Math.sqrt(a)].max if p >= 1.0
-          return 0.0 if p <= 0.0
-          
-          x = nil
-          afac = nil
-          lna1 = nil
-          a1 = nil
-          
-          if a > 1.0
-            lna1 = Math.log(a1)
-            afac = Math.exp(a1 * (lna1-1.0)-gln)
-            pp = (p < 0.5) ? p : 1.0 - p
-            t = Math.sqrt(-2.0 * Math.log(pp))
-            x = (2.30753+t*0.27061) / (1.0+t*(0.99229+t*0.04481)) - t
-            x = -x if p < 0.5
-            x = [1.0e-3, a * (1.0 - 1.0/(9.0*a)-x/(3.0*Math.sqrt(a)))**3 ].max
-          else
-            t = 1.0 - a * (0.253 + a*0.12)
-            if p < t
-              x = (p/t) ** (1.0-t)
-            else
-              x = 1.0 - Math.log(1.0 - (p-t) / (1.0 - t))
-            end
-          end
-
-          (0...12).each do |j|
-            return 0.0 if x <= 0.0
-            err = p(a,x) - p
-            t = begin
-              if (a > 1.0)
-                afac * Math.exp(-(x-a1)+a1*(Math.log(x)-lna1))
-              else
-                Math.exp(-x + a1 * Math.log(x) - gln)
-              end
-            end
-            u = err / t
-            x -= (t = u/(1.0 - 0.5*[1.0, u*((a-1.0)/x-1)].min))
-            x = 0.5*(x+t) if x <= 0.0
-            break if t.abs < EPS*x
-          end
-
-          x
-        end
-      end
+    def gammq(a, x, with_error = false)
+      IncompleteGamma.q(a,x,with_error)
     end
 
-    def gammp(a, x)
-      IncompleteGamma.p(a,x)
-    end
-
-    def gammq(a, x)
-      IncompleteGamma.q(a,x)
+    def unnormalized_incomplete_gamma(a, x, with_error = false)
+      IncompleteGamma.unnormalized(a, x, with_error)
     end
 
     def invgammp(p, a)
@@ -489,13 +326,13 @@ end
 
 module Math
   include Distribution::MathExtension
-  module_function :factorial, :beta, :loggamma, :invgammp, :gammp, :gammq, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations, :logbeta
+  module_function :factorial, :beta, :loggamma, :invgammp, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations, :logbeta
 end
 
 # Necessary on Ruby 1.9
 module CMath # :nodoc:
   include Distribution::MathExtension
-  module_function :factorial, :beta, :loggamma,  :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial, :fast_factorial, :combinations, :logbeta
+  module_function :factorial, :beta, :loggamma, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial, :fast_factorial, :combinations, :logbeta
 end
 
 if RUBY_VERSION<"1.9"

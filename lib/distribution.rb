@@ -140,6 +140,7 @@ module Distribution
 
   autoload(:Normal, 'distribution/normal')  
   autoload(:ChiSquare, 'distribution/chisquare')
+  autoload(:Gamma, 'distribution/gamma')
   autoload(:T, 'distribution/t')
   autoload(:F, 'distribution/f')
   autoload(:BivariateNormal, 'distribution/bivariatenormal')

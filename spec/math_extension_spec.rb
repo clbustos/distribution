@@ -7,8 +7,41 @@ describe Distribution::MathExtension do
       Math.binomial_coefficient(n,k).should eq(Math.factorial(n).quo(Math.factorial(k)*Math.factorial(n-k)))
     end
   end
-  
-  
+
+  it "log_1plusx_minusx should return correct values" do
+    -1.upto(1000) do |d|
+      x = d == -1 ? -0.9 : d.to_f
+      Math::Log.log_1plusx_minusx(x).should be_within(1e-10).of(Math.log(1.0+x)-x)
+    end
+    Math::Log.log_1plusx_minusx(-0.499).should be_within(1e-10).of(Math.log(1.0-0.499)+0.499)
+    Math::Log.log_1plusx_minusx(-0.501).should be_within(1e-10).of(Math.log(1.0-0.501)+0.501)
+    Math::Log.log_1plusx_minusx(0.499).should be_within(1e-10).of(Math.log(1.0+0.499)-0.499)
+    Math::Log.log_1plusx_minusx(0.501).should be_within(1e-10).of(Math.log(1.0+0.501)-0.501)
+  end
+
+
+  it "unnormalized_incomplete_gamma with x=0 should return correct values" do
+    Math.unnormalized_incomplete_gamma(-1.5, 0).should be_within(1e-10).of(4.0*Math.sqrt(Math::PI)/3.0)
+    Math.unnormalized_incomplete_gamma(-0.5, 0).should be_within(1e-10).of(-2*Math.sqrt(Math::PI))
+    Math.unnormalized_incomplete_gamma(0.5, 0).should be_within(1e-10).of(Math.sqrt(Math::PI))
+    Math.unnormalized_incomplete_gamma(1.0, 0).should eq 1.0
+    Math.unnormalized_incomplete_gamma(1.5, 0).should be_within(1e-10).of(Math.sqrt(Math::PI)/2.0)
+    Math.unnormalized_incomplete_gamma(2.0, 0).should eq 1.0
+    Math.unnormalized_incomplete_gamma(2.5, 0).should be_within(1e-10).of(0.75*Math.sqrt(Math::PI))
+    Math.unnormalized_incomplete_gamma(3.0, 0).should eq 2.0
+    Math.unnormalized_incomplete_gamma(3.5, 0).should be_within(1e-10).of(15.0*Math.sqrt(Math::PI)/8.0)
+    Math.unnormalized_incomplete_gamma(4.0, 0).should eq 6.0
+  end
+
+  it "incomplete_gamma with x!=0 should return similar values to octave" do
+    Math.incomplete_gamma(0.5, 0.5).should be_within(1e-10).of(0.682689492137086)
+    Math.incomplete_gamma(0.5, 1.0).should be_within(1e-10).of(0.842700792949715)
+    Math.incomplete_gamma(0.01, 1.0).should be_within(1e-10).of(0.997783765376772)
+    Math.incomplete_gamma(0.01, 10.0).should be_within(1e-10).of(0.999999957182950)
+    Math.incomplete_gamma(100.0, 100.0).should be_within(1e-10).of(0.513298798279152)
+  end
+
+
   it "rising_factorial should return correct values" do
     
     x=rand(10)+1
