@@ -1,3 +1,11 @@
+# The next few requires eventually probably need to go in their own gem. They're all functions and constants used by
+# GSL-adapted pure Ruby math functions.
+require "./lib/distribution/gsl_utilities"
+require "./lib/distribution/erfc"
+require "./lib/distribution/log_utilities"
+require "./lib/distribution/exponential_integral"
+require "./lib/distribution/chebyshev_series"
+require "./lib/distribution/gammastar"
 require "./lib/distribution/incomplete_gamma"
 
 if RUBY_VERSION<"1.9"
@@ -238,8 +246,7 @@ module Distribution
    
     # Ln of gamma
     def loggamma(x)
-      lg=Math.lgamma(x)
-      lg[0]*lg[1]
+      Math.lgamma(x).first
     end
 
     def incomplete_gamma(a, x = 0, with_error = false)
@@ -253,6 +260,11 @@ module Distribution
 
     def unnormalized_incomplete_gamma(a, x, with_error = false)
       IncompleteGamma.unnormalized(a, x, with_error)
+    end
+
+    # Not the same as erfc. This is the GSL version, which may have slightly different results.
+    def erfc_e x, with_error = false
+      Erfc.evaluate(x, with_error)
     end
 
     def invgammp(p, a)
@@ -326,13 +338,13 @@ end
 
 module Math
   include Distribution::MathExtension
-  module_function :factorial, :beta, :loggamma, :invgammp, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations, :logbeta
+  module_function :factorial, :beta, :loggamma, :invgammp, :erfc_e, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations, :logbeta
 end
 
 # Necessary on Ruby 1.9
 module CMath # :nodoc:
   include Distribution::MathExtension
-  module_function :factorial, :beta, :loggamma, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial, :fast_factorial, :combinations, :logbeta
+  module_function :factorial, :beta, :loggamma, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :erfc_e, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial, :fast_factorial, :combinations, :logbeta
 end
 
 if RUBY_VERSION<"1.9"

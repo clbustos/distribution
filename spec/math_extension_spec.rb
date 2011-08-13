@@ -8,15 +8,48 @@ describe Distribution::MathExtension do
     end
   end
 
+  it "ChebyshevSeries for :sin should return correct values" do
+    #Math::SIN_CS.evaluate()
+  end
+
   it "log_1plusx_minusx should return correct values" do
-    -1.upto(1000) do |d|
-      x = d == -1 ? -0.9 : d.to_f
-      Math::Log.log_1plusx_minusx(x).should be_within(1e-10).of(Math.log(1.0+x)-x)
-    end
-    Math::Log.log_1plusx_minusx(-0.499).should be_within(1e-10).of(Math.log(1.0-0.499)+0.499)
-    Math::Log.log_1plusx_minusx(-0.501).should be_within(1e-10).of(Math.log(1.0-0.501)+0.501)
-    Math::Log.log_1plusx_minusx(0.499).should be_within(1e-10).of(Math.log(1.0+0.499)-0.499)
-    Math::Log.log_1plusx_minusx(0.501).should be_within(1e-10).of(Math.log(1.0+0.501)-0.501)
+    # Tests from GSL-1.9
+    Math::Log.log_1plusx_minusx(1.0e-10).should be_within(1e-10).of(-4.999999999666666667e-21)
+    Math::Log.log_1plusx_minusx(1.0e-8).should  be_within(1e-10).of(-4.999999966666666917e-17)
+    Math::Log.log_1plusx_minusx(1.0e-4).should  be_within(1e-10).of(-4.999666691664666833e-09)
+    Math::Log.log_1plusx_minusx(0.1).should     be_within(1e-10).of(-0.004689820195675139956)
+    Math::Log.log_1plusx_minusx(0.49).should    be_within(1e-10).of(-0.09122388004263222704)
+
+    Math::Log.log_1plusx_minusx(-0.49).should   be_within(1e-10).of(-0.18334455326376559639)
+    Math::Log.log_1plusx_minusx(1.0).should     be_within(1e-10).of(Math::LN2 - 1.0)
+    Math::Log.log_1plusx_minusx(-0.99).should   be_within(1e-10).of(-3.615170185988091368)
+  end
+
+  it "gammastar should return correct values" do
+    # Tests from GSL-1.9
+    Math::Gammastar.evaluate(1.0e-08).should        be_within(1e-10).of(3989.423555759890865)
+    Math::Gammastar.evaluate(1.0e-05).should        be_within(1e-10).of(126.17168469882690233)
+    Math::Gammastar.evaluate(0.001).should          be_within(1e-10).of(12.708492464364073506)
+    Math::Gammastar.evaluate(1.5).should            be_within(1e-10).of(1.0563442442685598666)
+    Math::Gammastar.evaluate(3.0).should            be_within(1e-10).of(1.0280645179187893045)
+    Math::Gammastar.evaluate(9.0).should            be_within(1e-10).of(1.0092984264218189715)
+    Math::Gammastar.evaluate(11.0).should           be_within(1e-10).of(1.0076024283104962850)
+    Math::Gammastar.evaluate(100.0).should          be_within(1e-10).of(1.0008336778720121418)
+    Math::Gammastar.evaluate(1.0e+05).should        be_within(1e-10).of(1.0000008333336805529)
+    Math::Gammastar.evaluate(1.0e+20).should        be_within(1e-10).of(1.0)
+  end
+
+  it "erfc_e should return correct values" do
+    # From GSL-1.9. For troubleshooting gammq.
+    Math::erfc_e(-10.0).should be_within(1e-10).of(2.0)
+    Math::erfc_e(-5.0000002).should be_within(1e-10).of(1.9999999999984625433)
+    Math::erfc_e(-5.0).should be_within(1e-10).of(1.9999999999984625402)
+    Math::erfc_e(-1.0).should be_within(1e-10).of(1.8427007929497148693)
+    Math::erfc_e(-0.5).should be_within(1e-10).of(1.5204998778130465377)
+    Math::erfc_e(1.0).should be_within(1e-10).of(0.15729920705028513066)
+    Math::erfc_e(3.0).should be_within(1e-10).of(0.000022090496998585441373)
+    Math::erfc_e(7.0).should be_within(1e-10).of(4.183825607779414399e-23)
+    Math::erfc_e(10.0).should be_within(1e-10).of(2.0884875837625447570e-45)
   end
 
 
@@ -33,12 +66,60 @@ describe Distribution::MathExtension do
     Math.unnormalized_incomplete_gamma(4.0, 0).should eq 6.0
   end
 
-  it "incomplete_gamma with x!=0 should return similar values to octave" do
-    Math.incomplete_gamma(0.5, 0.5).should be_within(1e-10).of(0.682689492137086)
-    Math.incomplete_gamma(0.5, 1.0).should be_within(1e-10).of(0.842700792949715)
-    Math.incomplete_gamma(0.01, 1.0).should be_within(1e-10).of(0.997783765376772)
-    Math.incomplete_gamma(0.01, 10.0).should be_within(1e-10).of(0.999999957182950)
-    Math.incomplete_gamma(100.0, 100.0).should be_within(1e-10).of(0.513298798279152)
+  it "incomplete_gamma should return correct values" do
+    # Tests from GSL-1.9
+    Math.incomplete_gamma(1e-100, 0.001).should be_within(1e-10).of(1.0)
+    Math.incomplete_gamma(0.001, 0.001).should be_within(1e-10).of(0.9936876467088602902)
+    Math.incomplete_gamma(0.001, 1.0).should be_within(1e-10).of(0.9997803916424144436)
+    Math.incomplete_gamma(0.001, 10.0).should be_within(1e-10).of(0.9999999958306921828)
+    Math.incomplete_gamma(1.0, 0.001).should be_within(1e-10).of(0.0009995001666250083319)
+    Math.incomplete_gamma(1.0, 1.01).should be_within(1e-10).of(0.6357810204284766802)
+    Math.incomplete_gamma(1.0, 10.0).should be_within(1e-10).of(0.9999546000702375151)
+    Math.incomplete_gamma(10.0, 10.01).should be_within(1e-10).of(0.5433207586693410570)
+    Math.incomplete_gamma(10.0, 20.0).should be_within(1e-10).of(0.9950045876916924128)
+    Math.incomplete_gamma(1000.0, 1000.1).should be_within(1e-10).of(0.5054666401440661753)
+    Math.incomplete_gamma(1000.0, 2000.0).should be_within(1e-10).of(1.0)
+
+    # designed to trap the a-x=1 problem
+    # These next two are 1e-7 because they give the same output as GSL, but GSL is apparently not totally accurate here.
+    # It's a problem with log_1plusx_mx (log_1plusx_minusx in my code)
+    Math.incomplete_gamma(100,  99.0).should be_within(1e-7).of(0.4733043303994607)
+    Math.incomplete_gamma(200, 199.0).should be_within(1e-7).of(0.4811585880878718)
+
+    # Test for x86 cancellation problems
+    Math.incomplete_gamma(5670, 4574).should be_within(1e-10).of(3.063972328743934e-55)
+  end
+
+  it "gammq should return correct values" do
+    # Tests from GSL-1.9
+    Math.gammq(0.0, 0.001).should be_within(1e-10).of(0.0)
+    Math.gammq(0.001, 0.001).should be_within(1e-10).of(0.006312353291139709793)
+    Math.gammq(0.001, 1.0).should be_within(1e-10).of(0.00021960835758555639171)
+    Math.gammq(0.001, 2.0).should be_within(1e-10).of(0.00004897691783098147880)
+    Math.gammq(0.001, 5.0).should be_within(1e-10).of(1.1509813397308608541e-06)
+    Math.gammq(1.0, 0.001).should be_within(1e-10).of(0.9990004998333749917)
+    Math.gammq(1.0, 1.01).should be_within(1e-10).of(0.3642189795715233198)
+    Math.gammq(1.0, 10.0).should be_within(1e-10).of(0.00004539992976248485154)
+    Math.gammq(10.0, 10.01).should be_within(1e-10).of(0.4566792413306589430)
+    Math.gammq(10.0, 100.0).should be_within(1e-10).of(1.1253473960842733885e-31)
+    Math.gammq(1000.0, 1000.1).should be_within(1e-10).of(0.4945333598559338247)
+    Math.gammq(1000.0, 2000.0).should be_within(1e-10).of(6.847349459614753180e-136)
+
+    # designed to trap the a-x=1 problem
+    Math.gammq(100,  99.0).should be_within(1e-10).of(0.5266956696005394)
+    Math.gammq(200, 199.0).should be_within(1e-10).of(0.5188414119121281)
+  
+    # Test for x86 cancellation problems
+    Math.gammq(5670, 4574).should be_within(1e-10).of(1.0000000000000000)
+
+
+    # test suggested by Michel Lespinasse [gsl-discuss Sat, 13 Nov 2004]
+    Math.gammq(1.0e+06-1.0, 1.0e+06-2.0).should be_within(1e-10).of(0.50026596175224547004)
+
+    # tests in asymptotic regime related to Lespinasse test
+    Math.gammq(1.0e+06+2.0, 1.0e+06+1.0).should be_within(1e-10).of(0.50026596135330304336)
+    Math.gammq(1.0e+06, 1.0e+06-2.0).should be_within(1e-10).of(0.50066490399940144811)
+    Math.gammq(1.0e+07, 1.0e+07-2.0).should be_within(1e-10).of(0.50021026104978614908)
   end
 
 

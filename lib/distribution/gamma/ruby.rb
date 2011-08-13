@@ -17,30 +17,30 @@ module Distribution
         # This is confusing! But we're trying to most closely mirror the GSL function for the gamma distribution
         # (see references).
         #
+        # Adapted the function itself from GSL-1.9 in rng/gamma.c: gsl_ran_gamma_pdf
+        #
         # ==References
         # * http://www.gnu.org/software/gsl/manual/html_node/The-Gamma-Distribution.html
         # * http://en.wikipedia.org/wiki/Gamma_distribution
         def pdf(x,a,b)
-          if a == 1
-            Math.exp(-x / b) / b
+          return 0 if x < 0
+          if x == 0
+            return 1.quo(b) if a == 1
+            return 0
+          elsif a == 1
+            Math.exp(-x/b.to_f) / b
           else
-            a = a.to_f
-            b = b.to_f
-
-            # Form of the Chisquare distribution PDF in this library is:
-            ## 1.0 / 2**n2 / gamma(n2) * x**(n2 - 1.0) * Math.exp(-x/2.0)
-            # Rather than troubleshooting rounding errors myself, I decided simply to order the operations
-            # in the same way as for Chisquare.
-            1.0 / b**a / gamma(a) * x**(a-1) * Math.exp(-x/b)
+            Math.exp((a-1)*Math.log(x/b.to_f) - x/b.to_f - Math.lgamma(a).first)/b
           end
         end
 
         # Gamma cumulative distribution function
         def cdf(x,a,b)
-          # According to Numerical Recipes, we want Incomplete Gamma Function of a, x/b.
-          # Not sure if this is actually implemented properly in Ruby 1.9 or Ruby 1.8, so I wrote
-          # it into MathExtension.
-          Math::IncompleteGamma.p(a,x/b)
+          return 0.0 if x <= 0.0
+
+          y = x.quo(b)
+          return (1-Math::IncompleteGamma.q(a, y)) if y > a
+          return (Math::IncompleteGamma.p(a, y))
         end
 
         # CDF Inverse over [x, \infty)
