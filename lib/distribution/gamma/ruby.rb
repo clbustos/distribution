@@ -43,12 +43,6 @@ module Distribution
           return (Math::IncompleteGamma.p(a, y))
         end
 
-        # CDF Inverse over [x, \infty)
-        # Pr([x, \infty)) = y -> x
-        def inverse_cdf(p,a,b)
-          Math.invgammp(p,a) * b
-        end
-
         def p_value(pr,a,b)
           cdf(1.0-pr,a,b)
         end

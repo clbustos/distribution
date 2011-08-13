@@ -266,10 +266,6 @@ module Distribution
     def erfc_e x, with_error = false
       Erfc.evaluate(x, with_error)
     end
-
-    def invgammp(p, a)
-      IncompleteGamma.inverse(p, a)
-    end
     
     # Sequences without repetition. n^k'
     # Also called 'failing factorial'
@@ -338,7 +334,7 @@ end
 
 module Math
   include Distribution::MathExtension
-  module_function :factorial, :beta, :loggamma, :invgammp, :erfc_e, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations, :logbeta
+  module_function :factorial, :beta, :loggamma, :erfc_e, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations, :logbeta
 end
 
 # Necessary on Ruby 1.9
