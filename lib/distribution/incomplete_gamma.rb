@@ -39,7 +39,6 @@ module Distribution
         def d a, x, with_error = false
           error = nil
           if a < 10.0
-            puts "A"
             ln_a = Math.lgamma(a+1.0).first
             lnr  = a * Math.log(x) - x - ln_a
             result = Math.exp(lnr)
@@ -48,13 +47,11 @@ module Distribution
           else
             ln_term = ln_term_error = nil
             if x < 0.5*a
-              puts "B"
               u       = x/a.to_f
               ln_u    = Math.log(u)
               ln_term = ln_u - u + 1.0
               ln_term_error = (ln_u.abs + u.abs + 1.0) * Float::EPSILON if with_error
             else
-              puts "C"
               mu      = (x-a)/a.to_f
               ln_term = Log::log_1plusx_minusx(mu, with_error)
               ln_term, ln_term_error = ln_term if with_error
@@ -113,27 +110,20 @@ module Distribution
         def p a,x,with_error=false
           raise(ArgumentError, "Range Error: a must be positive, x must be non-negative") if a <= 0.0 || x < 0.0
           if x == 0.0
-            puts "1"
             return with_error ? [0.0, 0.0] : 0.0
           elsif x < 20.0 || x < 0.5*a
-            puts "2"
             return p_series(a, x, with_error)
           elsif a > 1e6 && (x-a)*(x-a) < a
-            puts "3"
             return q_asymptotic_uniform_complement a, x, with_error
           elsif a <= x
             if a > 0.2*x
-              puts "4"
               return q_continued_fraction_complement(a, x, with_error)
             else
-              puts "5"
               return q_large_x_complement(a, x, with_error)
             end
           elsif (x-a)*(x-a) < a
-            puts "6"
             return q_asymptotic_uniform_complement a, x, with_error
           else
-            puts "7"
             return p_series(a, x, with_error)
           end
         end

@@ -26,8 +26,6 @@ module Distribution
 
               gsx, gsx_err, gsy, gsy_err, gsxy, gsxy_err, lnopr, lnopr_err = [gsx,gsy,gsxy,lnopr].flatten if with_error
 
-              STDERR.puts "gsx,gsy,gsxy,lnopr=#{[gsx,gsy,gsxy, lnopr].inspect}"
-
               lnpre = Math.log((gsx*gsy).quo(gsxy) * Math::SQRT2 * Math::SQRTPI)
               lnpre_err = gsx_err.quo(gsx) + gsy_err(gsy) + gsxy_err.quo(gsxy) if with_error
 
@@ -41,13 +39,9 @@ module Distribution
               result      = lnpre + lnpow
               error       = lnpre_err + lnpow_err + 2.0*Float::EPSILON*result.abs if with_error
 
-              STDERR.puts "A"
-
               return with_error ? [result, 1.0, error] : [result, 1.0]
             end
           end
-
-          STDERR.puts "B"
 
           # General case: fallback
           lgx, sgx   = Math.lgamma(x)
@@ -82,6 +76,34 @@ module Distribution
 
       class << self
 
+        # Evaluate aa * beta_inc(a,b,x) + yy
+        #
+        # No error mode available.
+        #
+        # From GSL-1.9: cdf/beta_inc.c, beta_inc_AXPY
+        def axpy(aa,yy,a,b,x)
+          return aa*0 + yy if x == 0.0
+          return aa*1 + yy if x == 1.0
+
+          ln_beta   = Math.logbeta(a, b)
+          ln_pre    = -ln_beta   +   a * Math.log(x)   +   b * Math::Log.log1p(-x)
+          prefactor = Math.exp(ln_pre)
+
+          if x < (a+1).quo(a+b+2)
+            # Apply continued fraction directly
+            epsabs  = yy.quo((aa * prefactor).quo(a)).abs * Float::EPSILON
+            cf      = continued_fraction(a, b, x, epsabs)
+            return  aa * (prefactor * cf).quo(a) + yy
+          else
+            # Apply continued fraction after hypergeometric transformation
+            epsabs = (aa + yy).quo( (aa*prefactor).quo(b) ) * Float::EPSILON
+            cf     = continued_fraction(b, a, 1-x, epsabs)
+            term   = (prefactor * cf).quo(b)
+            return aa == -yy ? -aa*term : aa*(1-term)+yy
+          end
+        end
+
+
         # Evaluate the incomplete beta function
         # gsl_sf_beta_inc_e
         def evaluate(a,b,x,with_error=false)
@@ -115,14 +137,14 @@ module Distribution
             if x < (a+1).quo(a+b+2)
               # Apply continued fraction directly
               
-              cf      = continued_fraction(a,b,x, with_error)
+              cf      = continued_fraction(a,b,x, nil, with_error)
               cf,cf_err = cf if with_error
               result  = (prefactor * cf).quo(a)
               return with_error ? [result, ((prefactor_err*cf).abs + (prefactor*cf_err).abs).quo(a)] : result
             else
               # Apply continued fraction after hypergeometric transformation
 
-              cf      = continued_fraction(b, a, 1-x)
+              cf      = continued_fraction(b, a, 1-x, nil)
               cf,cf_err = cf if with_error
               term    = (prefactor * cf).quo(b)
               result  = 1 - term
@@ -134,14 +156,22 @@ module Distribution
         end
 
 
+        def continued_fraction_cutoff(epsabs)
+          return CUTOFF if epsabs.nil?
+          0.0/0 # NaN
+        end
+
         # Continued fraction calculation of incomplete beta
         # beta_cont_frac from GSL-1.9
-        def continued_fraction(a,b,x,with_error=false)
+        #
+        # If epsabs is set, will execute the version of the GSL function in the cdf folder. Otherwise, does the
+        # basic one in specfunc.
+        def continued_fraction(a,b,x,epsabs=nil,with_error=false)
           num_term = 1
           den_term = 1 - (a+b)*x.quo(a+1)
           k        = 0
 
-          den_term = CUTOFF if den_term.abs < CUTOFF
+          den_term = continued_fraction_cutoff(epsabs) if den_term.abs < CUTOFF
           den_term = 1.quo(den_term)
           cf       = den_term
 
@@ -153,8 +183,8 @@ module Distribution
               den_term    = 1 + coeff*den_term
               num_term    = 1 + coeff.quo(num_term)
 
-              den_term = CUTOFF if den_term.abs < CUTOFF
-              num_term = CUTOFF if num_term.abs < CUTOFF
+              den_term = continued_fraction_cutoff(epsabs) if den_term.abs < CUTOFF
+              num_term = continued_fraction_cutoff(epsabs) if num_term.abs < CUTOFF
 
               den_term = 1.quo(den_term)
 
@@ -165,9 +195,13 @@ module Distribution
             end
 
             break if (delta_frac-1).abs < 2.0*Float::EPSILON
+            break if !epsabs.nil? && (cf * (delta_frac-1).abs < epsabs)
           end
 
-          raise("Exceeded maximum number of iterations") if k > MAX_ITER
+          if k > MAX_ITER
+            raise("Exceeded maximum number of iterations") if epsabs.nil?
+            return with_error ? [0.0/0, 0] : 0.0/0 # NaN if epsabs is set
+          end
 
           with_error ? [cf, k * 4 * Float::EPSILON * cf.abs] : cf
         end

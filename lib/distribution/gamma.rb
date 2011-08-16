@@ -4,7 +4,7 @@ require 'distribution/gamma/gsl'
 require 'distribution/gamma/java'
 
 module Distribution
-  # Calculate cdf and inverse cdf for Chi Square Distribution.
+  # Calculate cdf and inverse cdf for Gamma Distribution.
   #
   module Gamma
     extend Distributable
@@ -12,20 +12,17 @@ module Distribution
     create_distribution_methods
 
     ##
-    # :singleton-method: pdf(x)
-    # Returns PDF of of Chi-squared distribution
-    # with +k+ degrees of freedom
+    # :singleton-method: pdf(x,a,b)
+    # Returns PDF of of Gamma distribution
 
 
     ##
-    # :singleton-method: cdf(x,k)
-    # Returns the integral of Chi-squared distribution
-    # with +k+ degrees of freedom over [0, +x+]
+    # :singleton-method: cdf(x,a,b)
+    # Returns the integral of Gamma distribution
 
     ##
-    # :singleton-method: p_value(qn, k)
-    # Return the P-value of the corresponding integral +qn+ with
-    # +k+ degrees of freedom
+    # :singleton-method: p_value(qn,a,b)
+    # Return the P-value of the corresponding integral +qn+
 
   end
 end

@@ -28,9 +28,9 @@ module Distribution
             return 1.quo(b) if a == 1
             return 0
           elsif a == 1
-            Math.exp(-x/b.to_f) / b
+            Math.exp(-x.quo(b)).quo(b)
           else
-            Math.exp((a-1)*Math.log(x/b.to_f) - x/b.to_f - Math.lgamma(a).first)/b
+            Math.exp((a-1)*Math.log(x.quo(b)) - x.quo(b) - Math.lgamma(a).first).quo(b)
           end
         end
 

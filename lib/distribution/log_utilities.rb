@@ -16,6 +16,15 @@ module Distribution
       C9 = -1.quo(10)
       class << self
 
+        # gsl_log1p from GSL-1.9 sys/log1p.c
+        # log for very small x
+        def log1p x
+          # in C, this is volatile double y.
+          # Not sure how to reproduce that in Ruby.
+          y = 1+x
+          Math.log(y) - ((y-1)-x).quo(y) # cancel errors with IEEE arithmetic
+        end
+
         # \log(1+x) for x > -1
         # gsl_sf_log_1plusx_e
         def log_1plusx x, with_error = false
