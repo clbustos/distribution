@@ -7,6 +7,7 @@ require "./lib/distribution/exponential_integral"
 require "./lib/distribution/chebyshev_series"
 require "./lib/distribution/gammastar"
 require "./lib/distribution/incomplete_gamma"
+require "./lib/distribution/incomplete_beta"
 
 if RUBY_VERSION<"1.9"
   require 'mathn'
@@ -215,9 +216,17 @@ module Distribution
     def beta(x,y)
       (gamma(x)*gamma(y)).quo(gamma(x+y))
     end
+
+    # Get pure-Ruby logbeta
     def logbeta(x,y)
-      (loggamma(x)+loggamma(y))-loggamma(x+y)
+      Beta.log_beta(x,y).first
     end
+
+    # Log beta function conforming to style of lgamma (returns sign in second array index)
+    def lbeta(x,y)
+      Beta.log_beta(x,y)
+    end
+
     # I_x(a,b): Regularized incomplete beta function
     # TODO: Find a faster version.
     # Source:
@@ -233,10 +242,8 @@ module Distribution
 
     end
     # B_x(a,b) : Incomplete beta function
-    # Should be replaced by
-    # http://lib.stat.cmu.edu/apstat/63
-    def incomplete_beta(x,a,b)
-      raise "Doesn't work"
+    def incomplete_beta(a,b,x)
+      IncompleteBeta.evaluate(a,b,x)
     end
     
     # Rising factorial
@@ -334,13 +341,13 @@ end
 
 module Math
   include Distribution::MathExtension
-  module_function :factorial, :beta, :loggamma, :erfc_e, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations, :logbeta
+  module_function :factorial, :beta, :loggamma, :erfc_e, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations, :logbeta, :lbeta
 end
 
 # Necessary on Ruby 1.9
 module CMath # :nodoc:
   include Distribution::MathExtension
-  module_function :factorial, :beta, :loggamma, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :erfc_e, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial, :fast_factorial, :combinations, :logbeta
+  module_function :factorial, :beta, :loggamma, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :erfc_e, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial, :fast_factorial, :combinations, :logbeta, :lbeta
 end
 
 if RUBY_VERSION<"1.9"

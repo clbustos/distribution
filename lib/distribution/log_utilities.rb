@@ -15,30 +15,55 @@ module Distribution
       C8 =  1.quo(9)
       C9 = -1.quo(10)
       class << self
+
+        # \log(1+x) for x > -1
+        # gsl_sf_log_1plusx_e
+        def log_1plusx x, with_error = false
+          raise(ArgumentError, "Range error: x must be > -1") if x <= -1
+
+          if x.abs < Math::ROOT6_FLOAT_EPSILON
+            result = x * (1.0 + x * (C1 + x*(C2 + x*(C3 + x*(C4 + x*begin
+                       C5 + x*(C6 + x*(C7 + x*(C8 + x*C9))) # formerly t = this
+            end)))))
+            return with_error ? [result, Float::EPSILON * result.abs] : result
+          elsif x.abs < 0.5
+            c = ChebyshevSeries.evaluate(:lopx, (8*x + 1).quo(2*x+4), with_error)
+            return with_error ? [x * c.first, x * c.last] : x*c
+          else
+            result = Math.log(1+x)
+            return with_error ? [result, Float::EPSILON*result.abs] : result
+          end
+        end
+
+
         # \log(1+x)-x for x > -1
         # gsl_sf_log_1plusx_mx_e
         def log_1plusx_minusx x, with_error = false
           raise(ArgumentError, "Range error: x must be > -1") if x <= -1
-          #return with_error ? [-1/0.0, 0] : -1/0.0 if x == 0.0 # -Infinity: For Ruby.
 
-          result = nil
-          error  = nil
           if x.abs < Math::ROOT5_FLOAT_EPSILON
             result = x*x * (C1 + x*(C2 + x*(C3 + x*(C4 + x*begin
-              C5 + x*(C6 + x*(C7 + x*(C8 + x*C9))) # formerly t = this
+                       C5 + x*(C6 + x*(C7 + x*(C8 + x*C9))) # formerly t = this
             end))))
-            error = Float::EPSILON * result.abs
+            return with_error ? [result, Float::EPSILON * result.abs] : result
           elsif x.abs < 0.5
-            t = (8*x + 1).quo(2*x+4)
-            c = ChebyshevSeries.evaluate(:lopxmx, t, with_error)
-            return with_error ? [x*x*c.first, x*x*c.last] : x*x*c
+            c = ChebyshevSeries.evaluate(:lopxmx, (8*x + 1).quo(2*x+4), with_error)
+            return with_error ? [x*x * c.first, x*x * c.last] : x*x*c
           else
             lterm = Math.log(1.0+x)
             error = Float::EPSILON * (lterm.abs + x.abs) if with_error
             result = lterm - x
+            return with_error ? [result, error] : result
           end
+        end
 
-          with_error ? [result, error] : result
+      protected
+
+        # Abstracted from other log helper functions in GSL-1.9.
+        def x_less_than_root_epsilon x, with_error
+          result  = square_x ? x*x : x
+
+          with_error ? [result, Float::EPSILON * result.abs] : result
         end
       end
     end

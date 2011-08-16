@@ -25,6 +25,60 @@ describe Distribution::MathExtension do
     Math::Log.log_1plusx_minusx(-0.99).should   be_within(1e-10).of(-3.615170185988091368)
   end
 
+  it "log_1plusx should return correct values" do
+    # Tests from GSL-1.9
+    Math::Log.log_1plusx(1.0e-10).should be_within(1e-10).of(9.999999999500000000e-11)
+    Math::Log.log_1plusx(1.0e-8).should  be_within(1e-10).of(9.999999950000000333e-09)
+    Math::Log.log_1plusx(1.0e-4).should  be_within(1e-10).of(0.00009999500033330833533)
+    Math::Log.log_1plusx(0.1).should     be_within(1e-10).of(0.09531017980432486004)
+    Math::Log.log_1plusx(0.49).should    be_within(1e-10).of(0.3987761199573677730)
+
+    Math::Log.log_1plusx(-0.49).should   be_within(1e-10).of(-0.6733445532637655964)
+    Math::Log.log_1plusx(1.0).should     be_within(1e-10).of(Math::LN2)
+    Math::Log.log_1plusx(-0.99).should   be_within(1e-10).of(-4.605170185988091368)
+  end
+
+  it "log_beta should return correct values" do
+    Math::Beta.log_beta(1.0e-8, 1.0e-8).first.should be_within(1e-10).of(19.113827924512310617)
+    Math::Beta.log_beta(1.0e-8, 0.01).first.should be_within(1e-10).of(18.420681743788563403)
+    Math::Beta.log_beta(1.0e-8, 1.0).first.should be_within(1e-10).of(18.420680743952365472)
+    Math::Beta.log_beta(1.0e-8, 10.0).first.should be_within(1e-10).of(18.420680715662683009)
+    Math::Beta.log_beta(1.0e-8, 1000.0).first.should be_within(1e-10).of(18.420680669107656949)
+    Math::Beta.log_beta(0.1, 0.1).first.should be_within(1e-10).of(2.9813614810376273949)
+    Math::Beta.log_beta(0.1, 1.0).first.should be_within(1e-10).of(2.3025850929940456840)
+    Math::Beta.log_beta(0.1, 100.0).first.should be_within(1e-10).of(1.7926462324527931217)
+    Math::Beta.log_beta(0.1, 1000).first.should be_within(1e-10).of(1.5619821298353164928)
+    Math::Beta.log_beta(1.0, 1.00025).first.should be_within(1e-10).of(-0.0002499687552073570)
+    Math::Beta.log_beta(1.0, 1.01).first.should be_within(1e-10).of(-0.009950330853168082848)
+    Math::Beta.log_beta(1.0, 1000.0).first.should be_within(1e-10).of(-6.907755278982137052)
+    Math::Beta.log_beta(100.0, 100.0).first.should be_within(1e-10).of(-139.66525908670663927)
+    Math::Beta.log_beta(100.0, 1000.0).first.should be_within(1e-10).of(-336.4348576477366051)
+    Math::Beta.log_beta(100.0, 1.0e+8).first.should be_within(1e-10).of(-1482.9339185256447309)
+  end
+
+  it "incomplete_beta should return correct values" do
+    Math.incomplete_beta(1.0, 1.0, 0.0).should be_within(1e-10).of(0.0)
+    Math.incomplete_beta(1.0, 1.0, 1.0).should be_within(1e-10).of(1.0)
+    Math.incomplete_beta(0.1, 0.1, 1.0).should be_within(1e-10).of(1.0)
+    Math.incomplete_beta( 1.0,  1.0, 0.5).should be_within(1e-10).of(0.5)
+    Math.incomplete_beta( 0.1,  1.0, 0.5).should be_within(1e-10).of(0.9330329915368074160)
+    Math.incomplete_beta(10.0,  1.0, 0.5).should be_within(1e-10).of(0.0009765625000000000000)
+    Math.incomplete_beta(50.0,  1.0, 0.5).should be_within(1e-10).of(8.881784197001252323e-16)
+    Math.incomplete_beta( 1.0,  0.1, 0.5).should be_within(1e-10).of(0.06696700846319258402)
+    Math.incomplete_beta( 1.0, 10.0, 0.5).should be_within(1e-10).of(0.99902343750000000000)
+    Math.incomplete_beta( 1.0, 50.0, 0.5).should be_within(1e-10).of(0.99999999999999911180)
+    Math.incomplete_beta( 1.0,  1.0, 0.1).should be_within(1e-10).of(0.10)
+    Math.incomplete_beta( 1.0,  2.0, 0.1).should be_within(1e-10).of(0.19)
+    Math.incomplete_beta( 1.0,  2.0, 0.9).should be_within(1e-10).of(0.99)
+    Math.incomplete_beta(50.0, 60.0, 0.5).should be_within(1e-10).of(0.8309072939016694143)
+    Math.incomplete_beta(90.0, 90.0, 0.5).should be_within(1e-10).of(0.5)
+    Math.incomplete_beta( 500.0,  500.0, 0.6).should be_within(1e-10).of(0.9999999999157549630)
+    Math.incomplete_beta(5000.0, 5000.0, 0.4).should be_within(1e-10).of(4.518543727260666383e-91)
+    Math.incomplete_beta(5000.0, 5000.0, 0.6).should be_within(1e-10).of(1.0)
+    Math.incomplete_beta(5000.0, 2000.0, 0.6).should be_within(1e-10).of(8.445388773903332659e-89)
+  end
+
+
   it "gammastar should return correct values" do
     # Tests from GSL-1.9
     Math::Gammastar.evaluate(1.0e-08).should        be_within(1e-10).of(3989.423555759890865)
@@ -149,6 +203,8 @@ describe Distribution::MathExtension do
     Math.incomplete_beta(0.5,5,6).should be_within(1e-6).of(Math.beta(5,6)*0.6230469)
     Math.incomplete_beta(0.6,5,6).should be_within(1e-6).of(Math.beta(5,6)*0.0006617154)
   end
+
+  
   it "regularized incomplete beta should behave properly" do
 
     Math.regularized_beta_function(0.5,5,5).should eq 0.5
