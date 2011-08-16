@@ -1,3 +1,6 @@
+# Added by John O. Woods, SciRuby project.
+# Derived from GSL-1.9 source files in the specfunc/ dir.
+
 module Distribution
   module MathExtension
 

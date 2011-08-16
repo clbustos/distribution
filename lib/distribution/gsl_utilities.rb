@@ -1,3 +1,6 @@
+# Added by John O. Woods, SciRuby project.
+# Derived from GSL-1.9 source files, mostly in the specfunc/ dir.
+
 module Distribution
   module MathExtension
     LNPI                = 1.14472988584940017414342735135
