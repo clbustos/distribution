@@ -59,7 +59,6 @@ module Distribution
             end
 
             error  = lgx_err + lgy_err + lgxy_err + Float::EPSILON*(lgx.abs+lgy.abs+lgxy.abs) + 2.0*(Float::EPSILON)*result.abs
-
             return [result, sgn, error]
           else
             return [result, sgn]
@@ -68,7 +67,7 @@ module Distribution
         end
       end
     end
-
+    # Calculate regularized incomplete beta function
     module IncompleteBeta
 
       MAX_ITER = 512
@@ -107,7 +106,7 @@ module Distribution
         # Evaluate the incomplete beta function
         # gsl_sf_beta_inc_e
         def evaluate(a,b,x,with_error=false)
-          raise(ArgumentError, "Domain error: a, b must be positive; x must be between 0 and 1, inclusive") if a <= 0 || b <= 0 || x < 0 || x > 1
+          raise(ArgumentError, "Domain error: a(#{a}), b(#{b}) must be positive; x(#{x}) must be between 0 and 1, inclusive") if a <= 0 || b <= 0 || x < 0 || x > 1
           if x == 0
             return with_error ? [0.0,0.0] : 0.0
           elsif x == 1
@@ -119,7 +118,7 @@ module Distribution
             ln_x    = Math.log(x)
 
             ln_beta, ln_beta_err, ln_1mx, ln_1mx_err, ln_x_err = begin
-              STDERR.puts("Warning: Error is unknown for Math::log, guessing.")
+              #STDERR.puts("Warning: Error is unknown for Math::log, guessing.")
               [ln_beta,ln_1mx,Float::EPSILON].flatten
             end
 

@@ -9,12 +9,12 @@ describe Distribution::Logistic do
 	u=rand()
         s=rand()+1
         x=rand()*100-50
-	exp=Math.exp(-(x-u)/s)/(s*(1+Math.exp(-(x-u)/s)**2))
-	@engine.pdf(x,u,s).should eq(exp)
+        exp=Math.exp(-(x-u) / s) / (s*(1+Math.exp(-(x-u) / s)**2))
+        @engine.pdf(x,u,s).should eq(exp)
         }
       else
         pending("No #{@engine}.pdf")
-      end
+       end
     end
     
     it "should return correct cdf" do

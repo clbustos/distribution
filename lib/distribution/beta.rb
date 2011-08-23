@@ -4,7 +4,12 @@ require 'distribution/beta/gsl'
 require 'distribution/beta/java'
 
 module Distribution
-  # Calculate cdf and inverse cdf for Beta Distribution.
+  # From Wikipedia:
+  #    In probability theory and statistics, the beta distribution 
+  #    is a family of continuous probability distributions defined 
+  #    on the interval (0, 1) parameterized by two positive shape 
+  #    parameters, typically denoted by alpha and beta. 
+  # This module calculate cdf and inverse cdf for Beta Distribution.
   #
   module Beta
     extend Distributable
@@ -13,16 +18,17 @@ module Distribution
 
     ##
     # :singleton-method: pdf(x,a,b)
-    # Returns PDF of of Beta distribution
+    # Returns PDF of of Beta distribution with parameters a and b
 
 
     ##
     # :singleton-method: cdf(x,a,b)
-    # Returns the integral of Beta distribution
+    # Returns the integral of Beta distribution with parameters a and b
 
     ##
     # :singleton-method: p_value(qn,a,b)
-    # Return the P-value of the corresponding integral +qn+
+    # Return the quantile of the corresponding integral +qn+
+    # on a beta distribution's cdf with parameters a and b 
 
   end
 end

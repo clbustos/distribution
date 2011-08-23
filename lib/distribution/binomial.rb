@@ -3,7 +3,7 @@ require 'distribution/binomial/gsl'
 require 'distribution/binomial/java'
 module Distribution
 
-  # Calculate statisticals for T Distribution.
+  # Calculate statisticals for Binomial Distribution.
   module Binomial
     SHORTHAND = 'bino'  
     

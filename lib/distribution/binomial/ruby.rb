@@ -6,9 +6,11 @@ module Distribution
           raise "k>n" if k>n
 	  Math.binomial_coefficient(n,k)*(pr**k)*(1-pr)**(n-k)          
         end
+        # TODO: Use exact_regularized_beta for 
+        # small values and regularized_beta for bigger ones.
         def cdf(k,n,pr)
           #(0..x.floor).inject(0) {|ac,i| ac+pdf(i,n,pr)}
-          Math.regularized_beta_function(1-pr,n - k,k+1)
+          Math.regularized_beta(1-pr,n - k,k+1)
         end
         def exact_cdf(k,n,pr)
           (0..k).inject(0) {|ac,i| ac+pdf(i,n,pr)}

@@ -3,7 +3,7 @@ require 'distribution/f/gsl'
 require 'distribution/f/statistics2'
 require 'distribution/f/java'
 module Distribution
-  # Calculate cdf and inverse cdf for Chi Square Distribution.
+  # Calculate cdf and inverse cdf for F Distribution.
   # 
   module F
     SHORTHAND='fdist'  

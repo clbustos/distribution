@@ -229,22 +229,32 @@ module Distribution
     end
 
     # I_x(a,b): Regularized incomplete beta function
+    # Fast version. For a exact calculation, based on factorial
+    # use exact_regularized_beta_function
+    def regularized_beta(x,a,b)
+      return 1 if x==1
+      IncompleteBeta.evaluate(a,b,x)
+    end
+    # I_x(a,b): Regularized incomplete beta function
     # TODO: Find a faster version.
     # Source:
     # * http://dlmf.nist.gov/8.17
-    def regularized_beta_function(x,a,b)
+    def exact_regularized_beta(x,a,b)
       return 1 if x==1
-      #incomplete_beta(x,a,b).quo(beta(a,b))
       m=a.to_i
       n=(b+a-1).to_i
       (m..n).inject(0) {|sum,j|
         sum+(binomial_coefficient(n,j)* x**j * (1-x)**(n-j))
       }
 
-    end
-    # B_x(a,b) : Incomplete beta function
-    def incomplete_beta(a,b,x)
-      IncompleteBeta.evaluate(a,b,x)
+     end
+    # 
+    # Incomplete beta function: B(x;a,b)
+    # +a+ and +b+ are parameters and +x+ is 
+    # integration upper limit.
+    def incomplete_beta(x,a,b)
+      IncompleteBeta.evaluate(a,b,x)*beta(a,b)
+      #Math::IncompleteBeta.axpy(1.0, 0.0, a,b,x)
     end
     
     # Rising factorial
@@ -342,13 +352,13 @@ end
 
 module Math
   include Distribution::MathExtension
-  module_function :factorial, :beta, :loggamma, :erfc_e, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial , :fast_factorial, :combinations, :logbeta, :lbeta
+  module_function :factorial, :beta, :loggamma, :erfc_e, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :binomial_coefficient, :binomial_coefficient_gamma, :exact_regularized_beta, :incomplete_beta, :regularized_beta, :permutations, :rising_factorial , :fast_factorial, :combinations, :logbeta, :lbeta
 end
 
 # Necessary on Ruby 1.9
 module CMath # :nodoc:
   include Distribution::MathExtension
-  module_function :factorial, :beta, :loggamma, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :erfc_e, :binomial_coefficient, :binomial_coefficient_gamma, :regularized_beta_function, :incomplete_beta, :permutations, :rising_factorial, :fast_factorial, :combinations, :logbeta, :lbeta
+  module_function :factorial, :beta, :loggamma, :unnormalized_incomplete_gamma, :incomplete_gamma, :gammp, :gammq, :erfc_e, :binomial_coefficient, :binomial_coefficient_gamma,  :incomplete_beta, :exact_regularized_beta, :regularized_beta, :permutations, :rising_factorial, :fast_factorial, :combinations, :logbeta, :lbeta
 end
 
 if RUBY_VERSION<"1.9"

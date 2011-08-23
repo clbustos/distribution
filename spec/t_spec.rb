@@ -9,7 +9,16 @@ shared_examples_for "T engine(with rng)" do
   end
 end
 
-shared_examples_for "T engine(with pdf)" do
+shared_examples_for "T engine(cdf with fractional df)" do
+  it "should return correct cdf with fractional df" do
+    @engine.cdf(1,2.5).should be_within(1e-6).of(0.7979695)
+    @engine.cdf(2,3.5).should be_within(1e-6).of(0.9369307)
+    @engine.cdf(3,4.5).should be_within(1e-6).of(0.9828096)
+    
+  end
+end
+
+shared_examples_for "T engine" do
   it_only_with_gsl "should return correct pdf" do
     if @engine.respond_to? :pdf
       [-2,0.1,0.5,1,2].each{|t|
@@ -23,10 +32,6 @@ shared_examples_for "T engine(with pdf)" do
       pending("No #{@engine}.pdf")
     end
   end
-end
-
-shared_examples_for "T engine" do
-  
   it_only_with_gsl "should return correct cdf" do
     if @engine.respond_to? :cdf
       # Testing with R values
@@ -65,7 +70,6 @@ end
       @engine=Distribution::T
     end
     it_should_behave_like "T engine"    
-    it_should_behave_like "T engine(with pdf)"    
   end
   
   describe Distribution::T::Ruby_ do
@@ -73,24 +77,16 @@ end
       @engine=Distribution::T::Ruby_
     end
     it_should_behave_like "T engine"    
-    it_should_behave_like "T engine(with pdf)"
-    it "raise error with fractional df on cdf" do
-      lambda {@engine.cdf(1,2.5)}.should raise_error
-    end
-      it "return correct values for cdf with fractional df" do
-        pending("we have to implement partial beta");
-      end   
+    it_should_behave_like "T engine(cdf with fractional df)"
+    
   end
   if Distribution.has_gsl?
     describe Distribution::T::GSL_ do
       before do
         @engine=Distribution::T::GSL_
       end
-      it "return correct values for cdf with fractional df" do
-        @engine.cdf(1,2.5).should be_within(1e-7).of(0.7979695)
-      end
     it_should_behave_like "T engine"    
-    it_should_behave_like "T engine(with pdf)"    
+    it_should_behave_like "T engine(cdf with fractional df)"    
     end
   end
 =begin
@@ -109,7 +105,6 @@ end
         @engine=Distribution::T::Java_
       end
     it_should_behave_like "T engine"    
-    it_should_behave_like "T engine(with pdf)"    
     end  
   end
   

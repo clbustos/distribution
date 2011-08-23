@@ -15,7 +15,8 @@ module Distribution
       # (-\infty, x]
       def p_t(df, t)
         if df.to_i!=df
-          raise "Can't calculate not integer df"
+          x=(t+Math.sqrt(t**2+df)) / (2*Math.sqrt(t**2+df))
+          return Math.regularized_beta(x,df/2.0,df/2.0)
         end
         df=df.to_i
         c2 = df.to_f / (df + t * t);

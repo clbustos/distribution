@@ -4,7 +4,12 @@ require 'distribution/gamma/gsl'
 require 'distribution/gamma/java'
 
 module Distribution
-  # Calculate cdf and inverse cdf for Gamma Distribution.
+  # From Wikipedia:
+  #    The gamma distribution is a two-parameter family of 
+  #    continuous probability distributions. It has a scale parameter a
+  #    and a shape parameter b.
+  # 
+  # Calculate pdf, cdf and inverse cdf for Gamma Distribution.
   #
   module Gamma
     extend Distributable
@@ -13,16 +18,20 @@ module Distribution
 
     ##
     # :singleton-method: pdf(x,a,b)
-    # Returns PDF of of Gamma distribution
+    # Returns PDF of of Gamma distribution with +a+ as scale
+    # parameter and +b+ as shape parameter
 
 
     ##
     # :singleton-method: cdf(x,a,b)
-    # Returns the integral of Gamma distribution
+    # Returns the integral of Gamma distribution with +a+ as scale
+    # parameter and +b+ as shape parameter
 
     ##
     # :singleton-method: p_value(qn,a,b)
-    # Return the P-value of the corresponding integral +qn+
+    # Return the upper limit for the integral of a 
+    # gamma distribution which returns +qn+ 
+    # with scale +a+ and shape +b+
 
   end
 end
