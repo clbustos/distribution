@@ -1,13 +1,14 @@
 # The next few requires eventually probably need to go in their own gem. They're all functions and constants used by
 # GSL-adapted pure Ruby math functions.
-require "./lib/distribution/gsl_utilities"
-require "./lib/distribution/erfc"
-require "./lib/distribution/log_utilities"
-require "./lib/distribution/exponential_integral"
-require "./lib/distribution/chebyshev_series"
-require "./lib/distribution/gammastar"
-require "./lib/distribution/incomplete_gamma"
-require "./lib/distribution/incomplete_beta"
+require "distribution/math_extension/chebyshev_series"
+require "distribution/math_extension/erfc"
+require "distribution/math_extension/exponential_integral"
+require "distribution/math_extension/gammastar"
+require "distribution/math_extension/gsl_utilities"
+require "distribution/math_extension/incomplete_gamma"
+require "distribution/math_extension/incomplete_beta"
+require "distribution/math_extension/log_utilities"
+
 
 if RUBY_VERSION<"1.9"
   require 'mathn'

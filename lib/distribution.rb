@@ -22,7 +22,8 @@
 # * Code of several Ruby engines came from statistics2.rb, 
 #   created by Shin-ichiro HARA(sinara@blade.nagaokaut.ac.jp).
 #   Retrieve from http://blade.nagaokaut.ac.jp/~sinara/ruby/math/statistics2/
-# 
+# * Code of Beta and Gamma distribution came from GSL project.
+#   Ported by John O. Woods
 # Specific notices will be placed where there are appropiate
 # 
 if !respond_to? :define_singleton_method
@@ -133,7 +134,7 @@ module Distribution
             
     end
     # create alias for common methods
-    alias_method :inverse_cdf,:p_value if singleton_methods.include? :p_value
+    alias_method :inverse_cdf, :p_value if singleton_methods.include? :p_value
     end
 
   end

@@ -10,10 +10,10 @@ module Distribution
         def p_value(pr,a,b)
           GSL::Cdf::beta_Pinv(pr.to_f, a.to_f, b.to_f)
         end
-        # Chi-square cumulative distribution function (cdf).
+        # Beta cumulative distribution function (cdf).
         #
-        # Returns the integral of Chi-squared distribution
-        # with k degrees of freedom over [0, x]
+        # Returns the integral of Beta distribution
+        # with parameters +a+ and +b+ over [0, x]
         #
         def cdf(x,a,b)
           GSL::Cdf::beta_P(x.to_f, a.to_f, b.to_f)

@@ -1,5 +1,5 @@
 require File.expand_path(File.dirname(__FILE__)+"/spec_helper.rb")
-  
+include ExampleWithGSL
 describe Distribution::Binomial do
   
 shared_examples_for "binomial engine" do

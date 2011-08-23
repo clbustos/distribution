@@ -35,9 +35,6 @@ module Distribution
           Math::IncompleteBeta.axpy(1.0, 0.0, a,b,x)
         end
 
-        def p_value(pr,a,b)
-          cdf(1.0-pr,a,b)
-        end
 
       end
     end

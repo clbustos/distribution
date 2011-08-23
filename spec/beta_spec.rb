@@ -2,8 +2,8 @@ require File.expand_path(File.dirname(__FILE__)+"/spec_helper.rb")
 include ExampleWithGSL
 describe Distribution::Beta do
 
-shared_examples_for "Beta engine(with pdf)" do
-    it_only_with_gsl "should return correct pdf" do
+ shared_examples_for "Beta engine" do
+   it_only_with_gsl "should return correct pdf" do
       if @engine.respond_to? :pdf
         1.upto(101) do |x|
           a=rand * x
@@ -15,10 +15,6 @@ shared_examples_for "Beta engine(with pdf)" do
         pending("No #{@engine}.pdf")
       end
     end
-
-end
-  
-shared_examples_for "Beta engine" do
 
   it_only_with_gsl "should return correct cdf" do
     if @engine.respond_to? :cdf
@@ -41,11 +37,11 @@ shared_examples_for "Beta engine" do
   end
   it "should return correct p_value" do
     if @engine.respond_to? :p_value
-      1.upto(101) do |x|
-        a=rand * x
-        b=1 + rand * 5
-        pr=@engine.cdf(x,a,b)
-        @engine.p_value(pr,a,b).should be_within(1e-4).of(x)
+      2.upto(99) do |x|
+        a=rand() * x
+        b=1 + rand() * 5
+        pr=@engine.cdf(x/100.0,a,b)
+        @engine.p_value(pr,a, b).should be_within(1e-10).of(x/100.0)
        end
     else
       pending("No #{@engine}.p_value")
@@ -58,7 +54,6 @@ end
       @engine=Distribution::Beta
     end
     it_should_behave_like "Beta engine"
-    it_should_behave_like "Beta engine(with pdf)"
   end
   
   describe Distribution::Beta::Ruby_ do
@@ -66,7 +61,6 @@ end
       @engine=Distribution::Beta::Ruby_
     end
     it_should_behave_like "Beta engine"
-    it_should_behave_like "Beta engine(with pdf)"
   end
   if Distribution.has_gsl?
     describe Distribution::Beta::GSL_ do
@@ -74,7 +68,6 @@ end
         @engine=Distribution::Beta::GSL_
       end
     it_should_behave_like "Beta engine"
-    it_should_behave_like "Beta engine(with pdf)"
     end
   end
   if Distribution.has_java?
@@ -83,7 +76,6 @@ end
         @engine=Distribution::Beta::Java_
       end
     it_should_behave_like "Beta engine"
-    it_should_behave_like "Beta engine(with pdf)"
     end  
   end
   
