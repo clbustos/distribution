@@ -17,7 +17,7 @@ Hoe.spec 'distribution' do
   self.extra_dev_deps << ["rspec",">=2.0"] << ["rubyforge",">=0"]
 
 end
-
+# git log --pretty=format:"*%s[%cn]" v0.5.0..HEAD >> History.txt
 desc "Open an irb session preloaded with distribution"
 task :console do
   sh "irb -rubygems -I lib -r distribution.rb"

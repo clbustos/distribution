@@ -1,3 +1,15 @@
+=== 0.6.0 / 2011-09-23
+* Incomplete Beta functions on math renamed to Regularized beta, because MathExtension::IncompleteBeta calculates regularized beta function, not Incomplete Beta. 
+* Corrected documention on F distribution and added comments on gamma and beta[Claudio Bustos]
+* Moved ported methods from GSL to lib/math_extension. Updated spec for gamma and beta distributions[Claudio Bustos]
+* Added beta distribution functions. p_value does not seem to work yet.[John Woods]
+* Added most incomplete beta function GSL translations, also log_beta from GSL.[John Woods]
+* Added header information to the incomplete gamma files translated from GSL[John Woods]
+* Removed left-over invgammp function.[John Woods]
+* Fixed lots of bugs, translated most GSL error tests into rspec.[John Woods]
+* Added Gamma distribution, spec. No statistics2 functions for Gamma, so only implemented pure Ruby and GSL.[John Woods]
+* Added console task to rakefile[John Woods]
+
 === 0.5.0 / 2011-05-03
 
 * Exception raises on calculation of T's cdf with ruby engine. For now, stick to gsl implementation

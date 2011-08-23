@@ -4,7 +4,7 @@
 
 == DESCRIPTION:
 
-Statistical Distributions library. Includes Normal univariate and bivariate, T, F, Chi Square, Binomial, Hypergeometric, Exponential and Poisson.
+Statistical Distributions library. Includes Normal univariate and bivariate, T, F, Chi Square, Binomial, Hypergeometric, Exponential, Poisson, Beta and Gamma.
 
 Uses Ruby by default and C (statistics2/GSL) or Java extensions where available.
 
@@ -44,6 +44,8 @@ Shortnames for distributions:
 * Hypergeometric: hypg
 * Exponential: expo
 * Poisson: pois
+* Beta: beta
+* Gamma: gamma
 
 For example
 
