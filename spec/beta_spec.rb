@@ -19,18 +19,18 @@ describe Distribution::Beta do
   it_only_with_gsl "should return correct cdf" do
     if @engine.respond_to? :cdf
       # From GSL-1.9.
-      TOL = 1048576.0*Float::EPSILON
+      tol = 1048576.0*Float::EPSILON
       @engine.cdf(0.0, 1.2, 1.3).should eq(0.0)
-      @engine.cdf(1e-100, 1.2, 1.3).should be_within(TOL).of(1.34434944656489596e-120)
-      @engine.cdf(0.001, 1.2, 1.3).should be_within(TOL).of(3.37630042504535813e-4)
-      @engine.cdf(0.01, 1.2, 1.3).should be_within(TOL).of(5.34317264038929473e-3)
-      @engine.cdf(0.1, 1.2, 1.3).should be_within(TOL).of(8.33997828306748346e-2)
-      @engine.cdf(0.325, 1.2, 1.3).should be_within(TOL).of(3.28698654180583916e-1)
-      @engine.cdf(0.5, 1.2, 1.3).should be_within(TOL).of(5.29781429451299081e-1)
-      @engine.cdf(0.9, 1.2, 1.3).should be_within(TOL).of(9.38529397224430659e-1)
-      @engine.cdf(0.99, 1.2, 1.3).should be_within(TOL).of(9.96886438341254380e-1)
-      @engine.cdf(0.999, 1.2, 1.3).should be_within(TOL).of(9.99843792833067634e-1)
-      @engine.cdf(1.0, 1.2, 1.3).should be_within(TOL).of(1.0)
+      @engine.cdf(1e-100, 1.2, 1.3).should be_within(tol).of(1.34434944656489596e-120)
+      @engine.cdf(0.001, 1.2, 1.3).should be_within(tol).of(3.37630042504535813e-4)
+      @engine.cdf(0.01, 1.2, 1.3).should be_within(tol).of(5.34317264038929473e-3)
+      @engine.cdf(0.1, 1.2, 1.3).should be_within(tol).of(8.33997828306748346e-2)
+      @engine.cdf(0.325, 1.2, 1.3).should be_within(tol).of(3.28698654180583916e-1)
+      @engine.cdf(0.5, 1.2, 1.3).should be_within(tol).of(5.29781429451299081e-1)
+      @engine.cdf(0.9, 1.2, 1.3).should be_within(tol).of(9.38529397224430659e-1)
+      @engine.cdf(0.99, 1.2, 1.3).should be_within(tol).of(9.96886438341254380e-1)
+      @engine.cdf(0.999, 1.2, 1.3).should be_within(tol).of(9.99843792833067634e-1)
+      @engine.cdf(1.0, 1.2, 1.3).should be_within(tol).of(1.0)
     else
       pending("No #{@engine}.cdf")
     end
