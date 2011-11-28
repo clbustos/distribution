@@ -25,8 +25,8 @@ describe Distribution::Logistic do
 	u=rand()
         s=rand()+1
         x=rand()*100-50
-	exp=1/(1+Math.exp(-(x-u)/s))
-	@engine.cdf(x,u,s).should eq(exp)
+        exp=1/(1+Math.exp(-(x-u) / s))
+        @engine.cdf(x,u,s).should eq(exp)
         }
       
       else
@@ -41,8 +41,8 @@ describe Distribution::Logistic do
        u=rand()
        s=rand()+1
        x=@engine.p_value(i/10,u,s)
-       @engine.cdf(x,u,s).should eq i/10
-        }
+         @engine.cdf(x,u,s).should be_within(1e-12).of(i/10.0)
+       }
       else
         pending("No #{@engine}.cdf")
       end

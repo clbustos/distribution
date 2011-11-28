@@ -1,8 +1,3 @@
-$:.unshift(File.dirname(__FILE__)+"/../../../java_lib")
-require 'java'
-require 'commons-math-2.2.jar'
-java_import org.apache.commons.math.distribution.NormalDistributionImpl
-
 module Distribution
   module Normal
     # TODO

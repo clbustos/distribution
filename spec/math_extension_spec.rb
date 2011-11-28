@@ -119,16 +119,18 @@ describe Distribution::MathExtension do
 
 
   it "unnormalized_incomplete_gamma with x=0 should return correct values" do
-    Math.unnormalized_incomplete_gamma(-1.5, 0).should be_within(1e-10).of(4.0*Math.sqrt(Math::PI)/3.0)
+    Math.unnormalized_incomplete_gamma(-1.5, 0).should be_within(1e-10).of(4.0*Math.sqrt(Math::PI) / 3.0)
     Math.unnormalized_incomplete_gamma(-0.5, 0).should be_within(1e-10).of(-2*Math.sqrt(Math::PI))
     Math.unnormalized_incomplete_gamma(0.5, 0).should be_within(1e-10).of(Math.sqrt(Math::PI))
     Math.unnormalized_incomplete_gamma(1.0, 0).should eq 1.0
-    Math.unnormalized_incomplete_gamma(1.5, 0).should be_within(1e-10).of(Math.sqrt(Math::PI)/2.0)
+    Math.unnormalized_incomplete_gamma(1.5, 0).should be_within(1e-10).of(Math.sqrt(Math::PI) / 2.0)
     Math.unnormalized_incomplete_gamma(2.0, 0).should eq 1.0
     Math.unnormalized_incomplete_gamma(2.5, 0).should be_within(1e-10).of(0.75*Math.sqrt(Math::PI))
-    Math.unnormalized_incomplete_gamma(3.0, 0).should eq 2.0
+    
+    Math.unnormalized_incomplete_gamma(3.0, 0).should be_within(1e-12).of(2.0)
+    
     Math.unnormalized_incomplete_gamma(3.5, 0).should be_within(1e-10).of(15.0*Math.sqrt(Math::PI) / 8.0)
-    Math.unnormalized_incomplete_gamma(4.0, 0).should eq 6.0
+    Math.unnormalized_incomplete_gamma(4.0, 0).should be_within(1e-12).of(6.0)
   end
 
   it "incomplete_gamma should return correct values" do

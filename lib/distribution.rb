@@ -27,16 +27,16 @@
 # Specific notices will be placed where there are appropiate
 # 
 if !respond_to? :define_singleton_method
-class Module
-  public :define_method
-end
-
-class Object
-  def define_singleton_method(name,&block)
-    sc=class <<self;self;end
-    sc.define_method(name,&block)
+  class Module
+    public :define_method
   end
-end
+  
+  class Object
+    def define_singleton_method(name,&block)
+      sc=class <<self;self;end
+      sc.define_method(name,&block)
+    end
+  end
 end
 require 'distribution/math_extension'
 
@@ -51,7 +51,6 @@ require 'distribution/math_extension'
 #    => 1.64485364660836
 module Distribution
   VERSION="0.6.0"
-  
   module Shorthand
     EQUIVALENCES={:p_value=>:p, :cdf=>:cdf, :pdf=>:pdf, :rng=>:r, :exact_pdf=>:epdf, :exact_cdf=>:ecdf, :exact_p_value=>:ep}
     def self.add_shortcut(sh,m, &block)
@@ -111,7 +110,6 @@ module Distribution
     # This section was created between a very long reunion
     # and a 456 Km. travel
     def create_distribution_methods()
-      
       Distribution.libraries_order.each do |l_name|
       if const_defined? l_name
         l =const_get(l_name)
@@ -138,19 +136,28 @@ module Distribution
     end
 
   end
+  def self.init_java()
+    $:.unshift(File.dirname(__FILE__)+"/../vendor/java")
+    require 'commons-math-2.2.jar'
+    java_import 'org.apache.commons.math.distribution.NormalDistributionImpl'
+    java_import 'org.apache.commons.math.distribution.PoissonDistributionImpl'
 
-  autoload(:Normal, 'distribution/normal')  
-  autoload(:ChiSquare, 'distribution/chisquare')
-  autoload(:Gamma, 'distribution/gamma')
-  autoload(:Beta, 'distribution/beta')
-  autoload(:T, 'distribution/t')
-  autoload(:F, 'distribution/f')
-  autoload(:BivariateNormal, 'distribution/bivariatenormal')
-  autoload(:Binomial, 'distribution/binomial')
-  autoload(:Hypergeometric, 'distribution/hypergeometric')
-  autoload(:Exponential, 'distribution/exponential')
-  autoload(:Poisson, 'distribution/poisson')
-  autoload(:Logistic, 'distribution/logistic')
+  end
+  require 'distribution/normal'  
+  require 'distribution/chisquare'
+  require 'distribution/gamma'
+  require 'distribution/beta'
+  require 'distribution/t'
+  require 'distribution/f'
+  require 'distribution/bivariatenormal'
+  require 'distribution/binomial'
+  require 'distribution/hypergeometric'
+  require 'distribution/exponential'
+  require 'distribution/poisson'
+  require 'distribution/logistic'
+  if has_java?
+    init_java()
+  end
 end
 
 

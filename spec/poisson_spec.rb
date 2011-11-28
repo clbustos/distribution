@@ -7,7 +7,7 @@ describe Distribution::Poisson do
       if @engine.respond_to? :pdf
         [0.5,1,1.5].each {|l|
           1.upto(5) {|k|
-            @engine.pdf(k,l).should be_within(1e-10).of((l**k*Math.exp(-l)).quo(Math.factorial(k)))
+            @engine.pdf(k,l).should be_within(1e-10).of( (l**k*Math.exp(-l)).quo(Math.factorial(k)) )
           }
         }
       else
@@ -27,6 +27,8 @@ describe Distribution::Poisson do
         pending("No #{@engine}.cdf")
       end
     end
+    
+    
   
     
     it "should return correct p_value" do
@@ -59,14 +61,32 @@ describe Distribution::Poisson do
     it_should_behave_like "poisson engine"
     
   end
-    
-  describe Distribution::Poisson::GSL_ do
-    before do
-      @engine=Distribution::Poisson::GSL_
+  if Distribution.has_gsl?
+    describe Distribution::Poisson::GSL_ do
+      before do
+        @engine=Distribution::Poisson::GSL_
+      end
+      it_should_behave_like "poisson engine"
+      
     end
-    it_should_behave_like "poisson engine"
-    
   end
-  
-  
+  if Distribution.has_java?
+    describe Distribution::Poisson::Java_ do
+      before do
+        @engine=Distribution::Poisson::Java_
+      end
+      it_should_behave_like "poisson engine"
+      
+      
+      it "should return correct cdf" do
+        [0.5,1,1.5,4,10].each {|l|
+          1.upto(5) {|k|
+            @engine.cdf(k,l).should be_within(1e-10).of(Distribution::Poisson::Ruby_.cdf(k,l))
+          }
+        }
+      end
+
+      
+    end
+  end
 end

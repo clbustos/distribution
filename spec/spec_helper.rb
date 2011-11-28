@@ -20,4 +20,15 @@ module ExampleWithGSL
       end
     end
   end
+  
+  def it_only_with_java(name,&block)
+    it(name) do
+      if Distribution.has_java?
+        instance_eval(&block)
+      else
+        pending("Requires Java")  
+      end
+    end
+  end
+  
 end

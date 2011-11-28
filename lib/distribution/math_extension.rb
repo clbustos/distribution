@@ -68,9 +68,12 @@ module Distribution
     # From statistics2    
     def gamma(x)
       if (x < 0.0)
-        return Math::PI / (Math.sin(Math.PI * x) * Math.exp(loggamma(1 - x))) #/
+        return Math::PI / (Math.sin(Math::PI * x) * Math.exp(loggamma(1 - x))) #/
       end
       Math.exp(loggamma(x))
+    end
+    def lgamma(x)
+      [loggamma(x.abs), Math.gamma(x) < 0 ? -1 : 1]
     end
   end
   # Useful additions to Math
@@ -365,7 +368,7 @@ if RUBY_VERSION<"1.9"
   module Math
     remove_method :loggamma
     include Distribution::MathExtension18
-    module_function :gamma, :loggamma
+    module_function :gamma, :loggamma, :lgamma
   end
 end
 
