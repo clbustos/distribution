@@ -1,6 +1,6 @@
 require 'distribution/poisson/ruby'
 require 'distribution/poisson/gsl'
-#require 'distribution/poisson/java'
+require 'distribution/poisson/java'
 
 
 module Distribution
