@@ -155,6 +155,8 @@ module Distribution
   require 'distribution/exponential'
   require 'distribution/poisson'
   require 'distribution/logistic'
+  require 'distribution/lognormal'
+  
   if has_java?
     init_java()
   end
