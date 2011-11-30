@@ -23,7 +23,7 @@ module Distribution
     # * s: variance related parameter
     
     ##
-    # :singleton-method: cdf(x , u,s)
+    # :singleton-method: cdf(x,u,s)
     # Returns the cdf for logistic distribution (F(x,u,s))
     # * u: mean
     # * s: variance related parameter

@@ -19,14 +19,13 @@ describe Distribution::Logistic do
     
     it "should return correct cdf" do
       if @engine.respond_to? :cdf
-
-
         1.upto(100) {
-	u=rand()
-        s=rand()+1
-        x=rand()*100-50
-        exp=1/(1+Math.exp(-(x-u) / s))
-        @engine.cdf(x,u,s).should eq(exp)
+          u=rand()
+          s=rand()*100
+          x=rand()*100-50
+          exp=1/(1+Math.exp(-(x-u) / s))
+         
+          @engine.cdf(x,u,s).should eq(exp)
         }
       
       else
@@ -38,10 +37,10 @@ describe Distribution::Logistic do
     it "should return correct p_value" do
       if @engine.respond_to? :p_value
        1.upto(9) {|i|
-       u=rand()
-       s=rand()+1
-       x=@engine.p_value(i/10,u,s)
-         @engine.cdf(x,u,s).should be_within(1e-12).of(i/10.0)
+         u=rand()
+         s=rand()*100
+         x=@engine.p_value(i/10.0,u,s)
+         @engine.cdf(x,u,s).should be_within(1e-10).of(i/10.0)
        }
       else
         pending("No #{@engine}.cdf")
