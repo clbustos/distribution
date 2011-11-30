@@ -41,13 +41,14 @@ describe Distribution::<%= distribution.capitalize %> do
     it_should_behave_like "<%= distribution %> engine"
     
   end
-    
-  describe Distribution::<%= distribution.capitalize %>::GSL_ do
-    before do
-      @engine=Distribution::<%= distribution.capitalize %>::GSL_
+  
+  if Distribution.has_gsl?
+    describe Distribution::<%= distribution.capitalize %>::GSL_ do
+      before do
+        @engine=Distribution::<%= distribution.capitalize %>::GSL_
+      end
+      it_should_behave_like "<%= distribution %> engine"
     end
-    it_should_behave_like "<%= distribution %> engine"
-    
   end
   
   

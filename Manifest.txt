@@ -53,6 +53,9 @@ lib/distribution/hypergeometric/java.rb
 lib/distribution/hypergeometric/ruby.rb
 lib/distribution/logistic.rb
 lib/distribution/logistic/ruby.rb
+lib/distribution/lognormal.rb
+lib/distribution/lognormal/gsl.rb
+lib/distribution/lognormal/ruby.rb
 lib/distribution/math_extension.rb
 lib/distribution/math_extension/chebyshev_series.rb
 lib/distribution/math_extension/erfc.rb
@@ -70,6 +73,7 @@ lib/distribution/normal/statistics2.rb
 lib/distribution/normalmultivariate.rb
 lib/distribution/poisson.rb
 lib/distribution/poisson/gsl.rb
+lib/distribution/poisson/java.rb
 lib/distribution/poisson/ruby.rb
 lib/distribution/t.rb
 lib/distribution/t/gsl.rb
@@ -86,6 +90,7 @@ spec/f_spec.rb
 spec/gamma_spec.rb
 spec/hypergeometric_spec.rb
 spec/logistic_spec.rb
+spec/lognormal_spec.rb
 spec/math_extension_spec.rb
 spec/normal_spec.rb
 spec/poisson_spec.rb
@@ -93,3 +98,4 @@ spec/shorthand_spec.rb
 spec/spec.opts
 spec/spec_helper.rb
 spec/t_spec.rb
+vendor/java/commons-math-2.2.jar

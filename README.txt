@@ -4,7 +4,7 @@
 
 == DESCRIPTION:
 
-Statistical Distributions library. Includes Normal univariate and bivariate, T, F, Chi Square, Binomial, Hypergeometric, Exponential, Poisson, Beta and Gamma.
+Statistical Distributions library. Includes Normal univariate and bivariate, T, F, Chi Square, Binomial, Hypergeometric, Exponential, Poisson, Beta, LogNormal and Gamma.
 
 Uses Ruby by default and C (statistics2/GSL) or Java extensions where available.
 
@@ -15,7 +15,6 @@ Includes code from statistics2 on Normal, T, F and Chi Square ruby code [http://
 * Very fast ruby 1.8.7/1.9.+ implementation, with improved method to calculate factorials and others common functions
 * All methods tested on several ranges. See spec/
 * On Jruby and Rubinius, BivariateNormal returns incorrect pdf
-* Ruby t distribution's cdf can't calculate fractional df. Install gsl, for now.
 
 == API structure
 
@@ -46,6 +45,7 @@ Shortnames for distributions:
 * Poisson: pois
 * Beta: beta
 * Gamma: gamma
+* LogNormal: lognormal
 
 For example
 
@@ -68,8 +68,8 @@ could be called after including Distribution::Shorthand
 
 I try to provide a Ruby version for each method. To increase (notably!) the speed, please install
 
-* Ruby 1.8-1.9: gsl or statistics2
-* Java: Apache Math (not yet implemented)
+* Ruby 1.8-1.9: gsl (prefered) or statistics2
+* Java: Not yet implemented
 
 == INSTALL:
 

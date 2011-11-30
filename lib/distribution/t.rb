@@ -1,6 +1,8 @@
 require 'distribution/t/ruby'
 require 'distribution/t/gsl'
-require 'distribution/t/statistics2'
+# Removed statistics2 support for t, because
+# can't calculate correctly cdf for rational d.f
+# require 'distribution/t/statistics2'
 require 'distribution/t/java'
 
 module Distribution
