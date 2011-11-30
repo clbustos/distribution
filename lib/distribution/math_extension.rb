@@ -284,7 +284,7 @@ module Distribution
     end
 
     # Not the same as erfc. This is the GSL version, which may have slightly different results.
-    def erfc_e x, with_error = false
+    def erfc_e(x, with_error = false)
       Erfc.evaluate(x, with_error)
     end
     

@@ -1,4 +1,5 @@
 require 'distribution/lognormal/gsl'
+require 'distribution/lognormal/ruby'
 
 module Distribution
   # From Wikipedia:

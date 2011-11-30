@@ -23,7 +23,7 @@ module Distribution
       class << self
         # Estimates erfc(x) valid for 8 < x < 100
         # erfc8_sum from GSL-1.9
-        def erfc8_sum x
+        def erfc8_sum(x)
           num = P[5]
           4.downto(0) { |i| num = x*num + P[i] }
           den = Q[6]
@@ -31,7 +31,7 @@ module Distribution
           num / den
         end
 
-        def erfc8 x
+        def erfc8(x)
           erfc8_sum(x) * Math.exp(-x*x)
         end
 
@@ -54,7 +54,7 @@ module Distribution
               e *= ex2
             end
           elsif ax < 10.0
-            exterm = Math.exp(-x*x)/ax
+            exterm = Math.exp(-x*x) / ax
             t      = (2*ax-15).quo(5)
             e = ChebyshevSeries.evaluate(:erfc_x510, t, with_error)
             if with_error
