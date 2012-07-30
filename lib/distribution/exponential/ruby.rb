@@ -2,10 +2,11 @@ module Distribution
   module Exponential
     module Ruby_
       class << self
-        def rng(l)
-	  lambda {p_value(rand(),l)}
-	end
-	def pdf(x,l)
+        def rng(l, opts = {})
+          rng = opts[:random] || Random
+          lambda {p_value(rng.rand,l)}
+        end
+        def pdf(x,l)
           return 0 if x<0
           l*Math.exp(-l*x)
         end
