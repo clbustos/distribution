@@ -47,8 +47,8 @@ module Distribution
         # 
         # Slow, but secure
         def cdf(k, m, n, total)
-          raise "k>m" if k>m
-          raise "k>n" if k>n
+          raise(ArgumentError, "k>m") if k>m
+          raise(ArgumentError, "k>n") if k>n
           # Store the den
           den=bc(total,n)
           (0..k).collect { |ki| pdf_with_den(ki,m,n,total,den) }.inject { |sum,v| sum+v}
