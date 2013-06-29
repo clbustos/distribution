@@ -156,6 +156,7 @@ module Distribution
   require 'distribution/poisson'
   require 'distribution/logistic'
   require 'distribution/lognormal'
+  require 'distribution/weibull'
   
   if has_java?
     init_java()
