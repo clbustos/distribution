@@ -38,7 +38,7 @@ if !respond_to? :define_singleton_method
     end
   end
 end
-require 'distribution/math_extension'
+#require 'distribution/math_extension'
 
 
 # Several distributions modules to calculate pdf, cdf, inverse cdf and generate
@@ -156,6 +156,7 @@ module Distribution
   require 'distribution/poisson'
   require 'distribution/logistic'
   require 'distribution/lognormal'
+  require 'distribution/weibull'
   
   if has_java?
     init_java()
