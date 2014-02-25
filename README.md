@@ -1,11 +1,8 @@
-# [distribution](https://github.com/clbustos/distribution) Quick Start
+# [Distribution](https://github.com/clbustos/distribution) Quick Start
 
 ```
-git clone https://github.com/thisMagpie/distribution
+git clone https://github.com/sciruby/distribution
 ```
-
-
-
 
 ## DESCRIPTION:
 
