@@ -20,7 +20,14 @@ Includes code from statistics2 on Normal, T, F and Chi Square ruby code [http://
   * Returns inverse CDF (or p-value) for x
   pv=Distribution::Normal.p_value(x)
 
-## Install:
+## System Requirements:
+
+To increase (notably!) the speed, please install
+
+* Ruby 1.8-1.9: gsl (prefered) or statistics2
+* Java: Not yet implemented
+
+## User Installation:
 ```
   gem install distribution
 ```
@@ -86,15 +93,13 @@ could be called after including Distribution::Shorthand
   tdist_cdf
 ```
 
-## System Requirements:
-
-To increase (notably!) the speed, please install
-
-* Ruby 1.8-1.9: gsl (prefered) or statistics2
-* Java: Not yet implemented
-
-## FEATURES/PROBLEMS:
+## Features
 
 * Very fast ruby 1.8.7/1.9.+ implementation, with improved method to calculate factorials and others common functions
 * All methods tested on several ranges. See spec/
+
+## Issues
+
 * On Jruby and Rubinius, BivariateNormal returns incorrect pdf
+
+For current issues see the [issue tracker pages](https://github.com/clbustos/distribution/issues)
