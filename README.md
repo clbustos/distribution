@@ -1,4 +1,11 @@
-# [distribution](https://github.com/clbustos/distribution)
+# [distribution](https://github.com/clbustos/distribution) Quick Start
+
+```
+git clone https://github.com/thisMagpie/distribution
+```
+
+
+
 
 ## DESCRIPTION:
 
@@ -46,13 +53,13 @@ Shortnames for distributions:
   * LogNormal: lognormal
 
 For example
-
+```
   Distribution::T.cdf
-
+```
 could be called after including Distribution::Shorthand
-  
+```
   tdist_cdf
-  
+```
 
 ## SYNOPSIS:
   * Returns Gaussian PDF for x
