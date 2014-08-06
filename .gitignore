@@ -4,3 +4,4 @@ doc/*
 pkg/*
 coverage
 Gemfile.lock
+.autotest
