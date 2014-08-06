@@ -67,7 +67,7 @@ module Distribution
       def pt(q, n)
         q = q.to_f
         if(q < 1.0e-5 || q > 1.0 || n < 1)
-        $stderr.printf("Error : Illigal parameter in pt()!\n")
+        $stderr.printf("Error : Illegal parameter in pt()!\n")
         return 0.0
         end
         
