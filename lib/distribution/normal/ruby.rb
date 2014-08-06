@@ -63,9 +63,9 @@ module Distribution
         # over (-Infty, z].
         # 
         def cdf(z)
-          0.0 if z < -12 
-          1.0 if z > 12
-          0.5 if z == 0.0 
+          return 0.0 if z < -12 
+          return 1.0 if z > 12
+          return 0.5 if z == 0.0 
 
           if z > 0.0
             e = true
