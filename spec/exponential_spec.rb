@@ -78,7 +78,7 @@ describe Distribution::Exponential do
 #  end
   describe "rng" do
     it "should default to Kernel#rand if no :random is given" do
-      Random.stub!(:rand)
+      Random.stub(:rand)
       Random.should_receive(:rand).and_return(0.5)
       rng = Distribution::Exponential.rng 1.0
       rng.call()

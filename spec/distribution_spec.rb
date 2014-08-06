@@ -3,7 +3,7 @@ describe Distribution do
   it "should respond to has_gsl?" do
     lambda {Distribution.has_gsl?}.should_not raise_exception
     if Distribution.has_gsl?
-      defined?(GSL).should be_true
+      expect(defined?(GSL)).to be true
     else
       defined?(GSL).should be_false
     end 

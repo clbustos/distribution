@@ -3,7 +3,6 @@ $:.unshift(File.expand_path(File.dirname(__FILE__)+"/lib/"))
 require 'rubygems'
 require 'hoe'
 require 'distribution'
-require 'rubyforge'
 # Hoe.plugin :compiler
 # Hoe.plugin :gem_prelude_sucks
  Hoe.plugin :git
