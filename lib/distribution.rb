@@ -1,7 +1,7 @@
 # = distribution.rb - 
 # Distribution - Statistical Distributions package for Ruby
 # 
-# Copyright (C) 2011  Claudio Bustos
+# Copyright (C) 2011-2014  Claudio Bustos
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -50,7 +50,6 @@ require 'distribution/math_extension'
 #    Distribution::Normal.p_value(0.95)
 #    => 1.64485364660836
 module Distribution
-  VERSION="0.7.0"
   module Shorthand
     EQUIVALENCES={:p_value=>:p, :cdf=>:cdf, :pdf=>:pdf, :rng=>:r, :exact_pdf=>:epdf, :exact_cdf=>:ecdf, :exact_p_value=>:ep}
     def self.add_shortcut(sh,m, &block)
