@@ -3,17 +3,17 @@ describe Distribution do
   it "should respond to has_gsl?" do
     lambda {Distribution.has_gsl?}.should_not raise_exception
     if Distribution.has_gsl?
-      expect(defined?(GSL)).to be true
+      expect(defined?(GSL)).to be
     else
-      defined?(GSL).should be_false
+      defined?(GSL).should be_nil
     end 
   end
   it "should respond to has_statistics2?" do
     lambda {Distribution.has_statistics2?}.should_not raise_exception
     if Distribution.has_statistics2?
-      defined?(Statistics2).should be_true
+      defined?(Statistics2).should be
     else
-      defined?(Statistics2).should be_false
+      defined?(Statistics2).should be_nil
     end 
   end
 end

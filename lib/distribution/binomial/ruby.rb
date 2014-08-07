@@ -4,7 +4,7 @@ module Distribution
       class << self
         def pdf(k,n,pr)
           raise "k>n" if k>n
-	  Math.binomial_coefficient(n,k)*(pr**k)*(1-pr)**(n-k)          
+          Math.binomial_coefficient(n,k)*(pr**k)*(1-pr)**(n-k)          
         end
         # TODO: Use exact_regularized_beta for 
         # small values and regularized_beta for bigger ones.
@@ -13,7 +13,9 @@ module Distribution
           Math.regularized_beta(1-pr,n - k,k+1)
         end
         def exact_cdf(k,n,pr)
-          (0..k).inject(0) {|ac,i| ac+pdf(i,n,pr)}
+          out=(0..k).inject(0) {|ac,i| ac+pdf(i,n,pr)}
+          out=1.0 if out>1.0
+          return out
         end
         def p_value(prob,n,pr)
           ac=0

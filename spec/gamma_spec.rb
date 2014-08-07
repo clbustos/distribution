@@ -47,7 +47,7 @@ shared_examples_for "Gamma engine" do
         @engine.p_value(pr,a,b).should be_within(1e-3).of(x)
        end
     else
-      pending("No #{@engine}.p_value")
+      skip("No #{@engine}.p_value")
     end
   end
 end

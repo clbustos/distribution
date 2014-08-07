@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__)+"/spec_helper.rb")
   
 describe Distribution::Exponential do
-    
+  
   shared_examples_for "exponential engine" do
     it "should return correct pdf" do
       if @engine.respond_to? :pdf
