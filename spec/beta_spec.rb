@@ -12,7 +12,7 @@ describe Distribution::Beta do
           @engine.pdf(x,a,b).should be_within(1e-10).of(g)
         end
       else
-        pending("No #{@engine}.pdf")
+        skip("No #{@engine}.pdf")
       end
     end
 
@@ -32,7 +32,7 @@ describe Distribution::Beta do
       @engine.cdf(0.999, 1.2, 1.3).should be_within(tol).of(9.99843792833067634e-1)
       @engine.cdf(1.0, 1.2, 1.3).should be_within(tol).of(1.0)
     else
-      pending("No #{@engine}.cdf")
+      skip("No #{@engine}.cdf")
     end
   end
   it "should return correct p_value" do
@@ -44,7 +44,7 @@ describe Distribution::Beta do
         @engine.p_value(pr,a, b).should be_within(1e-10).of(x/100.0)
        end
     else
-      pending("No #{@engine}.p_value")
+      skip("No #{@engine}.p_value")
     end
   end
 end

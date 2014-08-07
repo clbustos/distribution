@@ -31,7 +31,7 @@ module ExampleWithGSL
       if Distribution.has_gsl?
         instance_eval(&block)
       else
-        pending("Requires GSL")  
+        skip("Requires GSL")  
       end
     end
   end
@@ -41,7 +41,7 @@ module ExampleWithGSL
       if Distribution.has_java?
         instance_eval(&block)
       else
-        pending("Requires Java")  
+        skip("Requires Java")  
       end
     end
   end

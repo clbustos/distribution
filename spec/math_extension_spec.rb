@@ -2,10 +2,9 @@ require File.expand_path(File.dirname(__FILE__)+"/spec_helper.rb")
 include ExampleWithGSL
 describe Distribution::MathExtension do
   it "binomial coefficient should be correctly calculated" do
-    
     n=50
     n.times do |k|
-      Math.binomial_coefficient(n,k).should eq(Math.factorial(n).quo(Math.factorial(k)*Math.factorial(n-k)))
+      Math.binomial_coefficient(n,k).should eq(Math.factorial(n).quo(Math.factorial(k)*Math.factorial(n-k))),"not correct for k=#{k}"
     end
   end
 

@@ -14,7 +14,7 @@ module Distribution
         end
         def exact_cdf(k,n,pr)
           out=(0..k).inject(0) {|ac,i| ac+pdf(i,n,pr)}
-          out=1.0 if out>1.0
+          out=1 if out>1.0
           return out
         end
         def p_value(prob,n,pr)

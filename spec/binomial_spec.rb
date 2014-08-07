@@ -16,7 +16,7 @@ shared_examples_for "binomial engine" do
         end
       end
     else
-      pending("No #{@engine}.pdf")
+      skip("No #{@engine}.pdf")
     end
   end
   it_only_with_gsl "should return correct cdf for n<=100" do
@@ -31,7 +31,7 @@ shared_examples_for "binomial engine" do
           end
         end
       else
-        pending("No #{@engine}.cdf")
+        skip("No #{@engine}.cdf")
       end
   end
 

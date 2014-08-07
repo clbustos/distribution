@@ -24,7 +24,7 @@ Includes code from statistics2 on Normal, T, F and Chi Square ruby code [http://
 
 To increase (notably!) the speed, please install
 
-* Ruby 1.8-1.9: gsl (prefered) or statistics2
+* Ruby 1.9-2.1: rb-gsl
 * Java: Not yet implemented
 
 ## User Installation:
@@ -34,7 +34,6 @@ To increase (notably!) the speed, please install
 To speep up
 ```
   gem install gsl
-  gem install statistics
 ```
 
 ## Developers:
