@@ -9,7 +9,7 @@ describe Distribution::Beta do
           a=rand * x
           b=1 + rand * 5
           g=GSL::Ran.beta_pdf(x,a,b)
-          @engine.pdf(x,a,b).should be_within(1e-10).of(g)
+          @engine.pdf(x,a,b).should be_within(1e-09).of(g)
         end
       else
         skip("No #{@engine}.pdf")
