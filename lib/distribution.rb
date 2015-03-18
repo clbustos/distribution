@@ -1,7 +1,7 @@
 # = distribution.rb - 
 # Distribution - Statistical Distributions package for Ruby
 # 
-# Copyright (C) 2011  Claudio Bustos
+# Copyright (C) 2011-2014  Claudio Bustos
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -156,6 +156,7 @@ module Distribution
   require 'distribution/poisson'
   require 'distribution/logistic'
   require 'distribution/lognormal'
+  require 'distribution/weibull'
   
   if has_java?
     init_java()

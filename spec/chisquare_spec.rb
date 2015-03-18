@@ -11,7 +11,7 @@ shared_examples_for "Chi-square engine(with pdf)" do
           @engine.pdf(v,k).should be_within(10e-10).of(chi)
         end
       else
-        pending("No #{@engine}.pdf")
+        skip("No #{@engine}.pdf")
       end
     end
 
@@ -27,7 +27,7 @@ shared_examples_for "Chi-square engine" do
         @engine.cdf(v,k).should be_within(10e-10).of(chi)
       end
     else
-      pending("No #{@engine}.cdf")
+      skip("No #{@engine}.cdf")
     end  
   end
   it "should return correct p_value" do
@@ -38,7 +38,7 @@ shared_examples_for "Chi-square engine" do
         @engine.p_value(pr,k).should be_within(10e-4).of(v)
        end
     else
-      pending("No #{@engine}.p_value")
+      skip("No #{@engine}.p_value")
     end
   end
 end

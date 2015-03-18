@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__)+"/spec_helper.rb")
   
 describe Distribution::Exponential do
-    
+  
   shared_examples_for "exponential engine" do
     it "should return correct pdf" do
       if @engine.respond_to? :pdf
@@ -78,8 +78,8 @@ describe Distribution::Exponential do
 #  end
   describe "rng" do
     it "should default to Kernel#rand if no :random is given" do
-      Random.stub!(:rand)
-      Random.should_receive(:rand).and_return (0.5)
+      Random.stub(:rand)
+      Random.should_receive(:rand).and_return(0.5)
       rng = Distribution::Exponential.rng 1.0
       rng.call()
     end

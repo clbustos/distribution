@@ -16,7 +16,7 @@ shared_examples_for "binomial engine" do
         end
       end
     else
-      pending("No #{@engine}.pdf")
+      skip("No #{@engine}.pdf")
     end
   end
   it_only_with_gsl "should return correct cdf for n<=100" do
@@ -31,7 +31,7 @@ shared_examples_for "binomial engine" do
           end
         end
       else
-        pending("No #{@engine}.cdf")
+        skip("No #{@engine}.cdf")
       end
   end
 
@@ -44,8 +44,6 @@ end
       @engine=Distribution::Binomial
     end
     it_should_behave_like "binomial engine"
-    
-    
     it {@engine.should respond_to(:exact_pdf) }
     it {
       pending("No exact_p_value")
@@ -64,9 +62,6 @@ end
       @engine.exact_pdf(1,1,1).should_not be_a(Float)
       @engine.exact_pdf(16, 80, 1.quo(2)).should_not be_a(Float)
     end
-
-    
-    
     
   end
   
@@ -76,8 +71,17 @@ end
     end
     it_should_behave_like "binomial engine"
     
-    it "should return correct cdf for n>100" do
-      pending("incomplete beta function is slow. Should be replaced for a faster one")
+    it "should return correct cdf for n>100" do      
+    [500,1000].each do |n|
+      [0.5,0.6].each do |pr|
+        [n/2].each do |x| 
+          cdf=@engine.exact_cdf(x,n,pr)
+          p_value=@engine.p_value(cdf,n,pr)
+          p_value.should eq(x), "For p_value(#{cdf},#{n},#{pr}) expected #{x}, obtained #{p_value}"
+        end
+      end
+    end
+      
     end
     
     it "should return correct p_value for n<=100" do

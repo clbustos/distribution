@@ -1,4 +1,4 @@
-.autotest
+Gemfile
 History.txt
 Manifest.txt
 README.txt
@@ -80,6 +80,9 @@ lib/distribution/t/gsl.rb
 lib/distribution/t/java.rb
 lib/distribution/t/ruby.rb
 lib/distribution/t/statistics2.rb
+lib/distribution/weibull.rb
+lib/distribution/weibull/gsl.rb
+lib/distribution/weibull/ruby.rb
 spec/beta_spec.rb
 spec/binomial_spec.rb
 spec/bivariatenormal_spec.rb
@@ -98,4 +101,5 @@ spec/shorthand_spec.rb
 spec/spec.opts
 spec/spec_helper.rb
 spec/t_spec.rb
+spec/weibull_spec.rb
 vendor/java/commons-math-2.2.jar

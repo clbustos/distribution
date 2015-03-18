@@ -41,7 +41,7 @@ describe Distribution::Poisson do
           }
         }
       else
-        pending("No #{@engine}.p_value")
+        skip("No #{@engine}.p_value")
       end
     end
   end

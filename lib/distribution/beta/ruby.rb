@@ -35,6 +35,40 @@ module Distribution
           Math::IncompleteBeta.axpy(1.0, 0.0, a,b,x)
         end
 
+        # Inverse of the beta distribution function
+        def p_value(p,a,b, rmin=0, rmax=1)
+          raise "a <= 0" if a <= 0
+          raise "b <= 0" if b <= 0
+          raise "rmin == rmax" if rmin == rmax
+          raise "p <= 0" if p <= 0
+          raise "p > 1" if p > 1
+
+          precision=8.88e-016
+          max_iterations=256
+
+          ga = 0
+          gb = 2
+
+          i = 1
+          while ((gb - ga) > precision) && (i < max_iterations)
+            guess = (ga + gb) / 2.0
+            result = cdf(guess, a, b)
+
+            if (result == p) || (result == 0)
+              gb = ga
+            elsif result > p
+              gb = guess
+            else
+              ga = guess
+            end
+
+            raise 'No value' if i == max_iterations
+
+            i+=1
+          end
+
+          rmin + guess * (rmax - rmin)
+        end
 
       end
     end
