@@ -1,3 +1,7 @@
+require 'bigdecimal'
+require 'bigdecimal/math'
+require 'prime'
+
 # The next few requires eventually probably need to go in their own gem. They're all functions and constants used by
 # GSL-adapted pure Ruby math functions.
 require "distribution/math_extension/chebyshev_series"
@@ -8,23 +12,6 @@ require "distribution/math_extension/gsl_utilities"
 require "distribution/math_extension/incomplete_gamma"
 require "distribution/math_extension/incomplete_beta"
 require "distribution/math_extension/log_utilities"
-
-
-if RUBY_VERSION<"1.9"
-  require 'mathn'
-  def Prime.each(upper,&block) 
-    @primes=Prime.new
-    @primes.each do |prime|
-      break if prime > upper.to_i
-      block.call(prime)
-    end
-  end
-else
-  require 'prime'
-end
-
-require 'bigdecimal'
-require 'bigdecimal/math'
 
 module Distribution
   # Extension for Ruby18
@@ -65,7 +52,7 @@ module Distribution
     end
 
     # Gamma function.
-    # From statistics2    
+    # From statistics2
     def gamma(x)
       if (x < 0.0)
         return Math::PI / (Math.sin(Math::PI * x) * Math.exp(loggamma(1 - x))) #/
@@ -113,13 +100,13 @@ module Distribution
         return SmallOddSwing[n] if (n<33)
         sqrtN = Math.sqrt(n).floor
         count=0
-        
+
         Prime.each(n/3) do |prime|
           next if prime<3
           if (prime<=sqrtN)
             q=n
             _p=1
-            
+
             while((q=(q/prime).truncate)>0) do
               if((q%2)==1)
                 _p*=prime
@@ -129,7 +116,7 @@ module Distribution
               @prime_list[count]=_p
               count+=1
             end
-            
+
           else
             if ((n/prime).truncate%2==1)
               @prime_list[count]=prime
@@ -161,37 +148,37 @@ module Distribution
     # * http://www.luschny.de/math/factorial/approx/SimpleCases.html
     module ApproxFactorial
       def self.stieltjes_ln_factorial(z)
-       
+
         a0 = 1.quo(12); a1 = 1.quo(30); a2 = 53.quo(210); a3 = 195.quo(371);
         a4 = 22999.quo(22737); a5 = 29944523.quo(19733142);
         a6 = 109535241009.quo(48264275462);
-        zz = z+1; 
-        
+        zz = z+1;
+
         (1.quo(2))*Math.log(2*Math::PI)+(zz-1.quo(2))*Math.log(zz) - zz +
-        a0.quo(zz+a1.quo(zz+a2.quo(zz+a3.quo(zz+a4.quo(zz+a5.quo(zz+a6.quo(zz))))))) 
+        a0.quo(zz+a1.quo(zz+a2.quo(zz+a3.quo(zz+a4.quo(zz+a5.quo(zz+a6.quo(zz)))))))
       end
-      
+
       def self.stieltjes_ln_factorial_big(z)
-       
+
         a0 = 1/12.0; a1 = 1/30.0; a2 = 53/210.0; a3 = 195/371.0;
         a4 = 22999/22737.0; a5 = 29944523/19733142.0;
         a6 = 109535241009/48264275462.0;
-        zz = z+1; 
-        
+        zz = z+1;
+
         BigDecimal("0.5") * BigMath.log(BigDecimal("2")*BigMath::PI(20),20) + BigDecimal((zz - 0.5).to_s) * BigMath.log(BigDecimal(zz.to_s),20) - BigDecimal(zz.to_s) + BigDecimal( (
         a0 / (zz+a1/(zz+a2/(zz+a3/(zz+a4/(zz+a5/(zz+a6/zz))))))
         ).to_s)
-        
+
       end
       # Valid upto 11 digits
       def self.stieltjes_factorial(x)
         y = x; _p = 1;
-          while y < 8 do 
+          while y < 8 do
             _p = _p*y; y = y+1
           end
         lr= stieltjes_ln_factorial(y)
         r = Math.exp(lr)
-        #puts "valid: #{5/2.0+(13/2.0)*Math::log(x)}" 
+        #puts "valid: #{5/2.0+(13/2.0)*Math::log(x)}"
         if r.infinite?
           r=BigMath.exp(BigDecimal(lr.to_s),20)
           r = (r*x) / (_p*y) if x < 8
@@ -202,7 +189,7 @@ module Distribution
         r
        end
      end
-     # Exact factorial. 
+     # Exact factorial.
      # Use lookup on a Hash table on n<20
      # and Prime Swing algorithm for higher values.
     def factorial(n)
@@ -213,7 +200,7 @@ module Distribution
     def fast_factorial(n)
       ApproxFactorial.stieltjes_factorial(n)
     end
-    
+
     # Beta function.
     # Source:
     # * http://mathworld.wolfram.com/BetaFunction.html
@@ -251,20 +238,20 @@ module Distribution
       }
 
      end
-    # 
+    #
     # Incomplete beta function: B(x;a,b)
-    # +a+ and +b+ are parameters and +x+ is 
+    # +a+ and +b+ are parameters and +x+ is
     # integration upper limit.
     def incomplete_beta(x,a,b)
       IncompleteBeta.evaluate(a,b,x)*beta(a,b)
       #Math::IncompleteBeta.axpy(1.0, 0.0, a,b,x)
     end
-    
+
     # Rising factorial
     def rising_factorial(x,n)
       factorial(x+n-1).quo(factorial(x-1))
     end
-   
+
     # Ln of gamma
     def loggamma(x)
       Math.lgamma(x).first
@@ -287,7 +274,7 @@ module Distribution
     def erfc_e(x, with_error = false)
       Erfc.evaluate(x, with_error)
     end
-    
+
     # Sequences without repetition. n^k'
     # Also called 'failing factorial'
     def permutations(n,k)
@@ -297,13 +284,13 @@ module Distribution
       (((n-k+1)..n).inject(1) {|ac,v| ac * v})
       #factorial(x).quo(factorial(x-n))
     end
-    
+
     # Binomial coeffients, or:
     # ( n )
     # ( k )
     #
     # Gives the number of *different* k size subsets of a set size n
-    # 
+    #
     # Uses:
     #
     #  (n)   n^k'    (n)..(n-k+1)
@@ -327,12 +314,12 @@ module Distribution
       k=[k, n-k].min
       (1..k).inject(1) {|ac, i| (ac*(n-k+i).quo(i))}
     end
-    
+
     # Approximate binomial coefficient, using gamma function.
     # The fastest method, until we fall on BigDecimal!
     def binomial_coefficient_gamma(n,k)
       return 1 if (k==0 or k==n)
-      k=[k, n-k].min      
+      k=[k, n-k].min
       # First, we try direct gamma calculation for max precission
 
       val=gamma(n + 1).quo(gamma(k+1)*gamma(n-k+1))
