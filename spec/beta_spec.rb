@@ -41,7 +41,7 @@ describe Distribution::Beta do
         a=rand() * x
         b=1 + rand() * 5
         pr=@engine.cdf(x/100.0,a,b)
-        @engine.p_value(pr,a, b).should be_within(1e-10).of(x/100.0)
+        @engine.p_value(pr,a, b).should be_within(1e-09).of(x/100.0)
        end
     else
       skip("No #{@engine}.p_value")
@@ -55,7 +55,7 @@ end
     end
     it_should_behave_like "Beta engine"
   end
-  
+
   describe Distribution::Beta::Ruby_ do
     before do
       @engine=Distribution::Beta::Ruby_
@@ -76,7 +76,7 @@ end
         @engine=Distribution::Beta::Java_
       end
     it_should_behave_like "Beta engine"
-    end  
+    end
   end
-  
+
 end
