@@ -1,4 +1,7 @@
-# [Distribution](https://github.com/clbustos/distribution) Quick Start
+# [Distribution](https://github.com/sciruby/distribution) Quick Start
+
+[![Build Status](https://travis-ci.org/SciRuby/distribution.svg?branch=master)](https://travis-ci.org/SciRuby/distribution)
+[![Code Climate](https://codeclimate.com/github/SciRuby/distribution/badges/gpa.svg)](https://codeclimate.com/github/SciRuby/distribution)
 
 ```
 git clone https://github.com/sciruby/distribution
