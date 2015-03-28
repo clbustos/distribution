@@ -1,9 +1,7 @@
-$LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
-
 require 'bundler'
 require 'bundler/gem_tasks'
-require 'distribution'
 require 'rake'
+require 'rspec/core/rake_task'
 
 # Setup the necessary gems, specified in the gemspec.
 begin
@@ -18,3 +16,7 @@ desc "Open an irb session preloaded with distribution"
 task :console do
   sh "irb -rubygems -I lib -r distribution.rb"
 end
+
+RSpec::Core::RakeTask.new(:spec)
+
+task :default => :spec
