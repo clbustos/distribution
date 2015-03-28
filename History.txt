@@ -1,12 +1,15 @@
+=== 0.7.2 / 2015-03-
+* Formatting files according to the community's best practices.
+
 === 0.7.0 / 2011-11-30
 
 + Basic log-normal distribution support, with pdf and cdf for ruby [dennyabraham and clbustos]
-* Matthew Peterson add Java support for Poisson and Normal distributions. 
+* Matthew Peterson add Java support for Poisson and Normal distributions.
 * Updated Logistic, Normal spec. Added LogNormal spec [clbustos]
 * Updated template for new distributions
 
 === 0.6.0 / 2011-09-23
-* Incomplete Beta functions on math renamed to Regularized beta, because MathExtension::IncompleteBeta calculates regularized beta function, not Incomplete Beta. 
+* Incomplete Beta functions on math renamed to Regularized beta, because MathExtension::IncompleteBeta calculates regularized beta function, not Incomplete Beta.
 * Corrected documention on F distribution and added comments on gamma and beta[Claudio Bustos]
 * Moved ported methods from GSL to lib/math_extension. Updated spec for gamma and beta distributions[Claudio Bustos]
 * Added beta distribution functions. p_value does not seem to work yet.[John Woods]
@@ -20,15 +23,15 @@
 === 0.5.0 / 2011-05-03
 
 * Exception raises on calculation of T's cdf with ruby engine. For now, stick to gsl implementation
-* Added logistic distribution. 
-* Raises an error on binomial if k>n. 
+* Added logistic distribution.
+* Raises an error on binomial if k>n.
 * New rng for exponential distribution, based on F^-1 [clbustos]
 * Added power benchmark
 
 === 0.4.0 / 2011-02-01
 
 * Poisson and exponential distributions implemented. Implementation of inverse cdf for poisson is not perfect, yet.
-* +distribution+ executable can create template files for new distributions. 
+* +distribution+ executable can create template files for new distributions.
 * MathExtension should work fine with Ruby 1.8. Fixed shadowed variable on MathExtension.naive_factorial
 * Added factorial lookup table for n<20.
 * Added exact cdf for Binomial
@@ -39,19 +42,19 @@
 
 * Included support for binomial distribution. p_value is not accurate
 * Included alias for ruby exact methods on discrete distributions, when they are available
-* Works on Jruby and Ruby 1.8.7 
+* Works on Jruby and Ruby 1.8.7
 * Binomial coefficient optimized. Falling factorial method with Swing Prime on factorial provides a 10x improvement over naive version.
 * Working on binomial coefficient using gamma. The same problem as using Sterling: faster than exact version, but when it requires BigDecimal, is 2-3x slower
 * Deleted Fixnum extension on Hypergeometric
 
 === 0.2.0 / 2011-01-27
-* Shorthands for F and T are 'fdist' and 'tdist' now, to avoid confussions 
+* Shorthands for F and T are 'fdist' and 'tdist' now, to avoid confussions
 * Added Hypergeometric distribution with pdf, cdf, p_value. The Ruby version uses a very slow factorial process, but also has pdf_with_stirling if you don't care about accuracy at all. This latter method needs to be improved, actually, in terms of which choose function it calls for the numerator and denominator. Once that's done, it can replace the slower pdf function. [John Woods]
-* Spec for cdf and p_value of Hypergeometric 
+* Spec for cdf and p_value of Hypergeometric
 * New cdf and p_value on Hypergeometric[clbustos]
 * Hypergeometric#pdf returns 0 on max(0,n+m-t)<=k<=min(m,n)
 * Improved factorial calculation, using Luschny algorithms
 
 === 0.1.0 / 2011-01-26
 
-* Basic set (pdf, cdf, p_value) for Normal, Chi Square, F and T distributions 
+* Basic set (pdf, cdf, p_value) for Normal, Chi Square, F and T distributions
