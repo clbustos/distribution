@@ -1,8 +1,8 @@
-=== 0.7.2 / 2015-03-
-* Formatting files according to the community's best practices.
+=== 0.7.2 / 2015-04-03
+  * Formatting files according to the community's best practices.
+  * Other minor improvements in gemspec, Rakefile, etc.
 
 === 0.7.0 / 2011-11-30
-
 + Basic log-normal distribution support, with pdf and cdf for ruby [dennyabraham and clbustos]
 * Matthew Peterson add Java support for Poisson and Normal distributions.
 * Updated Logistic, Normal spec. Added LogNormal spec [clbustos]
