@@ -22,32 +22,34 @@ module Distribution
         # Pr([x, \infty)) = y -> x
         def pchi2(n, y)
           if n == 1
-          
-          w = Distribution::Normal.p_value(1 - y/2) # = p1.0-Distribution::Normal.cdf(y/2)
-          w * w
+            w = Distribution::Normal.p_value(1 - y/2) # = p1.0-Distribution::Normal.cdf(y/2)
+            w * w
           elsif n == 2
-          #      v = (1.0 / y - 1.0) / 33.0
-          #      newton_a(y, v) {|x| [q_chi2(n, x), -chi2dens(n, x)] }
-          -2.0 * Math.log(y)
+            #      v = (1.0 / y - 1.0) / 33.0
+            #      newton_a(y, v) {|x| [q_chi2(n, x), -chi2dens(n, x)] }
+            -2.0 * Math.log(y)
           else
-          eps = 1.0e-5
-          v = 0.0
-          s = 10.0
-          loop do
-          v += s
-          if s <= eps then break end
-          if (qe = q_chi2(n, v) - y) == 0.0 then break end
-          if qe < 0.0
-            v -= s
-            s /= 10.0 #/
+            eps = 1.0e-5
+            v = 0.0
+            s = 10.0
+            loop do
+              v += s
+              if s <= eps then break end
+              if (qe = q_chi2(n, v) - y) == 0.0 then break end
+              if qe < 0.0
+              v -= s
+              s /= 10.0
+            end
           end
-          end
+
           v
           end
         end
+
         def p_value(pr,k)
           pchi2(k, 1.0-pr)
         end
+
         def cdf(x,k)
           1.0-q_chi2(k,x)
         end
@@ -55,29 +57,32 @@ module Distribution
         # chi-square distribution ([1])
         # Integral over [x, \infty)
         def q_chi2(df, chi2)
-        chi2 = chi2.to_f
-        if (df & 1) != 0
-        chi = Math.sqrt(chi2)
-        if (df == 1) then return 2 * (1.0-Distribution::Normal.cdf(chi)); end
-        s = t = chi * Math.exp(-0.5 * chi2) / SQ2PI
-        k = 3
-        while k < df
-        t *= chi2 / k;  s += t;
-        k += 2
+          chi2 = chi2.to_f
+          if (df & 1) != 0
+            chi = Math.sqrt(chi2)
+
+            if (df == 1) then return 2 * (1.0-Distribution::Normal.cdf(chi)); end
+            s = t = chi * Math.exp(-0.5 * chi2) / SQ2PI
+            k = 3
+
+            while k < df
+              t *= chi2 / k;  s += t;
+              k += 2
+            end
+
+            2 * (1.0-(Distribution::Normal.cdf(chi)) + s)
+
+          else
+            s = t = Math.exp(-0.5 * chi2)
+            k = 2
+
+            while k < df
+              t *= chi2 / k;  s += t;
+              k += 2
+            end
+            s
+          end
         end
-        2 * (1.0-(Distribution::Normal.cdf(chi)) + s)
-        else
-        s = t = Math.exp(-0.5 * chi2)
-        k = 2
-        while k < df
-        t *= chi2 / k;  s += t;
-        k += 2
-        end
-        s
-        end
-        end
-        
-        
       end
     end
   end
