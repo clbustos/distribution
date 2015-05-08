@@ -42,13 +42,15 @@ describe Distribution::F do
       end
     end
 
-    it_only_with_gsl "should return correct p_value" do
+    it_only_with_gsl "should return correct p_value", :focus => true do
       if @engine.respond_to? :p_value
         [0.1,0.5,1,2,10,20,30].each do |f|
           [2,5,10].each do|n2|
             [2,5,10].each do |n1|
               area = @engine.cdf(f,n1,n2)
               @engine.p_value(area,n1,n2).should be_within(1e-4).of(GSL::Cdf.fdist_Pinv(area,n1,n2))
+              @engine.p_value(0.975, 5, 4.189092917592713).should be_within(
+                1e-4).of(GSL::Cdf.fdist_Pinv(0.975, 5, 4.189092917592713))
             end
           end
         end

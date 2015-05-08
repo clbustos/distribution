@@ -14,8 +14,9 @@ module Distribution
         # F-distribution ([1])
         # Integral over [x, \infty) 
         def q_f(df1, df2, f)
-          if (f <= 0.0) then return 1.0; end
-          if (df1 % 2 != 0 && df2 % 2 == 0)
+          return 1.0 if f <= 0.0
+
+          if df1 % 2 != 0 and df2 % 2 == 0
             return 1.0 - q_f(df2, df1, 1.0 / f)
           end
 
@@ -62,12 +63,12 @@ module Distribution
         # Inverse CDF
         # [x, \infty)
         def pf(q, n1, n2)
-          if(q < 0.0 || q > 1.0 || n1 < 1 || n2 < 1)
+          if q < 0.0 or q > 1.0 or n1 < 1 or n2 < 1
             $stderr.printf("Error : Illegal parameter in pf()!\n")
             return 0.0
           end
 
-          if n1 <= 240 || n2 <= 240
+          if n1 <= 240 or n2 <= 240
             eps = 1.0e-5
             eps = 1.0e-4 if n2 == 1
 
@@ -78,9 +79,10 @@ module Distribution
               fw += s
               return fw if s <= eps
               return fw if (qe = q_f(n1, n2, fw) - q) == 0.0
+              puts "qe #{qe} fw #{fw}"
               if qe < 0.0
                 fw -= s
-                s /= 10.0 #/
+                s /= 10.0
               end
             end
           end
@@ -107,7 +109,7 @@ module Distribution
               if(a.abs > eps)
                 fw = pfsub(a, b, d)
               else
-                if(b.abs > eps) then return -c / b end
+                return(-c / b) if b.abs > eps
                 fw = pfsub(a, b, 0.0)
               end
             end
