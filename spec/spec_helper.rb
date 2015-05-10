@@ -26,8 +26,8 @@ RSpec.configure do |config|
 end
 
 module ExampleWithGSL
-  def it_only_with_gsl(name,&block)
-    it(name) do
+  def it_only_with_gsl(name,opts={},&block)
+    it(name, opts) do
       if Distribution.has_gsl?
         instance_eval(&block)
       else
