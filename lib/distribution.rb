@@ -39,7 +39,6 @@ require 'distribution/version'
 #    Distribution::Normal.p_value(0.95)
 #    => 1.64485364660836
 module Distribution
-
   SQ2PI = Math.sqrt(2 * Math::PI)
 
   module Shorthand
@@ -150,7 +149,5 @@ module Distribution
   require 'distribution/lognormal'
   require 'distribution/weibull'
 
-  if has_java?
-    init_java
-  end
+  init_java if has_java?
 end
