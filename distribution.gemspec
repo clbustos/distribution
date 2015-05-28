@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.date = Date.today.to_s
   s.homepage = "https://github.com/sciruby/distribution"
 
-  s.authors = ['Claudio Bustos']
-  s.email = ['clbustos@gmail.com']
+  s.authors = ['Claudio Bustos', 'Carlos Agarie']
+  s.email = ['clbustos@gmail.com', 'carlos.agarie@gmail.com']
 
   s.platform = Gem::Platform::RUBY
   s.summary = "Distribution"
