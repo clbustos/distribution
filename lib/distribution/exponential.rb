@@ -1,19 +1,18 @@
 require 'distribution/exponential/ruby'
 require 'distribution/exponential/gsl'
-#require 'distribution/exponential/java'
-
+# require 'distribution/exponential/java'
 
 module Distribution
   # From Wikipedia:
-  #   In probability theory and statistics, the exponential distribution 
+  #   In probability theory and statistics, the exponential distribution
   #   (a.k.a. negative exponential distribution) is a family of continuous
   #   probability distributions. It describes the time between events in a
-  #   Poisson process, i.e. a process in which events occur continuously 
+  #   Poisson process, i.e. a process in which events occur continuously
   #   and independently at a constant average rate.
   #
   # Parameter +l+ is the rate parameter, the number of occurrences/unit time.
   module Exponential
-    SHORTHAND='expo'
+    SHORTHAND = 'expo'
     extend Distributable
     create_distribution_methods
     ##

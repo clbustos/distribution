@@ -5,8 +5,9 @@ module Distribution
         def cdf(x)
           Statistics2.normaldist(x)
         end
+
         def p_value(pr)
-         Statistics2.pnormaldist(pr)
+          Statistics2.pnormaldist(pr)
         end
       end
     end

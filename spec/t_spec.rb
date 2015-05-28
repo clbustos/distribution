@@ -57,8 +57,8 @@ shared_examples_for "T engine" do
         [2,5,10].each{|n|
           area=Distribution::T.cdf(t,n)
           @engine.p_value(area,n).should be_within(1e-4).of(GSL::Cdf.tdist_Pinv(area,n))
-    }
-    }
+        }
+   }
     else
       pending("No #{@engine}.p_value")
     end
@@ -89,17 +89,15 @@ end
     it_should_behave_like "T engine(cdf with fractional df)"    
     end
   end
-=begin
-  if Distribution.has_statistics2?
-    describe Distribution::T::Statistics2_ do
-      before do
-        @engine=Distribution::T::Statistics2_
-      end
-    it_should_behave_like "T engine"    
-    end  
-  end
-=end  
-  if Distribution.has_java?
+#   if Distribution.has_statistics2?
+#     describe Distribution::T::Statistics2_ do
+#       before do
+#         @engine=Distribution::T::Statistics2_
+#       end
+#     it_should_behave_like "T engine"    
+#     end  
+#   end
+# =e  if Distribution.has_java?
     describe Distribution::T::Java_ do
       before do
         @engine=Distribution::T::Java_

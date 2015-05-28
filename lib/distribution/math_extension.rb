@@ -14,16 +14,13 @@ require 'distribution/math_extension/incomplete_beta'
 require 'distribution/math_extension/log_utilities'
 
 module Distribution
-
   # Useful additions to Math
   module MathExtension
-
     # Factorization based on Prime Swing algorithm, by Luschny (the king of factorial numbers analysis :P )
     # == Reference
     # * The Homepage of Factorial Algorithms. (C) Peter Luschny, 2000-2010
     # == URL: http://www.luschny.de/math/factorial/csharp/FactorialPrimeSwing.cs.html
     class SwingFactorial
-
       SmallOddSwing = [1, 1, 1, 3, 3, 15, 5, 35, 35, 315, 63, 693, 231, 3003,
                        429, 6435, 6435, 109_395, 12_155, 230_945, 46_189,
                        969_969, 88_179, 2_028_117, 676_039, 16_900_975,
@@ -76,9 +73,7 @@ module Distribution
             _p = 1
 
             while (q = (q / prime).truncate) > 0
-              if q.odd?
-                _p *= prime
-              end
+              _p *= prime if q.odd?
             end
             if _p > 1
               @prime_list[count] = _p
@@ -119,7 +114,6 @@ module Distribution
     # == Reference
     # * http://www.luschny.de/math/factorial/approx/SimpleCases.html
     module ApproxFactorial
-
       class << self
         def stieltjes_ln_factorial(z)
           a0 = 1.quo(12); a1 = 1.quo(30); a2 = 53.quo(210); a3 = 195.quo(371)
@@ -147,9 +141,7 @@ module Distribution
           y = x
           _p = 1
 
-          while y < 8
-            _p *= y; y += 1
-          end
+          _p *= y; y += 1 while y < 8
 
           lr = stieltjes_ln_factorial(y)
           r = Math.exp(lr)
@@ -218,7 +210,6 @@ module Distribution
         sum + (binomial_coefficient(n, j) * x**j * (1 - x)**(n - j))
       end
     end
-
 
     # Incomplete beta function: B(x;a,b)
     # +a+ and +b+ are parameters and +x+ is
@@ -330,8 +321,8 @@ end
 module CMath # :nodoc:
   include Distribution::MathExtension
   module_function :factorial, :beta, :loggamma, :unnormalized_incomplete_gamma,
-    :incomplete_gamma, :gammp, :gammq, :erfc_e, :binomial_coefficient,
-    :binomial_coefficient_gamma,  :incomplete_beta, :exact_regularized_beta,
-    :regularized_beta, :permutations, :rising_factorial, :fast_factorial,
-    :combinations, :logbeta, :lbeta
+                  :incomplete_gamma, :gammp, :gammq, :erfc_e, :binomial_coefficient,
+                  :binomial_coefficient_gamma,  :incomplete_beta, :exact_regularized_beta,
+                  :regularized_beta, :permutations, :rising_factorial, :fast_factorial,
+                  :combinations, :logbeta, :lbeta
 end

@@ -16,19 +16,19 @@ module Distribution
     module Ruby_
       extend Distribution::MathExtension
 
-        # functions needed:
-        # - pdf
-        # - cdf (lower cumulative function, P(x))
-        # - Q(x), upper cumulative function
-        # - mean
-        # - mode
-        # - kurtosis
-        # - skewness
-        # - entropy
-        # - "fit" (maximum likelihood?)
-        # - expected value (given a function)
-        # - lower-tail quantile -> P
-        # - upper tail quantile -> Q
+      # functions needed:
+      # - pdf
+      # - cdf (lower cumulative function, P(x))
+      # - Q(x), upper cumulative function
+      # - mean
+      # - mode
+      # - kurtosis
+      # - skewness
+      # - entropy
+      # - "fit" (maximum likelihood?)
+      # - expected value (given a function)
+      # - lower-tail quantile -> P
+      # - upper tail quantile -> Q
 
       class << self
         # F Distribution (Ruby) -- Probability Density Function
@@ -95,23 +95,18 @@ module Distribution
         # @return [Float] Value of the F distribution that gives a p-value of `y`.
 
         def mean
-
         end
 
         def mode
-
         end
 
         def skewness
-
         end
 
         def kurtosis
-
         end
 
         def entropy
-
         end
       end
     end

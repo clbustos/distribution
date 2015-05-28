@@ -8,23 +8,23 @@ module Distribution
       def create_distribution(l)
         PoissonDistributionImpl.new(l)
       end
-      
+
       #==
-      # 
-      def pdf(k,l)
+      #
+      def pdf(k, l)
         dist = create_distribution(l)
         dist.probability(k)
       end
-      
-      def cdf(k,l)
+
+      def cdf(k, l)
         dist = create_distribution(l)
         dist.cumulativeProbability(k)
       end
-      
-#      def p_value(pr,l)
-#        dist = create_distribution(l)
-#        dist.inverseCumulativeProbability(pr)
-#      end
+
+        #      def p_value(pr,l)
+        #        dist = create_distribution(l)
+        #        dist.inverseCumulativeProbability(pr)
+        #      end
       end
     end
   end

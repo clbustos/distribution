@@ -6,7 +6,7 @@ module Distribution
   # Calculate cdf and inverse cdf for F Distribution.
   #
   module F
-    SHORTHAND='fdist'
+    SHORTHAND = 'fdist'
     extend Distributable
     create_distribution_methods
 

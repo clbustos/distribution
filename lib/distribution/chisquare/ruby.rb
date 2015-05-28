@@ -2,27 +2,25 @@ module Distribution
   module ChiSquare
     module Ruby_
       class << self
-      
         include Math
-        def pdf(x,n)
+        def pdf(x, n)
           if n == 1
-            1.0/Math.sqrt(2 * Math::PI * x) * Math::E**(-x/2.0)
+            1.0 / Math.sqrt(2 * Math::PI * x) * Math::E**(-x / 2.0)
           elsif n == 2
-            0.5 * Math::E**(-x/2.0)
+            0.5 * Math::E**(-x / 2.0)
           else
             n = n.to_f
-            n2 = n/2
+            n2 = n / 2
             x = x.to_f
-            1.0 / 2**n2 / gamma(n2) * x**(n2 - 1.0) * Math.exp(-x/2.0)
-          end        
+            1.0 / 2**n2 / gamma(n2) * x**(n2 - 1.0) * Math.exp(-x / 2.0)
+          end
         end
-        
-        
+
         # CDF Inverse over [x, \infty)
         # Pr([x, \infty)) = y -> x
         def pchi2(n, y)
           if n == 1
-            w = Distribution::Normal.p_value(1 - y/2) # = p1.0-Distribution::Normal.cdf(y/2)
+            w = Distribution::Normal.p_value(1 - y / 2) # = p1.0-Distribution::Normal.cdf(y/2)
             w * w
           elsif n == 2
             #      v = (1.0 / y - 1.0) / 33.0
@@ -34,26 +32,26 @@ module Distribution
             s = 10.0
             loop do
               v += s
-              if s <= eps then break end
+              break if s <= eps
               if (qe = q_chi2(n, v) - y) == 0.0 then break end
               if qe < 0.0
-              v -= s
-              s /= 10.0
+                v -= s
+                s /= 10.0
             end
+            end
+
+            v
           end
-
-          v
-          end
         end
 
-        def p_value(pr,k)
-          pchi2(k, 1.0-pr)
+        def p_value(pr, k)
+          pchi2(k, 1.0 - pr)
         end
 
-        def cdf(x,k)
-          1.0-q_chi2(k,x)
+        def cdf(x, k)
+          1.0 - q_chi2(k, x)
         end
-        
+
         # chi-square distribution ([1])
         # Integral over [x, \infty)
         def q_chi2(df, chi2)
@@ -61,23 +59,23 @@ module Distribution
           if (df & 1) != 0
             chi = Math.sqrt(chi2)
 
-            if (df == 1) then return 2 * (1.0-Distribution::Normal.cdf(chi)); end
+            return 2 * (1.0 - Distribution::Normal.cdf(chi)) if (df == 1)
             s = t = chi * Math.exp(-0.5 * chi2) / SQ2PI
             k = 3
 
             while k < df
-              t *= chi2 / k;  s += t;
+              t *= chi2 / k;  s += t
               k += 2
             end
 
-            2 * (1.0-(Distribution::Normal.cdf(chi)) + s)
+            2 * (1.0 - (Distribution::Normal.cdf(chi)) + s)
 
           else
             s = t = Math.exp(-0.5 * chi2)
             k = 2
 
             while k < df
-              t *= chi2 / k;  s += t;
+              t *= chi2 / k;  s += t
               k += 2
             end
             s

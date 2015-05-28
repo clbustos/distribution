@@ -6,26 +6,24 @@ require 'distribution/t/gsl'
 require 'distribution/t/java'
 
 module Distribution
+  # Calculate statisticals for T Distribution.
+  module T
+    SHORTHAND = 'tdist'
+    extend Distributable
+    create_distribution_methods
 
-    # Calculate statisticals for T Distribution.
-    module T
-      SHORTHAND='tdist'  
-      extend Distributable
-      create_distribution_methods
-      
     ##
     # :singleton-method: pdf(x,k)
-    # Returns the integral of T distribution 
-    # with +k+ degrees of freedom over [0, +x+]    
-
+    # Returns the integral of T distribution
+    # with +k+ degrees of freedom over [0, +x+]
     ##
     # :singleton-method: p_value(qn, k)
-    # Return the P-value of the corresponding integral +qn+ with 
-    # +k+ degrees of freedom    
-    
+    # Return the P-value of the corresponding integral +qn+ with
+    # +k+ degrees of freedom
+
     ##
     # :singleton-method: cdf(x,k)
-    # Returns the integral of T distribution 
-    # with +k+ degrees of freedom over [0, +x+]    
-    end
+    # Returns the integral of T distribution
+    # with +k+ degrees of freedom over [0, +x+]
+  end
 end

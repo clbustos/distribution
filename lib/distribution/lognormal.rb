@@ -16,7 +16,7 @@ module Distribution
   #
   module LogNormal
     extend Distributable
-    SHORTHAND='lognormal'
+    SHORTHAND = 'lognormal'
     create_distribution_methods
 
     ##
@@ -24,16 +24,14 @@ module Distribution
     # Returns PDF of of Lognormal distribution with parameters u (position) and
     # s (deviation)
 
-
     ##
     # :singleton-method: cdf(x,u,s)
-    # Returns the CDF of Lognormal distribution of x with parameters 
+    # Returns the CDF of Lognormal distribution of x with parameters
     # u (position) and s(deviation)
 
     ##
     # :singleton-method: p_value(pr,u,s)
     # Return the quantile of the corresponding integral +pr+
     # on a lognormal distribution's cdf with parameters z and s
-
   end
 end
