@@ -28,6 +28,8 @@
 #
 
 require 'distribution/math_extension'
+require 'distribution/shorthand'
+require 'distribution/distributable'
 require 'distribution/version'
 
 # Several distributions modules to calculate pdf, cdf, inverse cdf and generate
@@ -41,98 +43,46 @@ require 'distribution/version'
 module Distribution
   SQ2PI = Math.sqrt(2 * Math::PI)
 
-  module Shorthand
-    EQUIVALENCES = { p_value: :p, cdf: :cdf, pdf: :pdf, rng: :r,
-                     exact_pdf: :epdf, exact_cdf: :ecdf, exact_p_value: :ep }
-
-    def self.add_shortcut(shortcut, method, &block)
-      if EQUIVALENCES.include? method.to_sym
-        name = shortcut + "_#{method}"
-        define_method(name, &block)
-
-        name = shortcut + "_#{EQUIVALENCES[method.to_sym]}"
-        define_method(name, &block)
-
-      end
-    end
-  end
-
-  # Create a method 'has_<library>' on Module
-  # which require a library and return true or false
-  # according to success of failure
-  def self.create_has_library(library) #:nodoc:
-    define_singleton_method("has_#{library}?") do
-      cv = "@@#{library}"
-      unless class_variable_defined? cv
-        begin
-          require library.to_s
-          class_variable_set(cv, true)
-        rescue LoadError
-          class_variable_set(cv, false)
+  class << self
+    # Create a method 'has_<library>' on Module
+    # which require a library and return true or false
+    # according to success of failure
+    def create_has_library(library) #:nodoc:
+      define_singleton_method("has_#{library}?") do
+        cv = "@@#{library}"
+        unless class_variable_defined? cv
+          begin
+            require library.to_s
+            class_variable_set(cv, true)
+          rescue LoadError
+            class_variable_set(cv, false)
+          end
         end
+        class_variable_get(cv)
       end
-      class_variable_get(cv)
     end
-  end
 
-  # Retrieves the libraries used to calculate
-  # distributions
-  def self.libraries_order
-    order = [:Ruby_]
-    order.unshift(:Statistics2_) if has_statistics2?
-    order.unshift(:GSL_) if has_gsl?
-    order.unshift(:Java_) if has_java?
-    order
+    # Retrieves the libraries used to calculate
+    # distributions
+    def libraries_order
+      order = [:Ruby_]
+      order.unshift(:Statistics2_) if has_statistics2?
+      order.unshift(:GSL_) if has_gsl?
+      order.unshift(:Java_) if has_java?
+      order
+    end
+
+    def init_java
+      $LOAD_PATH.unshift File.expand_path('../../vendor/java', __FILE__)
+      require 'commons-math-2.2.jar'
+      java_import 'org.apache.commons.math.distribution.NormalDistributionImpl'
+      java_import 'org.apache.commons.math.distribution.PoissonDistributionImpl'
+    end
   end
 
   create_has_library :gsl
   create_has_library :statistics2
   create_has_library :java
-
-  # Magic module
-  module Distributable #:nodoc:
-    # Create methods for each module and add methods to
-    # Distribution::Shorthand.
-    #
-    # Traverse Distribution.libraries_order adding
-    # methods availables for each engine module on
-    # the current library
-    #
-    # Kids: Metaprogramming trickery! Don't do at work.
-    # This section was created between a very long reunion
-    # and a 456 Km. travel
-    def create_distribution_methods
-      Distribution.libraries_order.each do |l_name|
-        if const_defined? l_name
-          l = const_get(l_name)
-          # Add methods from engine to base base, if not yet included
-          l.singleton_methods.each do |m|
-            unless singleton_methods.include? m
-              define_method(m) do |*args|
-                l.send(m, *args)
-              end
-              # Add method to Distribution::Shorthand
-              sh = const_get(:SHORTHAND)
-              Distribution::Shorthand.add_shortcut(sh, m) do |*args|
-                l.send(m, *args)
-              end
-
-              module_function m
-            end
-          end
-        end
-      end
-      # create alias for common methods
-      alias_method :inverse_cdf, :p_value if singleton_methods.include? :p_value
-    end
-  end
-
-  def self.init_java
-    $LOAD_PATH.unshift File.expand_path('../../vendor/java', __FILE__)
-    require 'commons-math-2.2.jar'
-    java_import 'org.apache.commons.math.distribution.NormalDistributionImpl'
-    java_import 'org.apache.commons.math.distribution.PoissonDistributionImpl'
-  end
 
   require 'distribution/normal'
   require 'distribution/chisquare'
