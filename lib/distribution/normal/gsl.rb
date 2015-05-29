@@ -16,12 +16,11 @@ module Distribution
           GSL::Ran.gaussian_pdf(x)
         end
 
-        def p_value(qn)
+        def quantile(qn)
           GSL::Cdf.ugaussian_Pinv(qn)
         end
 
-        def gsl
-        end
+        alias_method :p_value, :quantile
       end
     end
   end

@@ -12,9 +12,11 @@ module Distribution
           GSL::Cdf.exponential_P(x, 1 / l.to_f)
         end
 
-        def p_value(pr, l)
+        def quantile(pr, l)
           GSL::Cdf.exponential_Pinv(pr, 1 / l.to_f)
         end
+
+        alias_method :p_value, :quantile
       end
     end
   end

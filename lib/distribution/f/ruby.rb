@@ -61,7 +61,7 @@ module Distribution
         #
         # Taken from:
         # https://github.com/JuliaLang/Rmath-julia/blob/master/src/qf.c
-        def p_value(probability, n, m)
+        def quantile(probability, n, m)
           return Float::NAN if n <= 0.0 || m <= 0.0
 
           if n == Float::INFINITY || n == -Float::INFINITY || m == Float::INFINITY || m == -Float::INFINITY
@@ -79,6 +79,8 @@ module Distribution
             return value.nan? ? Float::NAN : value
           end
         end
+
+        alias_method :p_value, :quantile
 
         # Complementary quantile function.
         #

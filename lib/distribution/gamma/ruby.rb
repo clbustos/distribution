@@ -41,10 +41,6 @@ module Distribution
           return (1 - Math::IncompleteGamma.q(a, y)) if y > a
           (Math::IncompleteGamma.p(a, y))
         end
-
-        # def p_value(pr,a,b)
-        #  cdf(1.0-pr,a,b)
-        # end
       end
     end
   end

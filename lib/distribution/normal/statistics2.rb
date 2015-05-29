@@ -6,9 +6,11 @@ module Distribution
           Statistics2.normaldist(x)
         end
 
-        def p_value(pr)
+        def quantile(pr)
           Statistics2.pnormaldist(pr)
         end
+
+        alias_method :p_value, :quantile
       end
     end
   end

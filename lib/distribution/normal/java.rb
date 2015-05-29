@@ -11,10 +11,10 @@ module Distribution
         end
 
         #==
-        # Get the inverse cumulative density function (p-value) for qn
-        def p_value(qn)
+        # Return the probability density function at x
+        def pdf(x)
           dist = NormalDistributionImpl.new
-          dist.inverseCumulativeProbability(qn)
+          dist.density(x)
         end
 
         #==
@@ -25,11 +25,13 @@ module Distribution
         end
 
         #==
-        # Return the probability density function at x
-        def pdf(x)
+        # Get the inverse cumulative density function (p-value) for qn
+        def quantile(qn)
           dist = NormalDistributionImpl.new
-          dist.density(x)
+          dist.inverseCumulativeProbability(qn)
         end
+
+        alias_method :p_value, :quantile
       end
     end
   end

@@ -5,6 +5,7 @@ module Distribution
         def pdf(t, v)
           ((Math.gamma((v + 1) / 2.0)) / (Math.sqrt(v * Math::PI) * Math.gamma(v / 2.0))) * ((1 + (t**2 / v.to_f))**(-(v + 1) / 2.0))
         end
+
         # Returns the integral of t-distribution with n degrees of freedom over (-Infty, x].
         def cdf(t, n)
           p_t(n, t)
@@ -94,14 +95,16 @@ module Distribution
         end
 
         # Returns the P-value of tdist().
-        def p_value(y, n)
+        def quantile(y, n)
           if y > 0.5
             pt(2.0 - y * 2.0, n)
           else
             - pt(y * 2.0, n)
           end
         end
+
+        alias_method :p_value, :quantile
       end
     end
-end
+  end
 end

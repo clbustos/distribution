@@ -8,7 +8,7 @@ module Distribution
   #   Continuous probability distribution that is often used as
   #   a first approximation to describe real-valued random variables
   #   that tend to cluster around a single mean value.
-  #   The graph of the associated probability density function is  “bell”-shaped
+  #   The graph of the associated probability density function is "bell-shaped.
   module Normal
     SHORTHAND = 'norm'
     extend Distributable

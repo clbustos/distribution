@@ -17,9 +17,11 @@ module Distribution
           1 - Math.exp(-l * x)
         end
 
-        def p_value(pr, l)
+        def quantile(pr, l)
           (-Math.log(1 - pr)).quo(l)
         end
+
+        alias_method :p_value, :quantile
       end
     end
   end

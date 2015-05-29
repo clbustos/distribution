@@ -6,6 +6,9 @@ module Distribution
           fail 'k>n' if k > n
           Math.binomial_coefficient(n, k) * (pr**k) * (1 - pr)**(n - k)
         end
+
+        alias_method :exact_pdf, :pdf
+
         # TODO: Use exact_regularized_beta for
         # small values and regularized_beta for bigger ones.
         def cdf(k, n, pr)
@@ -19,7 +22,7 @@ module Distribution
           out
         end
 
-        def p_value(prob, n, pr)
+        def quantile(prob, n, pr)
           ac = 0
           (0..n).each do |i|
             ac += pdf(i, n, pr)
@@ -27,7 +30,7 @@ module Distribution
           end
         end
 
-        alias_method :exact_pdf, :pdf
+        alias_method :p_value, :quantile
       end
     end
   end

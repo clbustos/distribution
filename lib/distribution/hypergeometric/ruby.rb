@@ -8,6 +8,7 @@ module Distribution
         def bc(n, k)
           Math.binomial_coefficient(n, k)
         end
+
         # Hypergeometric probability density function
         #
         # Probability p(+k+, +m+, +n+, +total+) of drawing sets of size +m+ and +n+ with an intersection of size +k+
@@ -23,21 +24,12 @@ module Distribution
           (bc(m, k) * bc(total - m, n - k)).quo(bc(total, n))
         end
 
+        alias_method :exact_pdf, :pdf
+
         def pdf_with_den(k, m, n, total, den)
           (bc(m, k) * bc(total - m, n - k)).quo(den)
         end
 
-        # p-value:
-
-        def p_value(pr, m, n, total)
-          ac = 0
-          den = bc(total, n)
-
-          (0..total).each do |i|
-            ac += pdf_with_den(i, m, n, total, den)
-            return i if ac >= pr
-          end
-        end
         # Cumulative distribution function.
         # The probability of obtain, from a sample of
         # size +n+, +k+ or less elements
@@ -52,9 +44,21 @@ module Distribution
           (0..k).collect { |ki| pdf_with_den(ki, m, n, total, den) }.inject { |sum, v| sum + v }
         end
 
-        alias_method :exact_pdf, :pdf
-        alias_method :exact_p_value, :p_value
         alias_method :exact_cdf, :cdf
+
+        # p-value:
+        def quantile(pr, m, n, total)
+          ac = 0
+          den = bc(total, n)
+
+          (0..total).each do |i|
+            ac += pdf_with_den(i, m, n, total, den)
+            return i if ac >= pr
+          end
+        end
+
+        alias_method :p_value, :quantile
+        alias_method :exact_p_value, :p_value
       end
     end
   end

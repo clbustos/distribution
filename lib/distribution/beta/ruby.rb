@@ -35,7 +35,7 @@ module Distribution
         end
 
         # Inverse of the beta distribution function
-        def p_value(p, a, b, rmin = 0, rmax = 1)
+        def quantile(p, a, b, rmin = 0, rmax = 1)
           fail 'a <= 0' if a <= 0
           fail 'b <= 0' if b <= 0
           fail 'rmin == rmax' if rmin == rmax
@@ -68,6 +68,8 @@ module Distribution
 
           rmin + guess * (rmax - rmin)
         end
+
+        alias_method :p_value, :quantile
       end
     end
   end

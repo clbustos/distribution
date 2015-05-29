@@ -2,10 +2,6 @@ module Distribution
   module Normal
     module Ruby_
       class << self
-        # random number within a gaussian distribution X ~ N(0,1)
-        def rngu
-          rng(0, 1, nil)
-        end
         # Return a proc which return a random number within a
         # gaussian distribution X ~ N(+mean+,+sigma+^2)
         # +seed+ feed the
@@ -33,29 +29,18 @@ module Distribution
             end
           end
         end
-        # Return the inverse CDF or P-value of the corresponding integral
-        def p_value(qn)
-          b = [1.570796288, 0.03706987906, -0.8364353589e-3,
-               -0.2250947176e-3, 0.6841218299e-5, 0.5824238515e-5,
-               -0.104527497e-5, 0.8360937017e-7, -0.3231081277e-8,
-               0.3657763036e-10, 0.6936233982e-12]
 
-          if qn < 0.0 || 1.0 < qn
-            $stderr.printf("Error : qn <= 0 or qn >= 1  in pnorm()!\n")
-            return 0.0
-          end
-          qn == 0.5 and return 0.0
-
-          w1 = qn
-          qn > 0.5 && w1 = 1.0 - w1
-          w3 = -Math.log(4.0 * w1 * (1.0 - w1))
-          w1 = b[0]
-          1.upto 10 do |i|
-            w1 += b[i] * w3**i
-          end
-          qn > 0.5 and return Math.sqrt(w1 * w3)
-          -Math.sqrt(w1 * w3)
+        # random number within a gaussian distribution X ~ N(0,1)
+        def rngu
+          rng(0, 1, nil)
         end
+
+        # Normal probability density function (pdf)
+        # With x=0 and sigma=1
+        def pdf(x)
+          (1.0 / SQ2PI) * Math.exp(-(x**2 / 2.0))
+        end
+
         # Normal cumulative distribution function (cdf).
         #
         # Returns the integral of  normal distribution
@@ -85,11 +70,31 @@ module Distribution
           e ? 1.0 : 0.0
         end
 
-        # Normal probability density function (pdf)
-        # With x=0 and sigma=1
-        def pdf(x)
-          (1.0 / SQ2PI) * Math.exp(-(x**2 / 2.0))
+        # Return the inverse CDF or P-value of the corresponding integral
+        def quantile(qn)
+          b = [1.570796288, 0.03706987906, -0.8364353589e-3,
+               -0.2250947176e-3, 0.6841218299e-5, 0.5824238515e-5,
+               -0.104527497e-5, 0.8360937017e-7, -0.3231081277e-8,
+               0.3657763036e-10, 0.6936233982e-12]
+
+          if qn < 0.0 || 1.0 < qn
+            $stderr.printf("Error : qn <= 0 or qn >= 1  in pnorm()!\n")
+            return 0.0
+          end
+          qn == 0.5 and return 0.0
+
+          w1 = qn
+          qn > 0.5 && w1 = 1.0 - w1
+          w3 = -Math.log(4.0 * w1 * (1.0 - w1))
+          w1 = b[0]
+          1.upto 10 do |i|
+            w1 += b[i] * w3**i
+          end
+          qn > 0.5 and return Math.sqrt(w1 * w3)
+          -Math.sqrt(w1 * w3)
         end
+
+        alias_method :p_value, :quantile
       end
     end
   end

@@ -37,15 +37,11 @@ module Distribution
               if qe < 0.0
                 v -= s
                 s /= 10.0
-            end
+              end
             end
 
             v
           end
-        end
-
-        def p_value(pr, k)
-          pchi2(k, 1.0 - pr)
         end
 
         def cdf(x, k)
@@ -81,6 +77,12 @@ module Distribution
             s
           end
         end
+
+        def quantile(pr, k)
+          pchi2(k, 1.0 - pr)
+        end
+
+        alias_method :p_value, :quantile
       end
     end
   end
