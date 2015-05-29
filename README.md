@@ -36,13 +36,20 @@ The following table lists the available distributions and the methods available 
 $ gem install distribution
 ```
 
-If you have GSL installed and want to speed things up, install `rb-gsl`:
+You can install GSL for better performance:
+
+* For Mac OS X: `brew install gsl`
+* For Ubuntu / Debian: `sudo apt-get install gsl`
+
+After successfully installing the library:
 
 ```bash
 $ gem install rb-gsl
 ```
 
 ## Examples
+
+You can find automatically generated documentation on [RubyDoc](http://www.rubydoc.info/github/sciruby/distribution/master).
 
 ```
 # Returns Gaussian PDF for x.
@@ -123,7 +130,7 @@ This gem wasn't updated for a long time before I started working on it, so there
 
 ### Long-term
 
-- ???
+- Implementing everything in the distributions x functions table above.
 
 ## Issues
 
