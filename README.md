@@ -3,14 +3,32 @@
 [![Build Status](https://travis-ci.org/SciRuby/distribution.svg?branch=master)](https://travis-ci.org/SciRuby/distribution)
 [![Code Climate](https://codeclimate.com/github/SciRuby/distribution/badges/gpa.svg)](https://codeclimate.com/github/SciRuby/distribution)
 
-Distribution is a gem with several probabilistic distributions (normal, Student's t, F or Fisher-Snedecor, chi square, binomial, hypergeometric, exponential, Poisson, beta, lognormal and gamma).
-
-Uses Ruby by default. C (GSL) or Java extensions are used if available. Some facts:
+Distribution is a gem with several probabilistic distributions. Pure Ruby is used by default, C (GSL) or Java extensions are used if available. Some facts:
 
 - Very fast ruby 1.9.3+ implementation, with improved method to calculate factorials and other common functions.
 - All methods tested on several ranges. See `spec/`.
 - Code for normal, Student's t and chi square is lifted from the [statistics2 gem](https://rubygems.org/gems/statistics2). Originally at [this site](http://blade.nagaokaut.ac.jp/~sinara/ruby/math/statistics2).
 - The code for some functions and RNGs was lifted from Julia's [Rmath-julia](https://github.com/JuliaLang/Rmath-julia), a patched version of R's standalone math library.
+
+The following table lists the available distributions and the methods available for each one. If a field is marked with an *x*, that distribution doesn't have that method implemented.
+
+| Distribution     | PDF | CDF | Quantile | RNG | Mean | Mode | Variance | Skewness | Kurtosis | Entropy |
+| :--------------- | :-: | :-: | :------: | :-: | :--: | :--: | :------: | :------: | :------: | :-----: |
+| Uniform          | x   | x   | x        | x   | x    | x    | x        | x        | x        | x       |
+| Normal           | x   | x   | x        | x   | x    | x    | x        | x        | x        | x       |
+| Lognormal        |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
+| Bivariate Normal |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
+| Exponential      |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
+| Logistic         |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
+| t-Student        |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
+| Chi Square       |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
+| Fisher-Snedecor  |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
+| Beta             |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
+| Gamma            |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
+| Weibull          |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
+| Binomial         |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
+| Poisson          |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
+| Hypergeometric   |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
 
 ## Installation
 
