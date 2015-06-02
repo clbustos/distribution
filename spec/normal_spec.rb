@@ -23,6 +23,15 @@ describe Distribution::Normal do
     end
   end
 
+  shared_examples_for 'gaussian engine(with rng)' do
+    it 'rng with a specified seed should be reproducible' do
+      seed = rand(10)
+      rng1 = @engine.rng(0, 1, seed)
+      rng2 = @engine.rng(0, 1, seed)
+      (rng1.call).should eq(rng2.call)
+    end
+  end
+
   shared_examples_for 'gaussian engine(with pdf)' do
     it 'should return correct pdf' do
       if @engine.respond_to? :pdf
