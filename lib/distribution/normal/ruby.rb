@@ -2,20 +2,29 @@ module Distribution
   module Normal
     module Ruby_
       class << self
-        # Return a proc which return a random number within a
-        # gaussian distribution X ~ N(+mean+,+sigma+^2)
-        # +seed+ feed the
-        # == Reference:
-        # * http://www.taygeta.com/random/gaussian.html
-        def rng(mean = 0, sigma = 1, _seed = nil)
+        # Return a Proc object which returns a random number drawn 
+        # from the normal distribution with mean +mean+ and
+        # standard deviation +sigma+, i.e. from N(+mean+,+sigma+^2).
+        #
+        # == Arguments
+        #   * +mean+  - mean of the normal distribution
+        #   * +sigma+ - standard deviation, a strictly positive number
+        #   * +seed+  - seed, an integer value to set the initial state
+        #
+        # == Reference
+        #   * http://www.taygeta.com/random/gaussian.html
+        #
+        def rng(mean = 0, sigma = 1, seed = nil)
+          seed = Random.new_seed if seed.nil?
+          r = Random.new(seed)
           returned = 0
           y1 = 0
           y2 = 0
           lambda do
             if returned == 0
               begin
-                x1 = 2.0 * rand - 1.0
-                x2 = 2.0 * rand - 1.0
+                x1 = 2.0 * r.rand - 1.0
+                x2 = 2.0 * r.rand - 1.0
                 w = x1 * x1 + x2 * x2
               end while (w >= 1.0)
               w = Math.sqrt((-2.0 * Math.log(w)) / w)
