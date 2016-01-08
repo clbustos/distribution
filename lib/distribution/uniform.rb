@@ -11,13 +11,16 @@ module Distribution
     create_distribution_methods
 
     ##
-    # :singleton-method: pdf(x )
+    # :singleton-method: pdf(x)
+    # Returns the uniform PDF
 
     ##
-    # :singleton-method: cdf(x )
+    # :singleton-method: cdf(x)
+    # Returns the uniform CDF
     
     ##
-    # :singleton-method: p_value(pr )
+    # :singleton-method: quantile(qn)
+    # Returns the uniform inverse CDF or P-value
 
   end
 end

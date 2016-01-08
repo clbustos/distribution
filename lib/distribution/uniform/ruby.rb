@@ -3,6 +3,20 @@ module Distribution
     module Ruby_
       class << self
         
+        # Returns a lambda that emits a uniformly distributed
+        # sequence of random numbers between the defined limits
+        #
+        # == Arguments
+        #   * +lower+ - Lower limit of the distribution
+        #   * +upper+ - Upper limit of the distribution
+        #   * +seed+ - Seed to set the initial state, randomized if ommited
+        #
+        def rng(lower = 0, upper = 1, seed = nil)
+          seed = Random.new_seed if seed.nil?
+          srand(seed)
+          -> { rand * (upper - lower) + lower }
+        end
+        
         # Uniform probability density function on [a, b]
         #
         # == Arguments
@@ -18,7 +32,7 @@ module Distribution
         # The implementation has been adopted from GSL-1.9 gsl/randist/flat.c
         #
         def pdf(x, lower = 0, upper = 1)
-          
+          upper, lower = lower, upper if lower > upper
           1 / Math.abs(upper - lower) if x >= lower and x <= upper
           0
         end
