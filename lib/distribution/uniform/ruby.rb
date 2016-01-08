@@ -1,0 +1,82 @@
+module Distribution
+  module Uniform
+    module Ruby_
+      class << self
+        
+        # Uniform probability density function on [a, b]
+        #
+        # == Arguments
+        # If you are referring the wiki page for this continuous distribution
+        # the arguments can be translated as follows
+        #   * +x+ - same as continuous random variable
+        #   * +lower+ - lower limit or a, must be a real number
+        #   * +upper+ - upper limit or b, must be a real number
+        #
+        # == Reference
+        #   * https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
+        #
+        # The implementation has been adopted from GSL-1.9 gsl/randist/flat.c
+        #
+        def pdf(x, lower = 0, upper = 1)
+          
+          1 / Math.abs(upper - lower) if x >= lower and x <= upper
+          0
+        end
+        
+        # The uniform cumulative density function (CDF)
+        # == Arguments
+        # If you are referring the wiki page for this continuous distribution
+        # the arguments can be translated as follows
+        #   * +x+ - same as continuous random variable
+        #   * +lower+ - lower limit or a, must be a real number
+        #   * +upper+ - upper limit or b, must be a real number
+        #
+        # == Reference
+        #   * https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
+        #
+        # The implementation has been adpoted from GSL-1.9 gsl/cdf/flat.c
+        #
+        def cdf(x, lower = 0, upper = 1)
+          if x < lower
+            0
+          else if x > upper
+            1
+          else
+            (x - lower) / (upper - lower)
+          end
+        end
+        
+        # The uniform inverse CDF density function / P-value function
+        # == Arguments
+        # If you are referring the wiki page for this continuous distribution
+        # the arguments can be translated as follows
+        #   * +qn+ - same as integral value
+        #   * +lower+ - lower limit or a, must be a real number
+        #   * +upper+ - upper limit or b, must be a real number
+        #
+        # == Returns
+        #   * nil if the integral value is not in [0, 1]
+        #   * inverse cdf otherwise
+        # == Reference
+        #   * https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)
+        #
+        # The implementation has been adpoted from GSL-1.9 gsl/cdf/flatinv.c
+        #
+        def quantile(qn, lower = 0, upper = 1)
+          if qn > 1 or q < 0
+            # TODO: Change this to something less cryptic
+            $stderr.printf("Error : qn <= 0 or qn >= 1  in pnorm()!\n")
+            
+            # TODO: Is nil really the best option here?
+            return nil
+          else
+            return qn * lower + (1 - qn) * upper
+          end
+          
+        end
+        
+        alias_method :p_value, :quantile
+      end
+    end
+  end
+end
