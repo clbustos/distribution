@@ -21,13 +21,13 @@ module Distribution
         # :nodoc:
         def cdf(x, lower = 0, upper = 1)
           # rb-gsl/blob/master/ext/gsl_native/cdf.c#L644
-          GSL::Cdf.flat_P(qn, lower, upper)
+          GSL::Cdf.flat_P(x, lower, upper)
         end
         
         # :nodoc:
-        def quantile(x, lower, upper)
+        def quantile(qn, lower, upper)
           # rb-gsl/blob/master/ext/gsl_native/cdf.c#L646
-          GSL::Cdf.flat_Pinv(x, lower, upper)
+          GSL::Cdf.flat_Pinv(qn, lower, upper)
         end
         
         alias_method :p_value, :quantile

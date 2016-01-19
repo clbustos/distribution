@@ -9,7 +9,7 @@ module Distribution
         # == Arguments
         #   * +lower+ - Lower limit of the distribution
         #   * +upper+ - Upper limit of the distribution
-        #   * +seed+ - Seed to set the initial state, randomized if ommited
+        #   * +seed+  - Seed to set the initial state, randomized if ommited
         #
         def rng(lower = 0, upper = 1, seed = nil)
           seed = Random.new_seed if seed.nil?
@@ -33,7 +33,7 @@ module Distribution
         #
         def pdf(x, lower = 0, upper = 1)
           upper, lower = lower, upper if lower > upper
-          1 / Math.abs(upper - lower) if x >= lower and x <= upper
+          return 1 / (upper - lower) if x >= lower and x <= upper
           0
         end
         
@@ -53,7 +53,7 @@ module Distribution
         def cdf(x, lower = 0, upper = 1)
           if x < lower
             0
-          else if x > upper
+          elsif x > upper
             1
           else
             (x - lower) / (upper - lower)
@@ -77,16 +77,15 @@ module Distribution
         # The implementation has been adpoted from GSL-1.9 gsl/cdf/flatinv.c
         #
         def quantile(qn, lower = 0, upper = 1)
-          if qn > 1 or q < 0
+          if qn > 1 or qn < 0
             # TODO: Change this to something less cryptic
             $stderr.printf("Error : qn <= 0 or qn >= 1  in pnorm()!\n")
             
             # TODO: Is nil really the best option here?
             return nil
           else
-            return qn * lower + (1 - qn) * upper
+            return qn * upper + (1 - qn) * lower
           end
-          
         end
         
         alias_method :p_value, :quantile
