@@ -31,7 +31,7 @@ describe Distribution::Uniform do
     end
 
     it ".rng with a specified seed should be reproducible" do
-      seed = Random.new_seed
+      seed = Random.new_seed.modulo 100000007
       gen_a = @engine.rng(0, 1, seed)
       gen_b = @engine.rng(0, 1, seed)
 
@@ -129,14 +129,14 @@ describe Distribution::Uniform do
 
   describe "singleton" do
     before do
-      @engine=Distribution::Uniform
+      @engine = Distribution::Uniform
     end
     it_should_behave_like "uniform engine"
   end
 
   describe Distribution::Uniform::Ruby_ do
     before do
-      @engine=Distribution::Uniform::Ruby_
+      @engine = Distribution::Uniform::Ruby_
     end
     it_should_behave_like "uniform engine"
 
@@ -145,7 +145,7 @@ describe Distribution::Uniform do
   if Distribution.has_gsl?
     describe Distribution::Uniform::GSL_ do
       before do
-        @engine=Distribution::Uniform::GSL_
+        @engine = Distribution::Uniform::GSL_
       end
       it_should_behave_like "uniform engine"
     end

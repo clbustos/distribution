@@ -13,8 +13,8 @@ module Distribution
         #
         def rng(lower = 0, upper = 1, seed = nil)
           seed = Random.new_seed if seed.nil?
-          srand(seed)
-          -> { rand * (upper - lower) + lower }
+          prng = Random.new(seed)
+          -> { prng.rand * (upper - lower) + lower }
         end
         
         # Uniform probability density function on [a, b]

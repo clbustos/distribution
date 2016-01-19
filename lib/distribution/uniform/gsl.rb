@@ -5,8 +5,7 @@ module Distribution
         # Returns a lambda to call for uniformly distributed random numbers
         # returns a double precision float in [0, 1]
         def rng(lower = 0, upper = 1, seed = nil)
-          # Last 8 digit prime, chosen arbitrarily
-          seed ||= rand(99_999_989)
+          seed = Random.new_seed.modulo 100000007 if seed.nil?
           rng = GSL::Rng.alloc(GSL::Rng::MT19937, seed)
           
           -> { lower + (upper - lower) * rng.uniform }
