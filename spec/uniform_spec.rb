@@ -1,4 +1,5 @@
 require File.expand_path(File.dirname(__FILE__)+"/spec_helper.rb")
+<<<<<<< HEAD
 
 describe Distribution::Uniform do
 
@@ -61,10 +62,19 @@ describe Distribution::Uniform do
           @engine.pdf(x, low, low + width).should be_within(1e-10).of(0.0)
         end
 
+=======
+  
+describe Distribution::Uniform do
+    
+  shared_examples_for "uniform engine" do
+    it "should return correct pdf" do
+      if @engine.respond_to? :pdf
+>>>>>>> 98c7ad8e4ab1dc53c1e664799c2a4545af56b11d
       else
         pending("No #{@engine}.pdf")
       end
     end
+<<<<<<< HEAD
 
 
     it ".cdf should return 0 for values smaller than the lower bound" do
@@ -93,10 +103,16 @@ describe Distribution::Uniform do
         low, width = rand, rand
         x = low + rand * (2 * width)
         @engine.cdf(x, low, low + width).should be_within(1e-10).of(1.0)
+=======
+    
+    it "should return correct cdf" do
+      if @engine.respond_to? :cdf
+>>>>>>> 98c7ad8e4ab1dc53c1e664799c2a4545af56b11d
       else
         pending("No #{@engine}.cdf")
       end
     end
+<<<<<<< HEAD
     
     it ".quantile should return correct inverse cdf" do
       if @engine.respond_to? :quantile
@@ -125,6 +141,18 @@ describe Distribution::Uniform do
     end
   end
 
+=======
+  
+    
+    it "should return correct p_value" do
+      if @engine.respond_to? :p_value
+      else
+        pending("No #{@engine}.cdf")
+      end
+    end
+  end
+  
+>>>>>>> 98c7ad8e4ab1dc53c1e664799c2a4545af56b11d
 
   describe "singleton" do
     before do
@@ -132,15 +160,25 @@ describe Distribution::Uniform do
     end
     it_should_behave_like "uniform engine"
   end
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 98c7ad8e4ab1dc53c1e664799c2a4545af56b11d
   describe Distribution::Uniform::Ruby_ do
     before do
       @engine=Distribution::Uniform::Ruby_
     end
     it_should_behave_like "uniform engine"
+<<<<<<< HEAD
 
   end
 
+=======
+    
+  end
+  
+>>>>>>> 98c7ad8e4ab1dc53c1e664799c2a4545af56b11d
   if Distribution.has_gsl?
     describe Distribution::Uniform::GSL_ do
       before do
@@ -149,6 +187,11 @@ describe Distribution::Uniform do
       it_should_behave_like "uniform engine"
     end
   end
+<<<<<<< HEAD
 
 
+=======
+  
+  
+>>>>>>> 98c7ad8e4ab1dc53c1e664799c2a4545af56b11d
 end
