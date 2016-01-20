@@ -1,8 +1,9 @@
 module Distribution
   module Uniform
     module Ruby_
+      # Module contain pure ruby implementation of the
+      # uniform distribution (rng, pdf, cdf and quantile functions)
       class << self
-        
         # Returns a lambda that emits a uniformly distributed
         # sequence of random numbers between the defined limits
         #
@@ -16,7 +17,7 @@ module Distribution
           prng = Random.new(seed)
           -> { prng.rand * (upper - lower) + lower }
         end
-        
+
         # Uniform probability density function on [a, b]
         #
         # == Arguments
@@ -33,10 +34,10 @@ module Distribution
         #
         def pdf(x, lower = 0, upper = 1)
           upper, lower = lower, upper if lower > upper
-          return 1 / (upper - lower) if x >= lower and x <= upper
+          return 1 / (upper - lower) if (lower..upper).member? x
           0
         end
-        
+
         # The uniform cumulative density function (CDF)
         # == Arguments
         # If you are referring the wiki page for this continuous distribution
@@ -59,7 +60,7 @@ module Distribution
             (x - lower) / (upper - lower)
           end
         end
-        
+
         # The uniform inverse CDF density function / P-value function
         # == Arguments
         # If you are referring the wiki page for this continuous distribution
@@ -77,18 +78,13 @@ module Distribution
         # The implementation has been adpoted from GSL-1.9 gsl/cdf/flatinv.c
         #
         def quantile(qn, lower = 0, upper = 1)
-          if qn > 1 or qn < 0
-            # TODO: Change this to something less cryptic
-            $stderr.printf("Error : qn <= 0 or qn >= 1  in pnorm()!\n")
-            
-            # TODO: Is nil really the best option here?
-            return nil
-          else
-            return qn * upper + (1 - qn) * lower
-          end
+          fail RangeError, 'cdf value(qn) must be from [0, 1]. '\
+          "Cannot find quantile for qn=#{qn}" if q > 1 || qn < 0
+
+          qn * upper + (1 - qn) * lower
         end
-        
-        alias_method :p_value, :quantile
+
+        alias p_value quantile
       end
     end
   end
