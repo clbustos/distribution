@@ -11,9 +11,10 @@ Gem::Specification.new do |s|
 
   s.authors = ['Claudio Bustos', 'Carlos Agarie']
   s.email = ['clbustos@gmail.com', 'carlos.agarie@gmail.com']
+
   s.platform = Gem::Platform::RUBY
   s.summary = "Distribution"
-  s.description = "Distribution is a gem with several probabilistic distributions. Pure Ruby is used by default, C (GSL) or Java extensions are used if available"
+  s.description = "Distribution"
 
   s.files = `git ls-files`.split("\n")
   s.executables = `git ls-files`.split("\n").map{|f| f =~ /^bin\/(.*)/ ? $1 : nil}.compact
