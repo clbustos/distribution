@@ -1,9 +1,9 @@
-$:.unshift(File.dirname(__FILE__)+"/../lib")
+$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib')
 begin
   require 'simplecov'
   SimpleCov.start do
-    add_filter "/spec/"
-    add_group "Libraries", "lib"
+    add_filter '/spec/'
+    add_group 'Libraries', 'lib'
   end
 rescue LoadError
 end
@@ -26,24 +26,23 @@ RSpec.configure do |config|
 end
 
 module ExampleWithGSL
-  def it_only_with_gsl(name,&block)
-    it(name) do
+  def it_only_with_gsl(name, opts = {}, &block)
+    it(name, opts) do
       if Distribution.has_gsl?
         instance_eval(&block)
       else
-        skip("Requires GSL")  
+        skip('Requires GSL')
       end
     end
   end
-  
-  def it_only_with_java(name,&block)
+
+  def it_only_with_java(name, &block)
     it(name) do
       if Distribution.has_java?
         instance_eval(&block)
       else
-        skip("Requires Java")  
+        skip('Requires Java')
       end
     end
   end
-  
 end

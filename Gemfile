@@ -1,5 +1,5 @@
-# A sample Gemfile
 source "https://rubygems.org"
-gem "rspec", '~>3.0'
-gem "rb-gsl", :platforms=>[:ruby,:mswin]
+
+gem 'rb-gsl', '~> 1.16'
+
 gemspec

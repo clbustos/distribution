@@ -3,27 +3,27 @@
 require 'optparse'
 require 'fileutils'
 require 'erb'
-gem_base=File.expand_path(File.dirname(__FILE__)+"/..")
-require gem_base+"/lib/distribution"
+gem_base = File.expand_path(File.dirname(__FILE__) + '/..')
+require gem_base + '/lib/distribution'
 
-new=false
-parameters=""
+new = false
+parameters = ''
 OptionParser.new do |opts|
-  opts.banner="Usage: distribution [--new] [--params parameters] distribution"
-  opts.on("-n", "--new", "Create a new template for distribution") do
-    new=true
+  opts.banner = 'Usage: distribution [--new] [--params parameters] distribution'
+  opts.on('-n', '--new', 'Create a new template for distribution') do
+    new = true
   end
-  opts.on("-PMANDATORY", "--params MANDATORY", String, "Parameters for distribution") do |n_param|
-    parameters=", #{n_param}"
+  opts.on('-PMANDATORY', '--params MANDATORY', String, 'Parameters for distribution') do |n_param|
+    parameters = ", #{n_param}"
   end
-  
-  opts.on("-h", "--help", "Show this message") do
+
+  opts.on('-h', '--help', 'Show this message') do
     puts opts
     exit
   end
 
   begin
-    ARGV << "-h" if ARGV.empty?
+    ARGV << '-h' if ARGV.empty?
     opts.parse!(ARGV)
   rescue OptionParser::ParseError => e
     STDERR.puts e.message, "\n", opts
@@ -33,19 +33,19 @@ end
 
 ARGV.each do |distribution|
   if new
-    basename=distribution.downcase
-    raise "You should be inside distribution lib directory" unless File.exists? "../distribution.rb"
-    raise "Distribution already created" if File.exists? basename+".rb"
-    main=ERB.new(File.read(gem_base+"/data/template/distribution.erb"))
-    ruby=ERB.new(File.read(gem_base+"/data/template/distribution/ruby.erb"))
-    gsl=ERB.new(File.read(gem_base+"/data/template/distribution/gsl.erb"))
-    spec=ERB.new(File.read(gem_base+"/data/template/spec.erb"))
-    
-    FileUtils.mkdir(basename) unless File.exists? basename
-    File.open(basename+".rb","w") {|fp| fp.write(main.result(binding))}
-    File.open(basename+"/ruby.rb","w") {|fp| fp.write(ruby.result(binding))}
-    File.open(basename+"/gsl.rb","w") {|fp| fp.write(gsl.result(binding))}
-    File.open("../../spec/#{basename}_spec.rb","w") {|fp| fp.write(spec.result(binding))}
-    
+    basename = distribution.downcase
+    fail 'You should be inside distribution lib directory' unless File.exist? '../distribution.rb'
+    fail 'Distribution already created' if File.exist? basename + '.rb'
+    main = ERB.new(File.read(gem_base + '/data/template/distribution.erb'))
+    ruby = ERB.new(File.read(gem_base + '/data/template/distribution/ruby.erb'))
+    gsl = ERB.new(File.read(gem_base + '/data/template/distribution/gsl.erb'))
+    spec = ERB.new(File.read(gem_base + '/data/template/spec.erb'))
+
+    FileUtils.mkdir(basename) unless File.exist? basename
+    File.open(basename + '.rb', 'w') { |fp| fp.write(main.result(binding)) }
+    File.open(basename + '/ruby.rb', 'w') { |fp| fp.write(ruby.result(binding)) }
+    File.open(basename + '/gsl.rb', 'w') { |fp| fp.write(gsl.result(binding)) }
+    File.open("../../spec/#{basename}_spec.rb", 'w') { |fp| fp.write(spec.result(binding)) }
+
   end
 end

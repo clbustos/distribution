@@ -12,28 +12,26 @@ module Distribution
   #    normally distributed, then so is logb(Y), for any two positive numbers
   #    a, b ≠ 1.)
   #
-  # This module calculate the pdf, cdf and inverse cdf for Beta Distribution.
+  # This module calculates the pdf, cdf and inverse cdf for the Lognormal distribution.
   #
   module LogNormal
     extend Distributable
-    SHORTHAND='lognormal'
+    SHORTHAND = 'lognormal'
     create_distribution_methods
 
     ##
     # :singleton-method: pdf(x,u,s)
-    # Returns PDF of of Lognormal distribution with parameters u (position) and
+    # Returns the PDF of the Lognormal distribution of x with parameters u (position) and
     # s (deviation)
-
 
     ##
     # :singleton-method: cdf(x,u,s)
-    # Returns the CDF of Lognormal distribution of x with parameters 
-    # u (position) and s(deviation)
+    # Returns the CDF of the Lognormal distribution of x with parameters u (position) and
+    # s(deviation)
 
     ##
     # :singleton-method: p_value(pr,u,s)
     # Return the quantile of the corresponding integral +pr+
     # on a lognormal distribution's cdf with parameters z and s
-
   end
 end
