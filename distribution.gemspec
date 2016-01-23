@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.authors = ['Claudio Bustos']
   s.email = []
-  s.homepage = "http://rubygems.org/gems/foodie"
+  s.homepage = "http://rubygems.org/gems/distribution"
   s.summary = "Distribution"
   s.description = "Distribution"
 
