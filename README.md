@@ -110,7 +110,6 @@ Shortnames for distributions:
   * Beta: beta
   * Gamma: gamma
   * LogNormal: lognormal
-  * Uniform: unif
 
 ## Roadmap
 
@@ -121,7 +120,7 @@ This gem wasn't updated for a long time before I started working on it, so there
 - Define a minimal interface for continuous and discrete distributions (e.g. mean, variance, mode, skewness, kurtosis, pdf, cdf, quantile, cquantile).
 - Implement `Distribution::Uniform` with the default Ruby `Random`.
 - Clean up the implementation of normal distribution. Implement the necessary functions.
-- The same for Student's t, chi square, Fisher-Snedecor, beta, gamma, lognormal, logistic.
+- The same for t-student, chi square, Fisher-Snedecor, beta, gamma, lognormal, logistic.
 - The same for discrete distributions: binomial, hypergeometric, bernoulli (still missing), etc.
 
 ### Medium-term
