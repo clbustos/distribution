@@ -79,7 +79,7 @@ module Distribution
         #
         def quantile(qn, lower = 0, upper = 1)
           fail RangeError, 'cdf value(qn) must be from [0, 1]. '\
-          "Cannot find quantile for qn=#{qn}" if q > 1 || qn < 0
+          "Cannot find quantile for qn=#{qn}" if qn > 1 || qn < 0
 
           qn * upper + (1 - qn) * lower
         end
