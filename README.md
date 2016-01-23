@@ -12,6 +12,8 @@ Uses Ruby by default and C (statistics2/GSL) or Java extensions where available.
 
 Includes code from statistics2 on Normal, T, F and Chi Square ruby code [http://blade.nagaokaut.ac.jp/~sinara/ruby/math/statistics2]
 
+[![Build Status](https://travis-ci.org/clbustos/distribution.svg?branch=master)](https://travis-ci.org/clbustos/distribution)
+
 ## Synopsis:
   * Returns Gaussian PDF for x
   pdf=Distribution::Normal.pdf(x)
