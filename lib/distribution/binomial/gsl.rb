@@ -57,9 +57,10 @@ module Distribution
 
         # Returns the inverse-CDF or the quantile given the probability `prob`,
         # the total number of trials `n` and the number of successes `k`
-        # Note: This is a custom implementation not derived from GSL.
-        #
-        #
+        # Note: This is a custom implementation not derived from GSL. 
+        #   Also, this is a binary search under the hood and is a candidate for
+        #   updates once more stable techniques are found
+        # 
         # @paran qn [Float] the cumulative function value to be inverted
         # @param n [Fixnum, Bignum] total number of trials
         # @param prob [Float] probabilty of success in a single independant trial
@@ -75,7 +76,6 @@ module Distribution
             mid = cdf((low + high).floor / 2, n, prob)
             lower = cdf(low, n, prob)
             upper = cdf(high, n, prob)
-            puts "#{[low, high].inspect}, #{mid}/#{qn}"
             if (qn > lower && qn < upper) && (high - low <= 1)
               # This is the only return since this
               return high
