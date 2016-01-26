@@ -2,7 +2,34 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper.rb')
 include ExampleWithGSL
 describe Distribution::Binomial do
   shared_examples_for 'binomial engine' do
-    it 'should return correct pdf' do
+    it '.rng should have mean and variance within acceptable limits of the theoretical estimates' do
+      seed = Random.new_seed.modulo 100_000_007
+      n = 100
+      p = 0.67
+      prng = @engine.rng(n, p, seed)
+      samples = Array.new(10_000) { prng.call }
+      
+      expected_mean = n * p
+      expected_variance = n * p * (1 - p)
+      
+      mean = samples.reduce(:+) / samples.count.to_f
+      variance = samples.map {|s| (s - mean) ** 2}.reduce(:+) / (samples.count - 1).to_f
+      
+      # These are very crude estimates
+      mean.should be_within(1.0).of(expected_mean)
+      variance.should be_within(1.0).of(expected_variance)
+      
+    end
+    
+    it '.rng should return a repeatable PRNG when initialized similarly' do
+      seed = Random.new_seed.modulo 100_000_007
+      prng1 = @engine.rng(100, 0.67, seed)
+      prng2 = @engine.rng(100, 0.67, seed)
+      
+      (prng1.call).should eq(prng2.call)
+    end
+    
+    it '.pdf should return correct pdf' do
       if @engine.respond_to? :pdf
         [10, 100, 1000].each do |n|
           [1.quo(4), 1.quo(2), 3.quo(4)].each do |pr|
@@ -18,7 +45,7 @@ describe Distribution::Binomial do
       end
     end
 
-    it_only_with_gsl 'should return correct cdf for n<=100' do
+    it_only_with_gsl '.cdf should return correct cdf for n<=100' do
       if @engine.respond_to? :pdf
         [10, 100].each do |n|
           [0.25, 0.5, 0.75].each do |pr|

@@ -20,7 +20,7 @@ module Distribution
           # and
           # SciRuby/rb-gsl/ext/gsl_native/randist.c#L713
           seed = Random.new_seed if seed.nil?
-          seed = seed.modulo 100000007
+          seed = seed.modulo 100_000_007
           r = GSL::Rng.alloc(GSL::Rng::MT19937, seed)
 
           # This is an undocumented function in rb-gsl
@@ -57,9 +57,7 @@ module Distribution
 
         # Returns the inverse-CDF or the quantile given the probability `prob`,
         # the total number of trials `n` and the number of successes `k`
-        # Note: This is a custom implementation not derived from GSL. 
-        #   Also, this is a binary search under the hood and is a candidate for
-        #   updates once more stable techniques are found
+        # Note: IMplementation taken from corresponding ruby code.
         # 
         # @paran qn [Float] the cumulative function value to be inverted
         # @param n [Fixnum, Bignum] total number of trials
@@ -67,23 +65,13 @@ module Distribution
         #
         # @return [Fixnum, Bignum] the integer quantile `k` given cumulative value
         def quantile(qn, n, prob)
-          mid = cdf(n * prob, n, prob)
-          low, high = 0, n
-          
-          # @TODO: Ad-hoc, does a binary search, similar to newton raphson
-          # still looking for an efficient, scientifically backed method
-          while low < high
-            mid = cdf((low + high).floor / 2, n, prob)
-            lower = cdf(low, n, prob)
-            upper = cdf(high, n, prob)
-            if (qn > lower && qn < upper) && (high - low <= 1)
-              # This is the only return since this
-              return high
-            elsif qn < mid
-              high = (low + high) / 2
-            elsif
-              low = (low + high) / 2
-            end
+          fail RangeError, 'cdf value(qn) must be from [0, 1]. '\
+            "Cannot find quantile for qn=#{qn}" if qn > 1 || qn < 0
+            
+          ac = 0
+          0.upto(n).each do |i|
+            ac += pdf(i, n, prob)
+            return i if qn <= ac
           end
         end
         
