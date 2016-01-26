@@ -57,13 +57,14 @@ module Distribution
 
         # Returns the inverse-CDF or the quantile given the probability `prob`,
         # the total number of trials `n` and the number of successes `k`
-        # Note: IMplementation taken from corresponding ruby code.
+        # Note: Implementation taken from corresponding ruby code.
         # 
         # @paran qn [Float] the cumulative function value to be inverted
         # @param n [Fixnum, Bignum] total number of trials
         # @param prob [Float] probabilty of success in a single independant trial
         #
         # @return [Fixnum, Bignum] the integer quantile `k` given cumulative value
+        # @raise RangeError if qn is from outside of the closed interval [0, 1]
         def quantile(qn, n, prob)
           fail RangeError, 'cdf value(qn) must be from [0, 1]. '\
             "Cannot find quantile for qn=#{qn}" if qn > 1 || qn < 0
