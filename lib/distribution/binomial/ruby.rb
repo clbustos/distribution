@@ -29,11 +29,13 @@ module Distribution
             # http://stackoverflow.com/q/23561551/
             log_q = Math.log(1 - prob)
             sum = 0
-            while true
-              sum += Math.log(rand) / (n - k)
-              return k if sum < log_q
-              k += 1
-            end
+            return -> {
+              while true
+                sum += Math.log(rand) / (n - k)
+                next k if sum < log_q
+                k += 1
+              end
+            }
           else
             # First principles algorithm
             # Slow and a candidate for replacement
