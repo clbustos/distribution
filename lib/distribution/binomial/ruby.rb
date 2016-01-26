@@ -19,7 +19,7 @@ module Distribution
         #   `k` <= `n` when called
         def rng(n, prob, seed = nil)
           seed = Random.new_seed if seed.nil?
-          seed = seed.modulo 100000007
+          seed = seed.modulo 100_000_007
           prng = Random.new(seed)
           np = n * prob
           k = 0
@@ -35,7 +35,8 @@ module Distribution
               k += 1
             end
           else
-            # Accept-Reject algorithm
+            # First principles algorithm
+            # Slow and a candidate for replacement
             bernoulli_generator = lambda do |rng, p|
               if rng.rand > p
                 0
@@ -45,7 +46,11 @@ module Distribution
             end
             
             # A binomial variate is the sum of n IID bernoulli trials
-            -> {Array.new(n) { bernoulli_generator.call(prng, prob)}.reduce(:+)}
+            -> {
+              Array.new(n) { 
+                bernoulli_generator.call(prng, prob)
+              }.reduce(:+)
+            }
           end
         end
         
@@ -85,34 +90,25 @@ module Distribution
         
         # Returns the inverse-CDF or the quantile given the probability `prob`,
         # the total number of trials `n` and the number of successes `k`
-        # Note: This is a binary search under the hood and is a candidate for
-        #   updates once more stable techniques are found
+        # Note: This is a candidate for future updates
         #
         # @paran qn [Float] the cumulative function value to be inverted
         # @param n [Fixnum, Bignum] total number of trials
         # @param prob [Float] probabilty of success in a single independant trial
         #
         # @return [Fixnum, Bignum] the integer quantile `k` given cumulative value
-        def quantile(qn, n, prob)
-          low, high = 0, n
-          
-          # @TODO: Ad-hoc, does a binary search, similar to newton raphson
-          # still looking for an efficient, scientifically backed method
-          while low < high
-            mid = exact_cdf((low + high).floor / 2, n, prob)
-            lower = exact_cdf(low, n, prob)
-            upper = exact_cdf(high, n, prob)
-            if (qn > lower && qn < upper) && (high - low <= 1)
-              # This is the only return since this
-              return high
-            elsif qn < mid
-              high = (low + high) / 2
-            elsif
-              low = (low + high) / 2
-            end
+        #
+        # @raise RangeError if qn is from outside of the closed interval [0, 1]
+        def quantile(qn, n, pr)
+          fail RangeError, 'cdf value(qn) must be from [0, 1]. '\
+            "Cannot find quantile for qn=#{qn}" if qn > 1 || qn < 0
+          ac = 0
+          (0..n).each do |i|
+            ac += pdf(i, n, pr)
+            return i if qn <= ac
           end
         end
-
+        
         alias_method :p_value, :quantile
       end
     end
