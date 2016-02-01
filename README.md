@@ -39,7 +39,7 @@ $ gem install distribution
 You can install GSL for better performance:
 
 * For Mac OS X: `brew install gsl`
-* For Ubuntu / Debian: `sudo apt-get install gsl`
+* For Ubuntu / Debian: `sudo apt-get install libgsl0-dev`
 
 After successfully installing the library:
 
