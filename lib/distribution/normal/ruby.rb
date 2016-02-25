@@ -93,7 +93,6 @@ module Distribution
           qn == 0.5 and return 0.0
 
           w1 = qn
-          qn > 0.5 && w1 = 1.0 - w1
           w3 = -Math.log(4.0 * w1 * (1.0 - w1))
           w1 = b[0]
           1.upto 10 do |i|
