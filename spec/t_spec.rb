@@ -11,9 +11,9 @@ describe Distribution::T do
 
   shared_examples_for 'T engine(cdf with fractional df)' do
     it 'should return correct cdf with fractional df' do
-      @engine.cdf(1, 2.5).should be_within(1e-6).of(0.7979695)
-      @engine.cdf(2, 3.5).should be_within(1e-6).of(0.9369307)
-      @engine.cdf(3, 4.5).should be_within(1e-6).of(0.9828096)
+      expect(@engine.cdf(1, 2.5)).to be_within(1e-6).of(0.7979695)
+      expect(@engine.cdf(2, 3.5)).to be_within(1e-6).of(0.9369307)
+      expect(@engine.cdf(3, 4.5)).to be_within(1e-6).of(0.9828096)
     end
   end
 
@@ -22,8 +22,8 @@ describe Distribution::T do
       if @engine.respond_to? :pdf
         [-2, 0.1, 0.5, 1, 2].each{|t|
           [2, 5, 10].each{|n|
-            @engine.pdf(t, n).should be_within(1e-6).of(GSL::Ran.tdist_pdf(t, n))
-            @engine.pdf(t, n.to_f).should be_within(1e-6).of(@engine.pdf(t, n))
+            expect(@engine.pdf(t, n)).to be_within(1e-6).of(GSL::Ran.tdist_pdf(t, n))
+            expect(@engine.pdf(t, n.to_f)).to be_within(1e-6).of(@engine.pdf(t, n))
           }
         }
       else
@@ -33,14 +33,14 @@ describe Distribution::T do
     it_only_with_gsl 'should return correct cdf' do
       if @engine.respond_to? :cdf
         # Testing with R values
-        @engine.cdf(1, 2).should be_within(1e-7).of(0.7886751)
-        @engine.cdf(1, 2.0).should be_within(1e-7).of(0.7886751)
-        @engine.cdf(1, 3.0).should be_within(1e-7).of(0.8044989)
+        expect(@engine.cdf(1, 2)).to be_within(1e-7).of(0.7886751)
+        expect(@engine.cdf(1, 2.0)).to be_within(1e-7).of(0.7886751)
+        expect(@engine.cdf(1, 3.0)).to be_within(1e-7).of(0.8044989)
 
         [-2, 0.1, 0.5, 1, 2].each{|t|
           [2, 5, 10].each{|n|
-            @engine.cdf(t, n).should be_within(1e-4).of(GSL::Cdf.tdist_P(t, n))
-            @engine.cdf(t, n).should be_within(1e-4).of(@engine.cdf(t, n.to_f))
+            expect(@engine.cdf(t, n)).to be_within(1e-4).of(GSL::Cdf.tdist_P(t, n))
+            expect(@engine.cdf(t, n)).to be_within(1e-4).of(@engine.cdf(t, n.to_f))
           }
         }
       else
@@ -52,7 +52,7 @@ describe Distribution::T do
         [-2, 0.1, 0.5, 1, 2].each{|t|
           [2, 5, 10].each{|n|
             area = Distribution::T.cdf(t, n)
-            @engine.p_value(area, n).should be_within(1e-4).of(GSL::Cdf.tdist_Pinv(area, n))
+            expect(@engine.p_value(area, n)).to be_within(1e-4).of(GSL::Cdf.tdist_Pinv(area, n))
           }
         }
       else

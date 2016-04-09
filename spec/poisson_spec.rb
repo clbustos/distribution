@@ -6,7 +6,7 @@ describe Distribution::Poisson do
       if @engine.respond_to? :pdf
         [0.5, 1, 1.5].each {|l|
           1.upto(5) {|k|
-            @engine.pdf(k, l).should be_within(1e-10).of((l**k * Math.exp(-l)).quo(Math.factorial(k)))
+            expect(@engine.pdf(k, l)).to be_within(1e-10).of((l**k * Math.exp(-l)).quo(Math.factorial(k)))
           }
         }
       else
@@ -18,7 +18,7 @@ describe Distribution::Poisson do
       if @engine.respond_to? :cdf
         [0.5, 1, 1.5, 4, 10].each {|l|
           1.upto(5) {|k|
-            @engine.cdf(k, l).should be_within(1e-10).of(GSL::Cdf.poisson_P(k, l))
+            expect(@engine.cdf(k, l)).to be_within(1e-10).of(GSL::Cdf.poisson_P(k, l))
           }
         }
 
@@ -33,7 +33,7 @@ describe Distribution::Poisson do
         [0.1, 1, 5, 10].each {|l|
           1.upto(20) {|k|
             pr = @engine.cdf(k, l)
-            @engine.p_value(pr, l).should eq(k)
+            expect(@engine.p_value(pr, l)).to eq(k)
           }
         }
       else
@@ -73,7 +73,7 @@ describe Distribution::Poisson do
       it 'should return correct cdf' do
         [0.5, 1, 1.5, 4, 10].each {|l|
           1.upto(5) {|k|
-            @engine.cdf(k, l).should be_within(1e-10).of(Distribution::Poisson::Ruby_.cdf(k, l))
+            expect(@engine.cdf(k, l)).to be_within(1e-10).of(Distribution::Poisson::Ruby_.cdf(k, l))
           }
         }
       end

@@ -6,7 +6,7 @@ describe Distribution::Exponential do
       if @engine.respond_to? :pdf
         [0.5, 1, 1.5].each {|l|
           1.upto(5) {|x|
-            @engine.pdf(x, l).should be_within(1e-10).of(l * Math.exp(-l * x))
+            expect(@engine.pdf(x, l)).to be_within(1e-10).of(l * Math.exp(-l * x))
           }
         }
       else
@@ -18,7 +18,7 @@ describe Distribution::Exponential do
       if @engine.respond_to? :cdf
         [0.5, 1, 1.5].each {|l|
           1.upto(5) {|x|
-            @engine.cdf(x, l).should be_within(1e-10).of(1 - Math.exp(-l * x))
+            expect(@engine.cdf(x, l)).to be_within(1e-10).of(1 - Math.exp(-l * x))
           }
         }
       else
@@ -31,7 +31,7 @@ describe Distribution::Exponential do
         [0.5, 1, 1.5].each {|l|
           1.upto(5) {|x|
             pr = @engine.cdf(x, l)
-            @engine.p_value(pr, l).should be_within(1e-10).of(x)
+            expect(@engine.p_value(pr, l)).to be_within(1e-10).of(x)
           }
         }
       else
@@ -74,15 +74,14 @@ describe Distribution::Exponential do
   #  end
   describe 'rng' do
     it 'should default to Kernel#rand if no :random is given' do
-      Random.stub(:rand)
-      Random.should_receive(:rand).and_return(0.5)
+      allow(Random).to receive(:rand).and_return(0.5)
       rng = Distribution::Exponential.rng 1.0
       rng.call
     end
 
     it 'should use a given rng if one is passed during construction' do
       random = double('random')
-      random.should_receive(:rand).and_return(0.5)
+      allow(random).to receive(:rand).and_return(0.5)
       rng = Distribution::Exponential.rng 1.0, random: random
       rng.call
     end

@@ -9,7 +9,7 @@ describe Distribution::Binomial do
             [0, 1, n / 2, n - 1].each do |x|
               exp = Math.binomial_coefficient(n, x) * pr**x * (1 - pr)**(n - x)
               obs = @engine.pdf(x, n, pr)
-              obs.should be_within(1e-5).of(exp), "For pdf(#{x},#{n},#{pr}) expected #{exp}, obtained #{obs}"
+              expect(obs).to be_within(1e-5).of(exp), "For pdf(#{x},#{n},#{pr}) expected #{exp}, obtained #{obs}"
             end
           end
         end
@@ -25,7 +25,7 @@ describe Distribution::Binomial do
             [1, n / 2, n - 1].each do |x|
               exp = GSL::Cdf.binomial_P(x, pr, n)
               obs = @engine.cdf(x, n, pr)
-              exp.should be_within(1e-5).of(obs), "For cdf(#{x},#{n},#{pr}) expected #{exp}, obtained #{obs}"
+              expect(exp).to be_within(1e-5).of(obs), "For cdf(#{x},#{n},#{pr}) expected #{exp}, obtained #{obs}"
             end
           end
         end
@@ -42,24 +42,24 @@ describe Distribution::Binomial do
 
     it_should_behave_like 'binomial engine'
 
-    it { @engine.should respond_to(:exact_pdf) }
+    it { expect(@engine).to respond_to(:exact_pdf) }
 
     it {
       pending('No exact_p_value')
-      @engine.should respond_to(:exact_p_value)
+      expect(@engine).to respond_to(:exact_p_value)
     }
 
     it 'exact_cdf should return same values as cdf for n=50' do
       pr = rand * 0.8 + 0.1
       n = rand(10) + 10
       [1, (n / 2).to_i, n - 1].each do |k|
-        @engine.exact_cdf(k, n, pr).should be_within(1e-10).of(@engine.cdf(k, n, pr))
+        expect(@engine.exact_cdf(k, n, pr)).to be_within(1e-10).of(@engine.cdf(k, n, pr))
       end
     end
 
     it 'exact_pdf should not return a Float if not float is used as parameter' do
-      @engine.exact_pdf(1, 1, 1).should_not be_a(Float)
-      @engine.exact_pdf(16, 80, 1.quo(2)).should_not be_a(Float)
+      expect(@engine.exact_pdf(1, 1, 1)).to_not be_a(Float)
+      expect(@engine.exact_pdf(16, 80, 1.quo(2))).to_not be_a(Float)
     end
   end
 
@@ -77,7 +77,7 @@ describe Distribution::Binomial do
             p_value = @engine.p_value(cdf, n, pr)
             msg = "For p_value(#{cdf},#{n},#{pr}) expected #{x}, obtained #{p_value}"
 
-            p_value.should eq(x), msg
+            expect(p_value).to eq(x), msg
           end
         end
       end
@@ -93,7 +93,7 @@ describe Distribution::Binomial do
             p_value = @engine.p_value(cdf, n, pr)
 
             msg = "For p_value(#{cdf},#{n},#{pr}) expected #{x}, obtained #{p_value}"
-            p_value.should eq(x), msg
+            expect(p_value).to eq(x), msg
           end
         end
       end

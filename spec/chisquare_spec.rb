@@ -7,7 +7,7 @@ describe Distribution::ChiSquare do
         1.upto(10) do |k|
           v = 1 + rand(5)
           chi = GSL::Ran.chisq_pdf(v, k)
-          @engine.pdf(v, k).should be_within(10e-10).of(chi)
+          expect(@engine.pdf(v, k)).to be_within(10e-10).of(chi)
         end
       else
         skip("No #{@engine}.pdf")
@@ -21,7 +21,7 @@ describe Distribution::ChiSquare do
         1.upto(10) do |k|
           v = 1 + rand(5)
           chi = GSL::Cdf.chisq_P(v, k)
-          @engine.cdf(v, k).should be_within(10e-10).of(chi)
+          expect(@engine.cdf(v, k)).to be_within(10e-10).of(chi)
         end
       else
         skip("No #{@engine}.cdf")
@@ -33,7 +33,7 @@ describe Distribution::ChiSquare do
         1.upto(10) do |k|
           v = 1 + rand(5)
           pr = @engine.cdf(v, k)
-          @engine.p_value(pr, k).should be_within(10e-4).of(v)
+          expect(@engine.p_value(pr, k)).to be_within(10e-4).of(v)
         end
       else
         skip("No #{@engine}.p_value")

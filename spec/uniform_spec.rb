@@ -35,7 +35,7 @@ describe Distribution::Uniform do
       gen_a = @engine.rng(0, 1, seed)
       gen_b = @engine.rng(0, 1, seed)
 
-      (gen_a.call).should eq(gen_b.call)
+      expect((gen_a.call)).to eq(gen_b.call)
     end
 
     it ".pdf should return correct pdf for values within the defined range" do
@@ -44,7 +44,7 @@ describe Distribution::Uniform do
           low, width = rand, rand
           x = low + rand * width
           epdf = 1.0 / width
-          @engine.pdf(x, low, low + width).should be_within(1e-10).of(epdf)
+          expect(@engine.pdf(x, low, low + width)).to be_within(1e-10).of(epdf)
         end
 
       else
@@ -59,7 +59,7 @@ describe Distribution::Uniform do
           # x lies just outside of  where the pdf exists as a non-zero value
           # A small amount (1e-10) is removed from bad_x to ensure no overlap
           x = low - (1 + rand) * width - 1e-10
-          @engine.pdf(x, low, low + width).should be_within(1e-10).of(0.0)
+          expect(@engine.pdf(x, low, low + width)).to be_within(1e-10).of(0.0)
         end
 
       else
@@ -72,7 +72,7 @@ describe Distribution::Uniform do
       if @engine.respond_to? :cdf
         low, width = rand, rand
         x = low - rand * width
-        @engine.cdf(x, low, low + width).should be_within(1e-10).of(0.0)
+        expect(@engine.cdf(x, low, low + width)).to be_within(1e-10).of(0.0)
       else
         pending("No #{@engine}.cdf")
       end
@@ -83,7 +83,7 @@ describe Distribution::Uniform do
         low, width = rand, rand
         x = low + rand * width
         ecdf = (x - low) / width
-        @engine.cdf(x, low, low + width).should be_within(1e-10).of(ecdf)
+        expect(@engine.cdf(x, low, low + width)).to be_within(1e-10).of(ecdf)
       else
         pending("No #{@engine}.cdf")
       end
@@ -93,7 +93,7 @@ describe Distribution::Uniform do
       if @engine.respond_to? :cdf
         low, width = rand, rand
         x = low + (1 + rand) * (width)
-        @engine.cdf(x, low, low + width).should be_within(1e-10).of(1.0)
+        expect(@engine.cdf(x, low, low + width)).to be_within(1e-10).of(1.0)
       else
         pending("No #{@engine}.cdf")
       end
@@ -105,7 +105,7 @@ describe Distribution::Uniform do
         scale = rand
         x = low + scale * width
         qn = (x - low) / width
-        @engine.quantile(qn, low, low + width).should be_within(1e-10).of(x)
+        expect(@engine.quantile(qn, low, low + width)).to be_within(1e-10).of(x)
       else
         pending("No #{@engine}.quantile")
       end
@@ -118,8 +118,7 @@ describe Distribution::Uniform do
         x = low + scale * width
         qn = (x - low) / width
         
-        @engine.quantile(qn, low, low + width).
-          should eq(@engine.p_value(qn, low, low + width))
+        expect(@engine.quantile(qn, low, low + width)).to eq(@engine.p_value(qn, low, low + width))
       else
         pending("No #{@engine}.p_value")
       end
