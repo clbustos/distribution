@@ -13,3 +13,4 @@ script:
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -y libgsl0-dev
+  - gem update && gem install bundler
