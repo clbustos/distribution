@@ -15,7 +15,7 @@ describe Distribution::F do
         [0.1, 0.5, 1, 2, 10, 20, 30].each do |x|
           [2, 5, 10].product([2, 5, 10]).each do |n, m|
             expected_value = GSL::Ran.fdist_pdf(x, n, m)
-            @engine.pdf(x, n, m).should be_within(1e-4).of(expected_value)
+            expect(@engine.pdf(x, n, m)).to be_within(1e-4).of(expected_value)
           end
         end
       else
@@ -30,7 +30,7 @@ describe Distribution::F do
         [0.1, 0.5, 1, 2, 10, 20, 30].each do |f|
           [2, 5, 10].each do |n2|
             [2, 5, 10].each do |n1|
-              @engine.cdf(f, n1, n2).should be_within(1e-4).of(GSL::Cdf.fdist_P(f, n1, n2))
+              expect(@engine.cdf(f, n1, n2)).to be_within(1e-4).of(GSL::Cdf.fdist_P(f, n1, n2))
             end
           end
         end
@@ -43,7 +43,7 @@ describe Distribution::F do
       if @engine.respond_to? :p_value
 
         expected_value = GSL::Cdf.fdist_Pinv(0.975, 5, 4.189092917592713)
-        @engine.p_value(0.975, 5, 4.189092917592713).should be_within(1e-4).of(expected_value)
+        expect(@engine.p_value(0.975, 5, 4.189092917592713)).to be_within(1e-4).of(expected_value)
 
         [0.1, 0.5, 1, 2, 10, 20, 30].each do |f|
           [2, 5, 10].each do |n2|
@@ -51,7 +51,7 @@ describe Distribution::F do
               area = @engine.cdf(f, n1, n2)
               expected_value = GSL::Cdf.fdist_Pinv(area, n1, n2)
 
-              @engine.p_value(area, n1, n2).should be_within(1e-4).of(expected_value)
+              expect(@engine.p_value(area, n1, n2)).to be_within(1e-4).of(expected_value)
             end
           end
         end

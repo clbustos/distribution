@@ -18,8 +18,8 @@ describe Distribution::Normal do
 
       mean = sum.to_f / samples
       sd = Math.sqrt(ss.to_f / samples)
-      mean.should be_within(0.5).of(exp_mean)
-      sd.should be_within(0.3).of(exp_sd)
+      expect(mean).to be_within(0.5).of(exp_mean)
+      expect(sd).to be_within(0.3).of(exp_sd)
     end
   end
 
@@ -28,7 +28,7 @@ describe Distribution::Normal do
       seed = rand(10)
       rng1 = @engine.rng(0, 1, seed)
       rng2 = @engine.rng(0, 1, seed)
-      (rng1.call).should eq(rng2.call)
+      expect((rng1.call)).to eq(rng2.call)
     end
   end
 
@@ -38,7 +38,7 @@ describe Distribution::Normal do
         10.times do |i|
           x = (i - 5) / 2.0
           pdf = (1.0 / Distribution::SQ2PI) * Math.exp(-(x**2 / 2.0))
-          @engine.pdf(x).should be_within(1e-10).of(pdf)
+          expect(@engine.pdf(x)).to be_within(1e-10).of(pdf)
         end
       else
         pending("No #{@engine}.pdf")
@@ -49,19 +49,19 @@ describe Distribution::Normal do
   shared_examples_for 'gaussian engine' do
     it 'should return correct cdf' do
       if @engine.respond_to? :cdf
-        @engine.cdf(1.96).should be_within(1e-10).of(0.97500210485178)
-        @engine.cdf(0).should be_within(1e-10).of(0.5)
+        expect(@engine.cdf(1.96)).to be_within(1e-10).of(0.97500210485178)
+        expect(@engine.cdf(0)).to be_within(1e-10).of(0.5)
       else
         pending("No #{@engine}.cdf")
       end
     end
     it 'should return correct p_value' do
       if @engine.respond_to? :p_value
-        @engine.p_value(0.5).should be_within(1e-3).of(0)
+        expect(@engine.p_value(0.5)).to be_within(1e-3).of(0)
         10.times do |i|
           x = (i - 5) / 2.0
           cdf = @engine.cdf(x)
-          @engine.p_value(cdf).should be_within(1e-6).of(x)
+          expect(@engine.p_value(cdf)).to be_within(1e-6).of(x)
         end
       else
         pending("No #{@engine}.p_value")

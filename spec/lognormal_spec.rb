@@ -9,7 +9,7 @@ describe Distribution::LogNormal do
           s = rand * 100
           x = rand * 50
           exp = (1.0 / (x * s * Math.sqrt(2 * Math::PI))) * Math.exp(-((Math.log(x) - u)**2 / (2 * s**2)))
-          @engine.pdf(x, u, s).should be_within(1e-10).of(exp)
+          expect(@engine.pdf(x, u, s)).to be_within(1e-10).of(exp)
         }
       else
         pending("No #{@engine}.pdf")
@@ -22,7 +22,7 @@ describe Distribution::LogNormal do
           s = rand * 100
           x = rand * 50
           exp = Distribution::Normal.cdf((Math.log(x) - u) / s)
-          @engine.cdf(x, u, s).should be_within(1e-10).of(exp)
+          expect(@engine.cdf(x, u, s)).to be_within(1e-10).of(exp)
         }
       else
         pending("No #{@engine}.cdf")

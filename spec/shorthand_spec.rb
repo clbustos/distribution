@@ -7,7 +7,7 @@ describe Distribution::Shorthand do
       shortname = klass::SHORTHAND
       methods = [:pdf, :cdf, :p_value].map { |m| "#{shortname}_#{m}".to_sym }
       methods.each do |m|
-        Distribution::Shorthand.instance_methods.map(&:to_sym).should include(m)
+        expect(Distribution::Shorthand.instance_methods.map(&:to_sym)).to include(m)
       end
     end
   end
@@ -17,15 +17,15 @@ describe Distribution::Shorthand do
       shortname = klass::SHORTHAND
       methods = [:epdf, :ecdf].map { |m| "#{shortname}_#{m}".to_sym }
       methods.each do |m|
-        Distribution::Shorthand.instance_methods.map(&:to_sym).should include(m)
+        expect(Distribution::Shorthand.instance_methods.map(&:to_sym)).to include(m)
       end
     end
   end
 
   it 'returns same values as long form' do
     x = rand
-    norm_cdf(x).should eql(Distribution::Normal.cdf(x))
-    norm_pdf(x).should eql(Distribution::Normal.pdf(x))
-    norm_p_value(x).should eql(Distribution::Normal.p_value(x))
+    expect(norm_cdf(x)).to eql(Distribution::Normal.cdf(x))
+    expect(norm_pdf(x)).to eql(Distribution::Normal.pdf(x))
+    expect(norm_p_value(x)).to eql(Distribution::Normal.p_value(x))
   end
 end

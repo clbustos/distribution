@@ -19,7 +19,7 @@ describe Distribution::Hypergeometric do
       if @engine.respond_to? :cdf
         # [2].each do |k|
         [0, 1, 2, 4, 8, 16].each do |k|
-          @engine.cdf(k, 80, 100, 10_000).should be_within(1e-10).of(@ruby.cdf(k, 80, 100, 10_000))
+          expect(@engine.cdf(k, 80, 100, 10_000)).to be_within(1e-10).of(@ruby.cdf(k, 80, 100, 10_000))
         end
       # result = RubyProf.stop
 
@@ -40,7 +40,7 @@ describe Distribution::Hypergeometric do
       pending("Aprox. factorial doesn't work right")
       if @engine.respond_to? :pdf
         [0, 1, 2, 4, 8, 16].each do |k|
-          @engine.pdf_aprox(k, 80, 100, 1000).should be_within(1e-8).of(GSL::Ran.hypergeometric_pdf(k, 80, 920, 100))
+          expect(@engine.pdf_aprox(k, 80, 100, 1000)).to be_within(1e-8).of(GSL::Ran.hypergeometric_pdf(k, 80, 920, 100))
         end
       else
         pending("No #{@engine}.pdf")
@@ -54,7 +54,7 @@ describe Distribution::Hypergeometric do
         # [2].each do |k|
         [0, 1, 2, 4, 8, 16].each do |k|
           # puts "k:#{k}->#{@engine.pdf(k, 80, 100, 10000).to_f}"
-          @engine.pdf(k, 80, 100, 10_000).to_f.should be_within(1e-8).of(GSL::Ran.hypergeometric_pdf(k, 80, 9920, 100))
+          expect(@engine.pdf(k, 80, 100, 10_000).to_f).to be_within(1e-8).of(GSL::Ran.hypergeometric_pdf(k, 80, 9920, 100))
         end
       # result = RubyProf.stop
 
@@ -74,7 +74,7 @@ describe Distribution::Hypergeometric do
       ac = 0
       0.upto(m) do |i|
         ac += @engine.pdf(i, m, n, total)
-        @engine.cdf(i, m, n, total).should eq(ac)
+        expect(@engine.cdf(i, m, n, total)).to eq(ac)
       end
     end
 
@@ -88,7 +88,7 @@ describe Distribution::Hypergeometric do
       ac = 0
       0.upto(m) do |k|
         ac += @engine.pdf(k, m, n, total)
-        @engine.p_value(ac, m, n, total).should eq(k)
+        expect(@engine.p_value(ac, m, n, total)).to eq(k)
       end
     end
   end
@@ -96,12 +96,12 @@ describe Distribution::Hypergeometric do
     before do
       @engine = Distribution::Hypergeometric
     end
-    it { @engine.should respond_to(:exact_pdf) }
-    it { @engine.should respond_to(:exact_cdf) }
-    it { @engine.should respond_to(:exact_p_value) }
+    it { expect(@engine).to respond_to(:exact_pdf) }
+    it { expect(@engine).to respond_to(:exact_cdf) }
+    it { expect(@engine).to respond_to(:exact_p_value) }
     it 'exact pdf should return a Rational' do
-      @engine.exact_pdf(1, 1, 1, 1).should_not be_a(Float)
-      @engine.exact_pdf(16, 80, 100, 10_000).should_not be_a(Float)
+      expect(@engine.exact_pdf(1, 1, 1, 1)).not_to be_a(Float)
+      expect(@engine.exact_pdf(16, 80, 100, 10_000)).not_to be_a(Float)
     end
   end
 end

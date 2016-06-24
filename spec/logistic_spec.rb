@@ -9,7 +9,7 @@ describe Distribution::Logistic do
           s = rand + 1
           x = rand * 100 - 50
           exp = Math.exp(-(x - u) / s) / (s * (1 + Math.exp(-(x - u) / s)**2))
-          @engine.pdf(x, u, s).should eq(exp)
+          expect(@engine.pdf(x, u, s)).to eq(exp)
         }
       else
         pending("No #{@engine}.pdf")
@@ -24,7 +24,7 @@ describe Distribution::Logistic do
           x = rand * 100 - 50
           exp = 1 / (1 + Math.exp(-(x - u) / s))
 
-          @engine.cdf(x, u, s).should eq(exp)
+          expect(@engine.cdf(x, u, s)).to eq(exp)
         }
 
       else
@@ -38,7 +38,7 @@ describe Distribution::Logistic do
           u = rand
           s = rand * 100
           x = @engine.p_value(i / 10.0, u, s)
-          @engine.cdf(x, u, s).should be_within(1e-10).of(i / 10.0)
+          expect(@engine.cdf(x, u, s)).to be_within(1e-10).of(i / 10.0)
         }
       else
         pending("No #{@engine}.cdf")
