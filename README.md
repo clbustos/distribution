@@ -14,21 +14,21 @@ The following table lists the available distributions and the methods available 
 
 | Distribution     | PDF | CDF | Quantile | RNG | Mean | Mode | Variance | Skewness | Kurtosis | Entropy |
 | :--------------- | :-: | :-: | :------: | :-: | :--: | :--: | :------: | :------: | :------: | :-----: |
-| Uniform          | x   | x   | x        | x   | x    | x    | x        | x        | x        | x       |
-| Normal           | x   | x   | x        | x   | x    | x    | x        | x        | x        | x       |
-| Lognormal        |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
+| Uniform          |     |     |          |     | x    | x    | x        | x        | x        | x       |
+| Normal           |     |     |          |     | x    | x    | x        | x        | x        | x       |
+| Lognormal        |     |     |          | x   | x    | x    | x        | x        | x        | x       |
 | Bivariate Normal |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
-| Exponential      |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
-| Logistic         |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
-| t-Student        |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
-| Chi Square       |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
-| Fisher-Snedecor  |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
-| Beta             |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
-| Gamma            |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
-| Weibull          |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
-| Binomial         |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
-| Poisson          |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
-| Hypergeometric   |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
+| Exponential      |     |     |          |     | x    | x    | x        | x        | x        | x       |
+| Logistic         |     |     |          |     | x    | x    | x        | x        | x        | x       |
+| t-Student        |     |     |          | x   | x    | x    | x        | x        | x        | x       |
+| Chi Square       |     |     |          | x   | x    | x    | x        | x        | x        | x       |
+| Fisher-Snedecor  |     |     |          | x   | x    | x    | x        | x        | x        | x       |
+| Beta             |     |     |          | x   | x    | x    | x        | x        | x        | x       |
+| Gamma            |     |     |          | x   | x    | x    | x        | x        | x        | x       |
+| Weibull          |     |     |          | x   | x    | x    | x        | x        | x        | x       |
+| Binomial         |     |     |          | x   | x    | x    | x        | x        | x        | x       |
+| Poisson          |     |     |          | x   | x    | x    | x        | x        | x        | x       |
+| Hypergeometric   |     |     |          | x   | x    | x    | x        | x        | x        | x       |
 
 ## Installation
 
