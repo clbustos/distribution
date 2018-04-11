@@ -11,7 +11,7 @@ module Distribution
           sign = nil
 
           fail(ArgumentError, 'x and y must be nonzero') if x == 0.0 || y == 0.0
-          fail(ArgumentError, 'not defined for negative integers') if [x, y].any? { |v| (v.is_a?(Fixnum) && v < 0) }
+          fail(ArgumentError, 'not defined for negative integers') if [x, y].any? { |v| v < 0 }
 
           # See if we can handle the positive case with min/max < 0.2
           if x > 0 && y > 0
