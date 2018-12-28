@@ -27,7 +27,7 @@ The following table lists the available distributions and the methods available 
 | Gamma            |     |     | x        | x   | x    | x    | x        | x        | x        | x       |
 | Weibull          |     |     |          | x   | x    | x    | x        | x        | x        | x       |
 | Binomial         |     |     |          | x   | x    | x    | x        | x        | x        | x       |
-| Poisson          |     |     |          | x   | x    | x    | x        | x        | x        | x       |
+| Poisson          |     |     |          |     | x    | x    | x        | x        | x        | x       |
 | Hypergeometric   |     |     |          | x   | x    | x    | x        | x        | x        | x       |
 
 ## Installation
