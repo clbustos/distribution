@@ -6,9 +6,9 @@ module Distribution
         # which is binomially distributed with mean np and variance np(1-p)
         # This method only wraps GSL's binomial dist. generator
         #
-        # @param n [Fixnum] the total number of trials
+        # @param n [Integer] the total number of trials
         # @param prob [Float] probabilty of success in a single independant trial
-        # @param seed [Fixnum, nil] Value to initialize the generator with.
+        # @param seed [Integer, nil] Value to initialize the generator with.
         #   The seed is always taken modulo 100000007. If omitted the value is
         #   remainder of `Random.new_seed` mod 100000007
         #
@@ -33,8 +33,8 @@ module Distribution
         # having `k` successes out of `n` trials, with each success having
         # probability `prob`.
         #
-        # @param k [Fixnum, Bignum] number of successful trials
-        # @param n [Fixnum, Bignum] total number of trials
+        # @param k [Integer, Bignum] number of successful trials
+        # @param n [Integer, Bignum] total number of trials
         # @param prob [Float] probabilty of success in a single independant trial
         #
         # @return [Float] the probability mass for Binom(k, n, prob)
@@ -46,8 +46,8 @@ module Distribution
         # having  `k` successes out of `n` trials, with each success having
         # probability `prob`.
         #
-        # @param k [Fixnum, Bignum] number of successful trials
-        # @param n [Fixnum, Bignum] total number of trials
+        # @param k [Integer, Bignum] number of successful trials
+        # @param n [Integer, Bignum] total number of trials
         # @param prob [Float] probabilty of success in a single independant trial
         #
         # @return [Float] the probability mass for Binom(k, n, prob)
@@ -60,10 +60,10 @@ module Distribution
         # Note: Implementation taken from corresponding ruby code.
         # 
         # @paran qn [Float] the cumulative function value to be inverted
-        # @param n [Fixnum, Bignum] total number of trials
+        # @param n [Integer, Bignum] total number of trials
         # @param prob [Float] probabilty of success in a single independant trial
         #
-        # @return [Fixnum, Bignum] the integer quantile `k` given cumulative value
+        # @return [Integer, Bignum] the integer quantile `k` given cumulative value
         # @raise RangeError if qn is from outside of the closed interval [0, 1]
         def quantile(qn, n, prob)
           fail RangeError, 'cdf value(qn) must be from [0, 1]. '\

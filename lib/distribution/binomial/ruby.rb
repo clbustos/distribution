@@ -9,9 +9,9 @@ module Distribution
         # "Non-Uniform Random Variate Generation." for np < 1e-3
         # For all other values it finds the sum of n IID bernoulli variates
         #
-        # @param n [Fixnum] the total number of trials
+        # @param n [Integer] the total number of trials
         # @param prob [Float] probabilty of success in a single independant trial
-        # @param seed [Fixnum, nil] Value to initialize the generator with.
+        # @param seed [Integer, nil] Value to initialize the generator with.
         #   The seed is always taken modulo 100000007. If omitted the value is
         #   remainder of `Random.new_seed` mod 100000007
         #
@@ -60,8 +60,8 @@ module Distribution
         # having `k` successes out of `n` trials, with each success having
         # probability `prob`.
         #
-        # @param k [Fixnum, Bignum] number of successful trials
-        # @param n [Fixnum, Bignum] total number of trials
+        # @param k [Integer, Bignum] number of successful trials
+        # @param n [Integer, Bignum] total number of trials
         # @param prob [Float] probabilty of success in a single independant trial
         #
         # @return [Float] the probability mass for Binom(k, n, prob)        
@@ -81,8 +81,8 @@ module Distribution
 
         # Returns the exact CDF value by summing up all preceding values
         #
-        # @param k [Fixnum, Bignum] number of successful trials
-        # @param n [Fixnum, Bignum] total number of trials
+        # @param k [Integer, Bignum] number of successful trials
+        # @param n [Integer, Bignum] total number of trials
         # @param prob [Float] probabilty of success in a single independant trial
         def exact_cdf(k, n, prob)
           out = (0..k).inject(0) { |ac, i| ac + pdf(i, n, prob) }
@@ -95,10 +95,10 @@ module Distribution
         # Note: This is a candidate for future updates
         #
         # @paran qn [Float] the cumulative function value to be inverted
-        # @param n [Fixnum, Bignum] total number of trials
+        # @param n [Integer, Bignum] total number of trials
         # @param prob [Float] probabilty of success in a single independant trial
         #
-        # @return [Fixnum, Bignum] the integer quantile `k` given cumulative value
+        # @return [Integer, Bignum] the integer quantile `k` given cumulative value
         #
         # @raise RangeError if qn is from outside of the closed interval [0, 1]
         def quantile(qn, n, pr)
