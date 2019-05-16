@@ -53,7 +53,7 @@ module Distribution
             guess = (ga + gb) / 2.0
             result = cdf(guess, a, b)
 
-            if (result == p) || (result == 0)
+            if result == p
               gb = ga
             elsif result > p
               gb = guess
