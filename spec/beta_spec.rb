@@ -46,6 +46,16 @@ describe Distribution::Beta do
         skip("No #{@engine}.p_value")
       end
     end
+
+    it 'should return correct quantile' do
+      if @engine.respond_to? :quantile
+        tol = 1_048_576.0 * Float::EPSILON
+        @engine.quantile(0.86, 1076, 1).should be_within(tol).of(0.9998598398514792)
+        @engine.quantile(0.3, 10_000, 10_000).should be_within(tol).of(0.4981459474049274)
+      else
+        skip("No #{@engine}.quantile")
+      end
+    end
   end
 
   describe 'singleton' do
