@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.version = Distribution::VERSION
   s.date = Date.today.to_s
   s.homepage = "https://github.com/sciruby/distribution"
+  s.license = "BSD-3-Clause"
 
   s.authors = ['Claudio Bustos', 'Carlos Agarie']
   s.email = ['clbustos@gmail.com', 'carlos.agarie@gmail.com']
